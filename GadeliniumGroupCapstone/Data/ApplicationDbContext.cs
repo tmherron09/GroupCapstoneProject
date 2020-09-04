@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using GadeliniumGroupCapstone.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,5 +14,29 @@ namespace GadeliniumGroupCapstone.Data
             : base(options)
         {
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<IdentityRole>()
+                .HasData(
+                new IdentityRole
+                {
+                    Name = "Pet Owner",
+                    NormalizedName = "PETOWNER"
+                },
+                new IdentityRole
+                {
+                    Name = "Business Owner",
+                    NormalizedName = "BUSINESSOWNER"
+                });
+        }
+
+        public DbSet<Test> Tests{ get; set; }
+
+
+
+
     }
 }

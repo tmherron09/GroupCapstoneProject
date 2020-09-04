@@ -6,16 +6,19 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using GadeliniumGroupCapstone.Models;
+using GadeliniumGroupCapstone.Contracts;
 
 namespace GadeliniumGroupCapstone.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private IRepositoryWrapper _repo;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IRepositoryWrapper repo)
         {
             _logger = logger;
+            _repo = repo;
         }
 
         public IActionResult Index()
