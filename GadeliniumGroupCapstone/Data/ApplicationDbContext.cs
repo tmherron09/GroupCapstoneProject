@@ -42,8 +42,11 @@ namespace GadeliniumGroupCapstone.Data
         public DbSet<Business> Buisnesses { get; set; }
         public DbSet<MedicalRecord> MedicalRecords { get; set; }
         public DbSet<Boarding> Boardings { get; set; }
+        public DbSet<PetBio> PetBios { get; set; }
+        public DbSet<PetAccount> PetAccounts { get; set; }
+        public DbSet<User> Users { get; set; }
 
-        
+
 
     }
 }
