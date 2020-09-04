@@ -32,9 +32,11 @@ namespace GadeliniumGroupCapstone.Data
                     NormalizedName = "BUSINESSOWNER"
                 });
         }
-
         
-        
+        public DbSet<Test> Tests{ get; set; }
+        public DbSet<Account> Accounts { get; set; }
+        public DbSet<Vet> Vets { get; set; }
+        public DbSet<Guest> Guests { get; set; }
         public DbSet<Trainer> Trainers { get; set; }
         public DbSet<Groomer> Groomers { get; set; }
         public DbSet<Sitter> Sitters { get; set; }
@@ -45,8 +47,5 @@ namespace GadeliniumGroupCapstone.Data
         public DbSet<PetBio> PetBios { get; set; }
         public DbSet<PetAccount> PetAccounts { get; set; }
         public DbSet<User> Users { get; set; }
-
-
-
     }
 }
