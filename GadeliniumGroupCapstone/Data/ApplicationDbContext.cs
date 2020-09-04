@@ -33,7 +33,11 @@ namespace GadeliniumGroupCapstone.Data
                 });
         }
 
-        public DbSet<Test> Tests{ get; set; }
+        public DbSet<Test> Tests { get; set; }
+        public DbSet<Trainer> Trainers { get; set; }
+        public DbSet<Groomer> Groomers { get; set; }
+        public DbSet<Sitter> Sitters { get; set; }
+        public DbSet<Other> Others { get; set; }
 
 
 
