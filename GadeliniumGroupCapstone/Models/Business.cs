@@ -16,7 +16,8 @@ namespace GadeliniumGroupCapstone.Models
         public int Hours { get; set; }
         public string Phone { get; set; }
         
-        [ForeignKey("User")]
-        public int UserId { get; set; }
+        [ForeignKey("SiteUser")]
+        public int SiteUserId { get; set; }
+        public SiteUser SiteUser { get; set; }
     }
 }

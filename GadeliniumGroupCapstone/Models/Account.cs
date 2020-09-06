@@ -14,8 +14,8 @@ namespace GadeliniumGroupCapstone.Models
         [ForeignKey("Pet")]
         public int PetId { get; set; }
 
-        [ForeignKey("User")]
-        public int UserId { get; set; }
+        [ForeignKey("SiteUser")]
+        public int SiteUserId { get; set; }
 
         [ForeignKey("Business")]
         public int BusinessId { get; set; }

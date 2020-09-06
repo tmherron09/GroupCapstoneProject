@@ -34,8 +34,10 @@ namespace GadeliniumGroupCapstone
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
+            // Service that defines our Repository Design Pattern Service/ DI
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 
+            
 
             services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>()
