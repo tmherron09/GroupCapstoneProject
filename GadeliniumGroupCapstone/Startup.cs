@@ -67,13 +67,28 @@ namespace GadeliniumGroupCapstone
                 options.SignIn.RequireConfirmedPhoneNumber = false;
             });
 
-            
+            // Configure Default options for Cookies
+            services.ConfigureApplicationCookie(options =>
+            {
+                //Cookie Settings
+
+                // Allows cookies to be used by client-side script
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
+
+                options.LoginPath = "/Identity/Account/Login";
+                // If we want to define a loutout request return Url
+                //options.LogoutPath = "HOME";
+                // Default AccessDenied Page, TODO Replace
+                options.AccessDeniedPath = "Identity/Account/AccessDenied";
+                options.SlidingExpiration = true;
 
 
+            });
 
             services.AddScoped<ClaimsPrincipal>(s => s.GetService<IHttpContextAccessor>().HttpContext.User);
 
-
+            // Insert Pet App Related Services below
 
 
             services.AddControllersWithViews();
