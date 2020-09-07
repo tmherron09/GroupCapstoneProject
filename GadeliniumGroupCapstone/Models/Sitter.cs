@@ -9,7 +9,9 @@ namespace GadeliniumGroupCapstone.Models
     public class Sitter
     {
         public int SitterId { get; set; }
+
         [ForeignKey("Business")]
         public int BusinessId { get; set; }
+        public Business Business { get; set; }
     }
 }

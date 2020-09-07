@@ -14,5 +14,6 @@ namespace GadeliniumGroupCapstone.Models
 
         [ForeignKey("Business")]
         public int BusinessId { get; set; }
+        public Business Business { get; set; }
     }
 }

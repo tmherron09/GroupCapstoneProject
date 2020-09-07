@@ -8,9 +8,12 @@ namespace GadeliniumGroupCapstone.Models
 {
     public class Groomer
     {
+        [Key]
         public int GroomerId { get; set; }
+
         [ForeignKey("Business")]
         public int BusinessId { get; set; }
+        public Business Business { get; set; }
 
     }
 }
