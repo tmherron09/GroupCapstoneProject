@@ -15,14 +15,7 @@ namespace GadeliniumGroupCapstone.Models
         public string Hobbies { get; set; }
 
         [ForeignKey("PetAccount")]
-
         public int PetId { get; set; }
-
         public PetAccount PetAccount { get; set; }
-
-
-
-
-
     }
 }

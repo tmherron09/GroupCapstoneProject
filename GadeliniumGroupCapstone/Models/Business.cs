@@ -11,6 +11,7 @@ namespace GadeliniumGroupCapstone.Models
     {
         [Key]
         public int BusinessId { get; set; }
+
         public string Address { get; set; }
         public string Zip { get; set; }
         public int Hours { get; set; }
