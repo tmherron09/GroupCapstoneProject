@@ -13,9 +13,8 @@ namespace GadeliniumGroupCapstone.Models
         [Key]
         public int MedicalRecordId { get; set; }
 
-        [ForeignKey("Pet")]
+        [ForeignKey("PetAccount")]
         public int PetId { get; set; }
-
-
+        public PetAccount PetAccount { get; set; }
     }
 }

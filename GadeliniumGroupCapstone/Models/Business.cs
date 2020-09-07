@@ -11,6 +11,7 @@ namespace GadeliniumGroupCapstone.Models
     {
         [Key]
         public int BusinessId { get; set; }
+
         public string Address { get; set; }
         public string Zip { get; set; }
         public int Hours { get; set; }
@@ -18,5 +19,6 @@ namespace GadeliniumGroupCapstone.Models
         
         [ForeignKey("User")]
         public int UserId { get; set; }
+        public User User { get; set; }
     }
 }

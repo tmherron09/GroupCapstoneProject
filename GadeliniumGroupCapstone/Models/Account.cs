@@ -9,15 +9,19 @@ namespace GadeliniumGroupCapstone.Models
 {
     public class Account
     {
+        [Key]
         public int AccountId { get; set; }
 
-        [ForeignKey("Pet")]
+        [ForeignKey("PetAccount")]
         public int PetId { get; set; }
+        public PetAccount PetAccount { get; set;}
 
         [ForeignKey("User")]
         public int UserId { get; set; }
+        public User User { get; set;}
 
         [ForeignKey("Business")]
         public int BusinessId { get; set; }
+        public Business Business { get; set;}
     }
 }
