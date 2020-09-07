@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using GadeliniumGroupCapstone.Contracts;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GadeliniumGroupCapstone
 {
@@ -88,7 +89,16 @@ namespace GadeliniumGroupCapstone
 
             });
 
+            // Once Enabled, use [AllowAnonmyous] for pages like index, register and login.
+            //services.AddAuthorization(options =>
+            //{
+            //    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+            //        .RequireAuthenticatedUser()
+            //        .Build();
+            //});
+
             services.AddScoped<ClaimsPrincipal>(s => s.GetService<IHttpContextAccessor>().HttpContext.User);
+            
 
             // Insert Pet App Related Services below
 
