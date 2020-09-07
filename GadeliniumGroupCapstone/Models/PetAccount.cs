@@ -19,7 +19,7 @@ namespace GadeliniumGroupCapstone.Models
         public string PetPhone { get; set; }
 
         [ForeignKey("SiteUser")]
-        public int SiteUserId { get; set; }
+        public string SiteUserId { get; set; }
 
         public SiteUser SiteUser { get; set; }
 

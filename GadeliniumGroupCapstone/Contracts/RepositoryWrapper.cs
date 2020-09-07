@@ -8,7 +8,7 @@ namespace GadeliniumGroupCapstone.Contracts
 {
     public class RepositoryWrapper : IRepositoryWrapper
     {
-        private ApplicationDbContext _context;
+        private SiteUserContext _context;
         private ITestRepository _test;
         public ITestRepository Test
         {
@@ -21,7 +21,7 @@ namespace GadeliniumGroupCapstone.Contracts
                 return _test;
             }
         }
-        public RepositoryWrapper(ApplicationDbContext context)
+        public RepositoryWrapper(SiteUserContext context)
         {
             _context = context;
         }

@@ -16,6 +16,9 @@ using GadeliniumGroupCapstone.Contracts;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using GadeliniumGroupCapstone.Models;
+using GadeliniumGroupCapstone.AuthorizationPolicies;
 
 namespace GadeliniumGroupCapstone
 {
@@ -31,17 +34,15 @@ namespace GadeliniumGroupCapstone
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<SiteUserContext>();
 
             // Service that defines our Repository Design Pattern Service/ DI
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 
             
 
-            services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+            services.AddIdentity<SiteUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddEntityFrameworkStores<SiteUserContext>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
 
@@ -83,7 +84,7 @@ namespace GadeliniumGroupCapstone
                 // If we want to define a loutout request return Url
                 //options.LogoutPath = "HOME";
                 // Default AccessDenied Page, TODO Replace
-                options.AccessDeniedPath = "Identity/Account/AccessDenied";
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
 
 
@@ -98,7 +99,8 @@ namespace GadeliniumGroupCapstone
             //});
 
             services.AddScoped<ClaimsPrincipal>(s => s.GetService<IHttpContextAccessor>().HttpContext.User);
-            
+
+            services.AddScoped<IAuthorizationHandler, UserIdMatchHandler>();
 
             // Insert Pet App Related Services below
 
