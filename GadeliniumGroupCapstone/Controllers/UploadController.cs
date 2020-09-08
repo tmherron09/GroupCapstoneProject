@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using GadeliniumGroupCapstone.Data;
 using GadeliniumGroupCapstone.Models;
 using Microsoft.AspNetCore.Http;
@@ -21,7 +22,8 @@ namespace GadeliniumGroupCapstone.Controllers
         // GET: UploadController
         public ActionResult Index()
         {
-            return View();
+            var photos = db.PhotoBins.ToList();
+            return View(photos);
         }
 
         // GET: UploadController/Create
@@ -33,7 +35,7 @@ namespace GadeliniumGroupCapstone.Controllers
         }
 
         // POST: UploadController/Create
-        [HttpPost("AddImage")]
+        [HttpPost("Upload/AddImage")]
         [ValidateAntiForgeryToken]
         public ActionResult AddImage(PhotoBin image, IFormFile upload)
         {
