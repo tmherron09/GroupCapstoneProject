@@ -4,14 +4,16 @@ using GadeliniumGroupCapstone.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GadeliniumGroupCapstone.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200908155809_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -192,21 +194,6 @@ namespace GadeliniumGroupCapstone.Data.Migrations
                     b.ToTable("PetBios");
                 });
 
-            modelBuilder.Entity("GadeliniumGroupCapstone.Models.PhotoBin", b =>
-                {
-                    b.Property<int>("PhotoId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<byte[]>("Content")
-                        .HasColumnType("varbinary(max)");
-
-                    b.HasKey("PhotoId");
-
-                    b.ToTable("PhotoBins");
-                });
-
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.Sitter", b =>
                 {
                     b.Property<int>("SitterId")
@@ -320,15 +307,15 @@ namespace GadeliniumGroupCapstone.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e94ea8b2-3ebd-4a21-bc79-ac589dad165c",
-                            ConcurrencyStamp = "d0bd34a3-df64-4de0-a941-1b243bafde22",
+                            Id = "43a817e0-e963-4e96-b602-45976c32ed7d",
+                            ConcurrencyStamp = "badf5508-514f-4c00-b8c2-fa43e62b1fae",
                             Name = "Pet Owner",
                             NormalizedName = "PETOWNER"
                         },
                         new
                         {
-                            Id = "555a9b9c-fff6-4f2a-ac7a-326610c99139",
-                            ConcurrencyStamp = "2593b560-99eb-4005-83d9-43bad050d8c5",
+                            Id = "6a88c6e7-6e3f-4e9b-a153-480b8cc4148d",
+                            ConcurrencyStamp = "8edc7996-fbda-457d-8ae0-b086567d2854",
                             Name = "Business Owner",
                             NormalizedName = "BUSINESSOWNER"
                         });
