@@ -18,7 +18,7 @@ namespace GadeliniumGroupCapstone.Contracts
         private IOtherRepository _other;
         private IPetAccountRepository _petAccount;
         private IPetBioRepository _petBio;
-        private ISiteUserRepository _siteUser;
+        //private ISiteUserRepository _siteUser;
         private ISitterRepository _sitter;
         private ITrainerRepository _trainer;
         private IVetRepository _vet;
@@ -114,16 +114,16 @@ namespace GadeliniumGroupCapstone.Contracts
             }
         }
 
-        public ISiteUserRepository SiteUser {
-            get
-            {
-                if (_siteUser == null)
-                {
-                    _siteUser = new SiteUserRepository(_context);
-    }
-                return _siteUser;
-            }
-        }
+    //    public ISiteUserRepository SiteUser {
+    //        get
+    //        {
+    //            if (_siteUser == null)
+    //            {
+    //                _siteUser = new SiteUserRepository(_context);
+    //}
+    //            return _siteUser;
+    //        }
+    //    }
 
         public ISitterRepository Sitter {
             get

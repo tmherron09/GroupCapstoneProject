@@ -15,14 +15,12 @@ namespace GadeliniumGroupCapstone.Data
 
         }
 
-        public void CreatePetAccount(PetAccount petAccount)
-        {
-            throw new NotImplementedException();
-        }
+        public void CreatePetAccount(PetAccount petAccount) => Create(petAccount);
 
         public PetAccount GetPetAccount(int petAccountId)
         {
-            throw new NotImplementedException();
+            var petAccount = FindAllByCondition(p => p.PetAccountId.Equals(petAccountId)).SingleOrDefault();
+            return petAccount;
         }
     }
 }

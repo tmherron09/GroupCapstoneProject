@@ -7,22 +7,22 @@ using System.Threading.Tasks;
 
 namespace GadeliniumGroupCapstone.Data
 {
-    public class SiteUserRepository : RepositoryBase<SiteUser>, ISiteUserRepository
-    {
+    //public class SiteUserRepository : RepositoryBase<SiteUser>, ISiteUserRepository
+    //{
 
-        public SiteUserRepository(ApplicationDbContext applicationDbContext):base(applicationDbContext)
-        {
+    //    public SiteUserRepository(ApplicationDbContext applicationDbContext):base(applicationDbContext)
+    //    {
 
-        }
+    //    }
 
-        public void CreateSiteUser(SiteUser siteUser)
-        {
-            throw new NotImplementedException();
-        }
+    //    public void CreateSiteUser(SiteUser siteUser)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
 
-        public Test GetSiteUser(int siteUserId)
-        {
-            throw new NotImplementedException();
-        }
-    }
+    //    public Test GetSiteUser(int siteUserId)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+    //}
 }
