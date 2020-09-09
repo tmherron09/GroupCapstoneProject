@@ -20,9 +20,9 @@ namespace GadeliniumGroupCapstone.Data
             throw new NotImplementedException();
         }
 
-        public Business GetBusiness(int businessId)
-        {
-            throw new NotImplementedException();
-        }
+        public Business GetBusiness(int businessId) =>
+            FindAllByCondition(b => b.BusinessId == businessId).SingleOrDefault();
+
+
     }
 }

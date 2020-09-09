@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GadeliniumGroupCapstone.Migrations
 {
-    public partial class MigrateToNewModel : Migration
+    public partial class BusinessInfoView : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -107,29 +107,6 @@ namespace GadeliniumGroupCapstone.Migrations
                         principalTable: "PetAppRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Buisnesses",
-                columns: table => new
-                {
-                    BusinessId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Address = table.Column<string>(nullable: true),
-                    Zip = table.Column<string>(nullable: true),
-                    Hours = table.Column<int>(nullable: false),
-                    Phone = table.Column<string>(nullable: true),
-                    UserId = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Buisnesses", x => x.BusinessId);
-                    table.ForeignKey(
-                        name: "FK_Buisnesses_PetAppUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "PetAppUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -243,117 +220,34 @@ namespace GadeliniumGroupCapstone.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Boardings",
+                name: "Businesses",
                 columns: table => new
                 {
-                    BoardingId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     BusinessId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BusinessName = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
+                    Zip = table.Column<string>(nullable: true),
+                    Hours = table.Column<int>(nullable: false),
+                    Phone = table.Column<string>(nullable: true),
+                    PhotoBinId = table.Column<int>(nullable: false),
+                    UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Boardings", x => x.BoardingId);
+                    table.PrimaryKey("PK_Businesses", x => x.BusinessId);
                     table.ForeignKey(
-                        name: "FK_Boardings_Buisnesses_BusinessId",
-                        column: x => x.BusinessId,
-                        principalTable: "Buisnesses",
-                        principalColumn: "BusinessId",
+                        name: "FK_Businesses_PhotoBins_PhotoBinId",
+                        column: x => x.PhotoBinId,
+                        principalTable: "PhotoBins",
+                        principalColumn: "PhotoId",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Groomers",
-                columns: table => new
-                {
-                    GroomerId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    BusinessId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Groomers", x => x.GroomerId);
                     table.ForeignKey(
-                        name: "FK_Groomers_Buisnesses_BusinessId",
-                        column: x => x.BusinessId,
-                        principalTable: "Buisnesses",
-                        principalColumn: "BusinessId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Others",
-                columns: table => new
-                {
-                    OtherId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    BusinessId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Others", x => x.OtherId);
-                    table.ForeignKey(
-                        name: "FK_Others_Buisnesses_BusinessId",
-                        column: x => x.BusinessId,
-                        principalTable: "Buisnesses",
-                        principalColumn: "BusinessId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Sitters",
-                columns: table => new
-                {
-                    SitterId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    BusinessId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Sitters", x => x.SitterId);
-                    table.ForeignKey(
-                        name: "FK_Sitters_Buisnesses_BusinessId",
-                        column: x => x.BusinessId,
-                        principalTable: "Buisnesses",
-                        principalColumn: "BusinessId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Trainers",
-                columns: table => new
-                {
-                    TrainerId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    BusinessId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Trainers", x => x.TrainerId);
-                    table.ForeignKey(
-                        name: "FK_Trainers_Buisnesses_BusinessId",
-                        column: x => x.BusinessId,
-                        principalTable: "Buisnesses",
-                        principalColumn: "BusinessId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Vets",
-                columns: table => new
-                {
-                    VetId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    BusinessId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Vets", x => x.VetId);
-                    table.ForeignKey(
-                        name: "FK_Vets_Buisnesses_BusinessId",
-                        column: x => x.BusinessId,
-                        principalTable: "Buisnesses",
-                        principalColumn: "BusinessId",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Businesses_PetAppUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "PetAppUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -398,20 +292,172 @@ namespace GadeliniumGroupCapstone.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "PetAppRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "0f38a293-811c-40e7-97f9-c78111c5429d", "b6410795-3b3d-471d-9b6f-71aa6ea3ab75", "Pet Owner", "PETOWNER" });
+            migrationBuilder.CreateTable(
+                name: "Boardings",
+                columns: table => new
+                {
+                    BoardingId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BusinessId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Boardings", x => x.BoardingId);
+                    table.ForeignKey(
+                        name: "FK_Boardings_Businesses_BusinessId",
+                        column: x => x.BusinessId,
+                        principalTable: "Businesses",
+                        principalColumn: "BusinessId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Groomers",
+                columns: table => new
+                {
+                    GroomerId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BusinessId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Groomers", x => x.GroomerId);
+                    table.ForeignKey(
+                        name: "FK_Groomers_Businesses_BusinessId",
+                        column: x => x.BusinessId,
+                        principalTable: "Businesses",
+                        principalColumn: "BusinessId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Others",
+                columns: table => new
+                {
+                    OtherId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BusinessId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Others", x => x.OtherId);
+                    table.ForeignKey(
+                        name: "FK_Others_Businesses_BusinessId",
+                        column: x => x.BusinessId,
+                        principalTable: "Businesses",
+                        principalColumn: "BusinessId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Services",
+                columns: table => new
+                {
+                    ServiceId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ServiceTag = table.Column<string>(nullable: true),
+                    ServiceName = table.Column<string>(nullable: true),
+                    ServiceTagLine = table.Column<string>(nullable: true),
+                    ServiceDescription = table.Column<string>(nullable: true),
+                    ServiceThumbnailPhotoId = table.Column<int>(nullable: true),
+                    ServiceFurtherDescription = table.Column<string>(nullable: true),
+                    ServiceDisplayOrder = table.Column<int>(nullable: false),
+                    BusinessId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Services", x => x.ServiceId);
+                    table.ForeignKey(
+                        name: "FK_Services_Businesses_BusinessId",
+                        column: x => x.BusinessId,
+                        principalTable: "Businesses",
+                        principalColumn: "BusinessId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Services_PhotoBins_ServiceThumbnailPhotoId",
+                        column: x => x.ServiceThumbnailPhotoId,
+                        principalTable: "PhotoBins",
+                        principalColumn: "PhotoId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Sitters",
+                columns: table => new
+                {
+                    SitterId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BusinessId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sitters", x => x.SitterId);
+                    table.ForeignKey(
+                        name: "FK_Sitters_Businesses_BusinessId",
+                        column: x => x.BusinessId,
+                        principalTable: "Businesses",
+                        principalColumn: "BusinessId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Trainers",
+                columns: table => new
+                {
+                    TrainerId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BusinessId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Trainers", x => x.TrainerId);
+                    table.ForeignKey(
+                        name: "FK_Trainers_Businesses_BusinessId",
+                        column: x => x.BusinessId,
+                        principalTable: "Businesses",
+                        principalColumn: "BusinessId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Vets",
+                columns: table => new
+                {
+                    VetId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BusinessId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Vets", x => x.VetId);
+                    table.ForeignKey(
+                        name: "FK_Vets_Businesses_BusinessId",
+                        column: x => x.BusinessId,
+                        principalTable: "Businesses",
+                        principalColumn: "BusinessId",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.InsertData(
                 table: "PetAppRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "5b2bcc9e-05e1-4a0e-96d9-66773fbe5558", "e6bc673a-c54d-4715-a543-ca3146fc298f", "Business Owner", "BUSINESSOWNER" });
+                values: new object[,]
+                {
+                    { "bf82bd2d-c046-4a7f-b02e-e52fd7b49250", "7c418b3f-d5dd-423c-a4ca-0db266def57a", "Pet Owner", "PETOWNER" },
+                    { "34fabc05-adb4-43ef-87bb-f205d1060280", "39834425-f136-422c-a108-a62993c3f277", "Business Owner", "BUSINESSOWNER" },
+                    { "de2cc09d-0b55-4e9e-a7f5-7b2c61f5d3d6", "112064ee-3817-4133-aec1-df35356249d3", "Admin", "Admin" }
+                });
 
             migrationBuilder.InsertData(
-                table: "PetAppRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "b33bb32c-806e-4dae-83fd-8611736e6eb9", "6c0169f7-80e8-49ec-acfb-b2de2791d61c", "Admin", "Admin" });
+                table: "PetAppUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedFirstName", "NormalizedLastName", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { "08985f88-f992-417e-ba80-c0324683ea91", 0, "1aa9c963-47d8-466c-b25c-c5dc783d6cfc", "Choua@choua.com", false, null, null, true, null, "CHOUA@CHOUA.COM", null, null, "CHOUA@CHOUA.COM", "AQAAAAEAACcQAAAAEL1tat7CzuP3E74HMHZg46VOIRV8zU2OrGlrZiiZ1lOE95v65PMnd45XoNFQRRepjQ==", "555-555-5555", false, "HWS6RX53NTMKWLVBRAQNCIKIFAUQ3FPK", false, "Choua@choua.com" },
+                    { "5b339db7-fd08-4ffe-9467-4695dee7bd65", 0, "d1fdd1d6-884c-4d28-bd50-a6f32e6bfbe1", "Tim@tim.com", false, null, null, true, null, "TIM@TIM.COM", null, null, "TIM@TIM.COM", "AQAAAAEAACcQAAAAEG6euUT06GKNaSJe2Ksy0sRvdp+HJVJFBGPtqclwdvbu7S8IWdVhamthAkZPrLbTfQ==", "555-555-5555", false, "IKYVWNRLBUNDPYA2FTNX5TCFYZWCS7OO", false, "Tim@tim.com" },
+                    { "d453a413-17b1-4f27-89d8-8f26af48f90b", 0, "9bcc49dc-5974-4ae5-8350-cb95c257d550", "Sam@sam.com", false, null, null, true, null, "SAM@SAM.COM", null, null, "SAM@SAM.COM", "AQAAAAEAACcQAAAAEGsIaD6NQJAT3n+lzCO4sEaNFKfc4NVzi8A6MoNnlCJsoehkvqPkbRTDbOjLr2tKbQ==", "555-555-5555", false, "4ZIGJCZL4JJEWK7PDYDN467AR3AVFJU7", false, "Sam@sam.com" },
+                    { "d8195859-5968-48a5-b400-2afa2e29f775", 0, "8e3ea5b9-3cc2-4d52-8f2b-1b993dd7732e", "Milan@Milan.com", false, null, null, true, null, "MILAN@MILAN.COM", null, null, "MILAN@MILAN.COM", "AQAAAAEAACcQAAAAEPvPMaCo9UmPJVbeV+Btd3Y83X5Eyekn/hwXRbcfZEKrwB2welahQAJkL6ZjGZkeQw==", "555-555-5555", false, "4PHNLV4WVA7LCIA3S2QNDCYQGRCY6WJS", false, "Milan@Milan.com" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Boardings_BusinessId",
@@ -419,8 +465,13 @@ namespace GadeliniumGroupCapstone.Migrations
                 column: "BusinessId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Buisnesses_UserId",
-                table: "Buisnesses",
+                name: "IX_Businesses_PhotoBinId",
+                table: "Businesses",
+                column: "PhotoBinId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Businesses_UserId",
+                table: "Businesses",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -488,6 +539,16 @@ namespace GadeliniumGroupCapstone.Migrations
                 column: "PetId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Services_BusinessId",
+                table: "Services",
+                column: "BusinessId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Services_ServiceThumbnailPhotoId",
+                table: "Services",
+                column: "ServiceThumbnailPhotoId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Sitters_BusinessId",
                 table: "Sitters",
                 column: "BusinessId");
@@ -539,7 +600,7 @@ namespace GadeliniumGroupCapstone.Migrations
                 name: "PetBios");
 
             migrationBuilder.DropTable(
-                name: "PhotoBins");
+                name: "Services");
 
             migrationBuilder.DropTable(
                 name: "Sitters");
@@ -560,7 +621,10 @@ namespace GadeliniumGroupCapstone.Migrations
                 name: "PetAccounts");
 
             migrationBuilder.DropTable(
-                name: "Buisnesses");
+                name: "Businesses");
+
+            migrationBuilder.DropTable(
+                name: "PhotoBins");
 
             migrationBuilder.DropTable(
                 name: "PetAppUsers");

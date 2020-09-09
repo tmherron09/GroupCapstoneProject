@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace GadeliniumGroupCapstone.Contracts
 {
-    public interface IBoardingRepository : IRepositoryBase<Boarding>
+    public interface IAddressRepository : IRepositoryBase<Address>
     {
-        Test GetBoarding(int boardingId);
-        void CreateBoarding(Boarding boarding);
+        Address GetAddress(int addressId);
+        Address GetBusinessAddress(int businessId);
+        Address GetUserAddress(int useId);
+        void CreateAddress(Address boarding);
     }
 }
