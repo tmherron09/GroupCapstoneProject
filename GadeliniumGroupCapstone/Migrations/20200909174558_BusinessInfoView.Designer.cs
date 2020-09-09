@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GadeliniumGroupCapstone.Migrations
 {
     [DbContext(typeof(PetAppDbContext))]
-    [Migration("20200909011923_MigrateToNewModel")]
-    partial class MigrateToNewModel
+    [Migration("20200909174558_BusinessInfoView")]
+    partial class BusinessInfoView
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -48,11 +48,17 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("BusinessName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Hours")
                         .HasColumnType("int");
 
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PhotoBinId")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -62,9 +68,11 @@ namespace GadeliniumGroupCapstone.Migrations
 
                     b.HasKey("BusinessId");
 
+                    b.HasIndex("PhotoBinId");
+
                     b.HasIndex("UserId");
 
-                    b.ToTable("Buisnesses");
+                    b.ToTable("Businesses");
                 });
 
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.Groomer", b =>
@@ -209,6 +217,46 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.ToTable("PhotoBins");
                 });
 
+            modelBuilder.Entity("GadeliniumGroupCapstone.Models.Service", b =>
+                {
+                    b.Property<int>("ServiceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BusinessId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ServiceDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ServiceDisplayOrder")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ServiceFurtherDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ServiceName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ServiceTag")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ServiceTagLine")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ServiceThumbnailPhotoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ServiceId");
+
+                    b.HasIndex("BusinessId");
+
+                    b.HasIndex("ServiceThumbnailPhotoId");
+
+                    b.ToTable("Services");
+                });
+
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.Sitter", b =>
                 {
                     b.Property<int>("SitterId")
@@ -333,6 +381,76 @@ namespace GadeliniumGroupCapstone.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("PetAppUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "08985f88-f992-417e-ba80-c0324683ea91",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "1aa9c963-47d8-466c-b25c-c5dc783d6cfc",
+                            Email = "Choua@choua.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "CHOUA@CHOUA.COM",
+                            NormalizedUserName = "CHOUA@CHOUA.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEL1tat7CzuP3E74HMHZg46VOIRV8zU2OrGlrZiiZ1lOE95v65PMnd45XoNFQRRepjQ==",
+                            PhoneNumber = "555-555-5555",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "HWS6RX53NTMKWLVBRAQNCIKIFAUQ3FPK",
+                            TwoFactorEnabled = false,
+                            UserName = "Choua@choua.com"
+                        },
+                        new
+                        {
+                            Id = "5b339db7-fd08-4ffe-9467-4695dee7bd65",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "d1fdd1d6-884c-4d28-bd50-a6f32e6bfbe1",
+                            Email = "Tim@tim.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "TIM@TIM.COM",
+                            NormalizedUserName = "TIM@TIM.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEG6euUT06GKNaSJe2Ksy0sRvdp+HJVJFBGPtqclwdvbu7S8IWdVhamthAkZPrLbTfQ==",
+                            PhoneNumber = "555-555-5555",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "IKYVWNRLBUNDPYA2FTNX5TCFYZWCS7OO",
+                            TwoFactorEnabled = false,
+                            UserName = "Tim@tim.com"
+                        },
+                        new
+                        {
+                            Id = "d453a413-17b1-4f27-89d8-8f26af48f90b",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "9bcc49dc-5974-4ae5-8350-cb95c257d550",
+                            Email = "Sam@sam.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "SAM@SAM.COM",
+                            NormalizedUserName = "SAM@SAM.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGsIaD6NQJAT3n+lzCO4sEaNFKfc4NVzi8A6MoNnlCJsoehkvqPkbRTDbOjLr2tKbQ==",
+                            PhoneNumber = "555-555-5555",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "4ZIGJCZL4JJEWK7PDYDN467AR3AVFJU7",
+                            TwoFactorEnabled = false,
+                            UserName = "Sam@sam.com"
+                        },
+                        new
+                        {
+                            Id = "d8195859-5968-48a5-b400-2afa2e29f775",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "8e3ea5b9-3cc2-4d52-8f2b-1b993dd7732e",
+                            Email = "Milan@Milan.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "MILAN@MILAN.COM",
+                            NormalizedUserName = "MILAN@MILAN.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPvPMaCo9UmPJVbeV+Btd3Y83X5Eyekn/hwXRbcfZEKrwB2welahQAJkL6ZjGZkeQw==",
+                            PhoneNumber = "555-555-5555",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "4PHNLV4WVA7LCIA3S2QNDCYQGRCY6WJS",
+                            TwoFactorEnabled = false,
+                            UserName = "Milan@Milan.com"
+                        });
                 });
 
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.Vet", b =>
@@ -381,22 +499,22 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "0f38a293-811c-40e7-97f9-c78111c5429d",
-                            ConcurrencyStamp = "b6410795-3b3d-471d-9b6f-71aa6ea3ab75",
+                            Id = "bf82bd2d-c046-4a7f-b02e-e52fd7b49250",
+                            ConcurrencyStamp = "7c418b3f-d5dd-423c-a4ca-0db266def57a",
                             Name = "Pet Owner",
                             NormalizedName = "PETOWNER"
                         },
                         new
                         {
-                            Id = "5b2bcc9e-05e1-4a0e-96d9-66773fbe5558",
-                            ConcurrencyStamp = "e6bc673a-c54d-4715-a543-ca3146fc298f",
+                            Id = "34fabc05-adb4-43ef-87bb-f205d1060280",
+                            ConcurrencyStamp = "39834425-f136-422c-a108-a62993c3f277",
                             Name = "Business Owner",
                             NormalizedName = "BUSINESSOWNER"
                         },
                         new
                         {
-                            Id = "b33bb32c-806e-4dae-83fd-8611736e6eb9",
-                            ConcurrencyStamp = "6c0169f7-80e8-49ec-acfb-b2de2791d61c",
+                            Id = "de2cc09d-0b55-4e9e-a7f5-7b2c61f5d3d6",
+                            ConcurrencyStamp = "112064ee-3817-4133-aec1-df35356249d3",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         });
@@ -517,6 +635,12 @@ namespace GadeliniumGroupCapstone.Migrations
 
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.Business", b =>
                 {
+                    b.HasOne("GadeliniumGroupCapstone.Models.PhotoBin", "BusinessLogo")
+                        .WithMany()
+                        .HasForeignKey("PhotoBinId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("GadeliniumGroupCapstone.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
@@ -563,6 +687,19 @@ namespace GadeliniumGroupCapstone.Migrations
                         .HasForeignKey("PetId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("GadeliniumGroupCapstone.Models.Service", b =>
+                {
+                    b.HasOne("GadeliniumGroupCapstone.Models.Business", "Business")
+                        .WithMany()
+                        .HasForeignKey("BusinessId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GadeliniumGroupCapstone.Models.PhotoBin", "ServiceThumbnail")
+                        .WithMany()
+                        .HasForeignKey("ServiceThumbnailPhotoId");
                 });
 
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.Sitter", b =>

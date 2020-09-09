@@ -198,11 +198,12 @@ namespace GadeliniumGroupCapstone.Data
         public DbSet<Groomer> Groomers { get; set; }
         public DbSet<Sitter> Sitters { get; set; }
         public DbSet<Other> Others { get; set; }
-        public DbSet<Business> Buisnesses { get; set; }
+        public DbSet<Business> Businesses { get; set; }
         public DbSet<MedicalRecord> MedicalRecords { get; set; }
         public DbSet<Boarding> Boardings { get; set; }
         public DbSet<PetBio> PetBios { get; set; }
         public DbSet<PetAccount> PetAccounts { get; set; }
+        public DbSet<Service> Services { get; set; }
         public override DbSet<User> Users { get; set; }
         public DbSet<PhotoBin> PhotoBins { get; set; }
 
