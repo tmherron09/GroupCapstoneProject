@@ -34,15 +34,15 @@ namespace GadeliniumGroupCapstone
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<SiteUserContext>();
+            services.AddDbContext<PetAppDbContext>();
 
             // Service that defines our Repository Design Pattern Service/ DI
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 
             
 
-            services.AddIdentity<SiteUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddEntityFrameworkStores<SiteUserContext>()
+            services.AddIdentity<User, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddEntityFrameworkStores<PetAppDbContext>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
 

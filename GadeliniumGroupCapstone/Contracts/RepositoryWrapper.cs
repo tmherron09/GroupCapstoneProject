@@ -8,9 +8,8 @@ namespace GadeliniumGroupCapstone.Contracts
 {
     public class RepositoryWrapper : IRepositoryWrapper
     {
-        private SiteUserContext _context;
+        private PetAppDbContext _context;
         private ITestRepository _test;
-        //private IAccountRepository _account;
         private IBoardingRepository _boarding;
         private IBusinessRepository _business;
         private IGroomerRepository _groomer;
@@ -18,7 +17,7 @@ namespace GadeliniumGroupCapstone.Contracts
         private IOtherRepository _other;
         private IPetAccountRepository _petAccount;
         private IPetBioRepository _petBio;
-        //private ISiteUserRepository _siteUser;
+        private IUserRepository _user;
         private ISitterRepository _sitter;
         private ITrainerRepository _trainer;
         private IVetRepository _vet;
@@ -33,17 +32,11 @@ namespace GadeliniumGroupCapstone.Contracts
                 return _test;
             }
         }
-        //public IAccountRepository Account
-        //{
-        //    get
-        //    {
-        //        if (_account == null)
-        //        {
-        //            _account = new AccountRepository(_context);
-        //        }
-        //        return _account;
-        //    }
-        //}
+
+        public RepositoryWrapper(PetAppDbContext context)
+        {
+            _context = context;
+        }
 
         public IBoardingRepository Boarding
         {
@@ -114,16 +107,17 @@ namespace GadeliniumGroupCapstone.Contracts
             }
         }
 
-    //    public ISiteUserRepository SiteUser {
-    //        get
-    //        {
-    //            if (_siteUser == null)
-    //            {
-    //                _siteUser = new SiteUserRepository(_context);
-    //}
-    //            return _siteUser;
-    //        }
-    //    }
+        public IUserRepository User
+        {
+            get
+            {
+                if (_user == null)
+                {
+                    _user = new UserRepository(_context);
+                }
+                return _user;
+            }
+        }
 
         public ISitterRepository Sitter {
             get
@@ -158,10 +152,6 @@ namespace GadeliniumGroupCapstone.Contracts
             }
         }
 
-        public RepositoryWrapper(SiteUserContext context)
-        {
-            _context = context;
-        }
         public void Save()
         {
             //_context.SaveChangesAsync();

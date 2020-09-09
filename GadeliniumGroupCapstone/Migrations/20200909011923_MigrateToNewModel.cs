@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GadeliniumGroupCapstone.Migrations
 {
-    public partial class CustomIdentityAndAuthorizationTest : Migration
+    public partial class MigrateToNewModel : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,7 +20,7 @@ namespace GadeliniumGroupCapstone.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SiteRoles",
+                name: "PetAppRoles",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
@@ -30,11 +30,11 @@ namespace GadeliniumGroupCapstone.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SiteRoles", x => x.Id);
+                    table.PrimaryKey("PK_PetAppRoles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "SiteUsers",
+                name: "PetAppUsers",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
@@ -52,17 +52,27 @@ namespace GadeliniumGroupCapstone.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    SecondaryEmail = table.Column<string>(nullable: true),
-                    NormalizedSecondaryEmail = table.Column<string>(nullable: true),
                     FirstName = table.Column<string>(nullable: true),
+                    NormalizedFirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
-                    HasPet = table.Column<bool>(nullable: false),
-                    HasMultiplePet = table.Column<bool>(nullable: false),
-                    HasBusiness = table.Column<bool>(nullable: false)
+                    NormalizedLastName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SiteUsers", x => x.Id);
+                    table.PrimaryKey("PK_PetAppUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PhotoBins",
+                columns: table => new
+                {
+                    PhotoId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Content = table.Column<byte[]>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PhotoBins", x => x.PhotoId);
                 });
 
             migrationBuilder.CreateTable(
@@ -79,7 +89,7 @@ namespace GadeliniumGroupCapstone.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SiteRoleClaims",
+                name: "PetAppRoleClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -90,11 +100,11 @@ namespace GadeliniumGroupCapstone.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SiteRoleClaims", x => x.Id);
+                    table.PrimaryKey("PK_PetAppRoleClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SiteRoleClaims_SiteRoles_RoleId",
+                        name: "FK_PetAppRoleClaims_PetAppRoles_RoleId",
                         column: x => x.RoleId,
-                        principalTable: "SiteRoles",
+                        principalTable: "PetAppRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -109,15 +119,15 @@ namespace GadeliniumGroupCapstone.Migrations
                     Zip = table.Column<string>(nullable: true),
                     Hours = table.Column<int>(nullable: false),
                     Phone = table.Column<string>(nullable: true),
-                    SiteUserId = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Buisnesses", x => x.BusinessId);
                     table.ForeignKey(
-                        name: "FK_Buisnesses_SiteUsers_SiteUserId",
-                        column: x => x.SiteUserId,
-                        principalTable: "SiteUsers",
+                        name: "FK_Buisnesses_PetAppUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "PetAppUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -134,21 +144,21 @@ namespace GadeliniumGroupCapstone.Migrations
                     Dob = table.Column<DateTime>(nullable: false),
                     AnimalType = table.Column<string>(nullable: true),
                     PetPhone = table.Column<string>(nullable: true),
-                    SiteUserId = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PetAccounts", x => x.PetAccountId);
                     table.ForeignKey(
-                        name: "FK_PetAccounts_SiteUsers_SiteUserId",
-                        column: x => x.SiteUserId,
-                        principalTable: "SiteUsers",
+                        name: "FK_PetAccounts_PetAppUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "PetAppUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "SiteUserClaims",
+                name: "PetAppUserClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -159,17 +169,17 @@ namespace GadeliniumGroupCapstone.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SiteUserClaims", x => x.Id);
+                    table.PrimaryKey("PK_PetAppUserClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SiteUserClaims_SiteUsers_UserId",
+                        name: "FK_PetAppUserClaims_PetAppUsers_UserId",
                         column: x => x.UserId,
-                        principalTable: "SiteUsers",
+                        principalTable: "PetAppUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "SiteUserLogins",
+                name: "PetAppUserLogins",
                 columns: table => new
                 {
                     LoginProvider = table.Column<string>(nullable: false),
@@ -179,17 +189,17 @@ namespace GadeliniumGroupCapstone.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SiteUserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.PrimaryKey("PK_PetAppUserLogins", x => new { x.LoginProvider, x.ProviderKey });
                     table.ForeignKey(
-                        name: "FK_SiteUserLogins_SiteUsers_UserId",
+                        name: "FK_PetAppUserLogins_PetAppUsers_UserId",
                         column: x => x.UserId,
-                        principalTable: "SiteUsers",
+                        principalTable: "PetAppUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "SiteUserRoles",
+                name: "PetAppUserRoles",
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
@@ -197,23 +207,23 @@ namespace GadeliniumGroupCapstone.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SiteUserRoles", x => new { x.UserId, x.RoleId });
+                    table.PrimaryKey("PK_PetAppUserRoles", x => new { x.UserId, x.RoleId });
                     table.ForeignKey(
-                        name: "FK_SiteUserRoles_SiteRoles_RoleId",
+                        name: "FK_PetAppUserRoles_PetAppRoles_RoleId",
                         column: x => x.RoleId,
-                        principalTable: "SiteRoles",
+                        principalTable: "PetAppRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_SiteUserRoles_SiteUsers_UserId",
+                        name: "FK_PetAppUserRoles_PetAppUsers_UserId",
                         column: x => x.UserId,
-                        principalTable: "SiteUsers",
+                        principalTable: "PetAppUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "SiteUserTokens",
+                name: "PetAppUserTokens",
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
@@ -223,11 +233,11 @@ namespace GadeliniumGroupCapstone.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SiteUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.PrimaryKey("PK_PetAppUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
                     table.ForeignKey(
-                        name: "FK_SiteUserTokens_SiteUsers_UserId",
+                        name: "FK_PetAppUserTokens_PetAppUsers_UserId",
                         column: x => x.UserId,
-                        principalTable: "SiteUsers",
+                        principalTable: "PetAppUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -347,33 +357,6 @@ namespace GadeliniumGroupCapstone.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Accounts",
-                columns: table => new
-                {
-                    AccountId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PetId = table.Column<int>(nullable: false),
-                    SiteUserId = table.Column<string>(nullable: true),
-                    BusinessId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Accounts", x => x.AccountId);
-                    table.ForeignKey(
-                        name: "FK_Accounts_Buisnesses_BusinessId",
-                        column: x => x.BusinessId,
-                        principalTable: "Buisnesses",
-                        principalColumn: "BusinessId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Accounts_PetAccounts_PetId",
-                        column: x => x.PetId,
-                        principalTable: "PetAccounts",
-                        principalColumn: "PetAccountId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "MedicalRecords",
                 columns: table => new
                 {
@@ -416,24 +399,19 @@ namespace GadeliniumGroupCapstone.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "SiteRoles",
+                table: "PetAppRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "34fca639-db9c-4858-b64b-176970658b9a", "46cc4c44-e31c-429b-9ffe-833177398540", "Pet Owner", "PETOWNER" });
+                values: new object[] { "0f38a293-811c-40e7-97f9-c78111c5429d", "b6410795-3b3d-471d-9b6f-71aa6ea3ab75", "Pet Owner", "PETOWNER" });
 
             migrationBuilder.InsertData(
-                table: "SiteRoles",
+                table: "PetAppRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "b30b07ca-2bdd-4238-bd30-434bacb8af9f", "d9c333f8-025a-44e7-942e-5eb461c583cb", "Business Owner", "BUSINESSOWNER" });
+                values: new object[] { "5b2bcc9e-05e1-4a0e-96d9-66773fbe5558", "e6bc673a-c54d-4715-a543-ca3146fc298f", "Business Owner", "BUSINESSOWNER" });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Accounts_BusinessId",
-                table: "Accounts",
-                column: "BusinessId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Accounts_PetId",
-                table: "Accounts",
-                column: "PetId");
+            migrationBuilder.InsertData(
+                table: "PetAppRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "b33bb32c-806e-4dae-83fd-8611736e6eb9", "6c0169f7-80e8-49ec-acfb-b2de2791d61c", "Admin", "Admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Boardings_BusinessId",
@@ -441,9 +419,9 @@ namespace GadeliniumGroupCapstone.Migrations
                 column: "BusinessId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Buisnesses_SiteUserId",
+                name: "IX_Buisnesses_UserId",
                 table: "Buisnesses",
-                column: "SiteUserId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Groomers_BusinessId",
@@ -461,53 +439,53 @@ namespace GadeliniumGroupCapstone.Migrations
                 column: "BusinessId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PetAccounts_SiteUserId",
+                name: "IX_PetAccounts_UserId",
                 table: "PetAccounts",
-                column: "SiteUserId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PetBios_PetId",
-                table: "PetBios",
-                column: "PetId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SiteRoleClaims_RoleId",
-                table: "SiteRoleClaims",
+                name: "IX_PetAppRoleClaims_RoleId",
+                table: "PetAppRoleClaims",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
-                table: "SiteRoles",
+                table: "PetAppRoles",
                 column: "NormalizedName",
                 unique: true,
                 filter: "[NormalizedName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SiteUserClaims_UserId",
-                table: "SiteUserClaims",
+                name: "IX_PetAppUserClaims_UserId",
+                table: "PetAppUserClaims",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SiteUserLogins_UserId",
-                table: "SiteUserLogins",
+                name: "IX_PetAppUserLogins_UserId",
+                table: "PetAppUserLogins",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SiteUserRoles_RoleId",
-                table: "SiteUserRoles",
+                name: "IX_PetAppUserRoles_RoleId",
+                table: "PetAppUserRoles",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
-                table: "SiteUsers",
+                table: "PetAppUsers",
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
-                table: "SiteUsers",
+                table: "PetAppUsers",
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PetBios_PetId",
+                table: "PetBios",
+                column: "PetId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Sitters_BusinessId",
@@ -528,9 +506,6 @@ namespace GadeliniumGroupCapstone.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Accounts");
-
-            migrationBuilder.DropTable(
                 name: "Boardings");
 
             migrationBuilder.DropTable(
@@ -546,22 +521,25 @@ namespace GadeliniumGroupCapstone.Migrations
                 name: "Others");
 
             migrationBuilder.DropTable(
+                name: "PetAppRoleClaims");
+
+            migrationBuilder.DropTable(
+                name: "PetAppUserClaims");
+
+            migrationBuilder.DropTable(
+                name: "PetAppUserLogins");
+
+            migrationBuilder.DropTable(
+                name: "PetAppUserRoles");
+
+            migrationBuilder.DropTable(
+                name: "PetAppUserTokens");
+
+            migrationBuilder.DropTable(
                 name: "PetBios");
 
             migrationBuilder.DropTable(
-                name: "SiteRoleClaims");
-
-            migrationBuilder.DropTable(
-                name: "SiteUserClaims");
-
-            migrationBuilder.DropTable(
-                name: "SiteUserLogins");
-
-            migrationBuilder.DropTable(
-                name: "SiteUserRoles");
-
-            migrationBuilder.DropTable(
-                name: "SiteUserTokens");
+                name: "PhotoBins");
 
             migrationBuilder.DropTable(
                 name: "Sitters");
@@ -576,16 +554,16 @@ namespace GadeliniumGroupCapstone.Migrations
                 name: "Vets");
 
             migrationBuilder.DropTable(
-                name: "PetAccounts");
+                name: "PetAppRoles");
 
             migrationBuilder.DropTable(
-                name: "SiteRoles");
+                name: "PetAccounts");
 
             migrationBuilder.DropTable(
                 name: "Buisnesses");
 
             migrationBuilder.DropTable(
-                name: "SiteUsers");
+                name: "PetAppUsers");
         }
     }
 }

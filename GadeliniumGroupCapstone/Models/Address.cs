@@ -12,8 +12,8 @@ namespace GadeliniumGroupCapstone.Models
     {
         public int AddressId { get; set; }
         [Required]
-        [ForeignKey("SiteUser")]
-        public string SiteUserId { get; set; }
+        [ForeignKey("User")]
+        public string UserId { get; set; }
         // Purposely Ommitting User object, Seperation of address/user except when explicitly called.
         // This address is seperate from Business Address, as it is of an individual user and holds personal data
         // Business Addresses are public, hence stored elsewhere.

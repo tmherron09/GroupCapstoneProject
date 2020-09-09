@@ -12,17 +12,17 @@ namespace GadeliniumGroupCapstone.Controllers
     public class UploadController : Controller
     {
 
-        public ApplicationDbContext db;
+        public PetAppDbContext _context;
 
-        public UploadController(DbContextOptions<ApplicationDbContext> options)
+        public UploadController(PetAppDbContext context)
         {
-            db = new ApplicationDbContext(options);
+            _context = context;
         }
 
         // GET: UploadController
         public ActionResult Index()
         {
-            var photos = db.PhotoBins.ToList();
+            var photos = _context.PhotoBins.ToList();
             return View(photos);
         }
 
@@ -46,8 +46,8 @@ namespace GadeliniumGroupCapstone.Controllers
 
                 string Base64 = Convert.ToBase64String(image.Content);
                 byte[] array = Convert.FromBase64String(Base64);
-                db.PhotoBins.Add(image);
-                db.SaveChanges();
+                _context.PhotoBins.Add(image);
+                _context.SaveChanges();
                 return View();
             }
 

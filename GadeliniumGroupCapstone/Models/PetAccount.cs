@@ -18,10 +18,10 @@ namespace GadeliniumGroupCapstone.Models
         public string AnimalType { get; set; }
         public string PetPhone { get; set; }
 
-        [ForeignKey("SiteUser")]
-        public string SiteUserId { get; set; }
+        [ForeignKey("User")]
+        public string UserId { get; set; }
 
-        public SiteUser SiteUser { get; set; }
+        public User User { get; set; }
 
 
     }

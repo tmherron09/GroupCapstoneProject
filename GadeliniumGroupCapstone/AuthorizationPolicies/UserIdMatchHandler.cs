@@ -13,9 +13,9 @@ namespace GadeliniumGroupCapstone.AuthorizationPolicies
     public class UserIdMatchHandler : AuthorizationHandler<UserIdMatchRequirement, PetAccount>
     {
 
-        protected UserManager<SiteUser> _userManager;
+        protected UserManager<User> _userManager;
 
-        public UserIdMatchHandler(UserManager<SiteUser> userManager)
+        public UserIdMatchHandler(UserManager<User> userManager)
         {
             _userManager = userManager;
         }
@@ -27,7 +27,7 @@ namespace GadeliniumGroupCapstone.AuthorizationPolicies
                 return Task.CompletedTask;
             }
 
-            if(resource.SiteUserId == _userManager.GetUserId(context.User))
+            if(resource.UserId == _userManager.GetUserId(context.User))
             {
                 context.Succeed(requirement);
             }

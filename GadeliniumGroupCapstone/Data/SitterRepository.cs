@@ -10,7 +10,7 @@ namespace GadeliniumGroupCapstone.Data
     public class SitterRepository : RepositoryBase<Sitter>, ISitterRepository
     {
 
-        public SitterRepository(ApplicationDbContext applicationDbContext):base(applicationDbContext)
+        public SitterRepository(PetAppDbContext petAppDbContext):base(petAppDbContext)
         {
 
         }

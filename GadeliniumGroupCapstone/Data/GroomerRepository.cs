@@ -10,7 +10,7 @@ namespace GadeliniumGroupCapstone.Data
     public class GroomerRepository : RepositoryBase<Groomer>, IGroomerRepository
     {
 
-        public GroomerRepository(ApplicationDbContext applicationDbContext):base(applicationDbContext)
+        public GroomerRepository(PetAppDbContext petAppDbContext):base(petAppDbContext)
         {
 
         }

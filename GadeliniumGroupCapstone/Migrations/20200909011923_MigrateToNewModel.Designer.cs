@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GadeliniumGroupCapstone.Migrations
 {
-    [DbContext(typeof(SiteUserContext))]
-    [Migration("20200907181206_CustomIdentityAndAuthorizationTest")]
-    partial class CustomIdentityAndAuthorizationTest
+    [DbContext(typeof(PetAppDbContext))]
+    [Migration("20200909011923_MigrateToNewModel")]
+    partial class MigrateToNewModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,31 +20,6 @@ namespace GadeliniumGroupCapstone.Migrations
                 .HasAnnotation("ProductVersion", "3.1.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("GadeliniumGroupCapstone.Models.Account", b =>
-                {
-                    b.Property<int>("AccountId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("BusinessId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PetId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SiteUserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("AccountId");
-
-                    b.HasIndex("BusinessId");
-
-                    b.HasIndex("PetId");
-
-                    b.ToTable("Accounts");
-                });
 
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.Boarding", b =>
                 {
@@ -79,7 +54,7 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SiteUserId")
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Zip")
@@ -87,7 +62,7 @@ namespace GadeliniumGroupCapstone.Migrations
 
                     b.HasKey("BusinessId");
 
-                    b.HasIndex("SiteUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Buisnesses");
                 });
@@ -177,15 +152,15 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.Property<string>("PetPhone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SiteUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Species")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("PetAccountId");
 
-                    b.HasIndex("SiteUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("PetAccounts");
                 });
@@ -219,90 +194,19 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.ToTable("PetBios");
                 });
 
-            modelBuilder.Entity("GadeliniumGroupCapstone.Models.SiteUser", b =>
+            modelBuilder.Entity("GadeliniumGroupCapstone.Models.PhotoBin", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("PhotoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
+                    b.Property<byte[]>("Content")
+                        .HasColumnType("varbinary(max)");
 
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                    b.HasKey("PhotoId");
 
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("HasBusiness")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("HasMultiplePet")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("HasPet")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("NormalizedSecondaryEmail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecondaryEmail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("SiteUsers");
+                    b.ToTable("PhotoBins");
                 });
 
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.Sitter", b =>
@@ -354,6 +258,83 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.ToTable("Trainers");
                 });
 
+            modelBuilder.Entity("GadeliniumGroupCapstone.Models.User", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedFirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedLastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("PetAppUsers");
+                });
+
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.Vet", b =>
                 {
                     b.Property<int>("VetId")
@@ -395,22 +376,29 @@ namespace GadeliniumGroupCapstone.Migrations
                         .HasName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("SiteRoles");
+                    b.ToTable("PetAppRoles");
 
                     b.HasData(
                         new
                         {
-                            Id = "34fca639-db9c-4858-b64b-176970658b9a",
-                            ConcurrencyStamp = "46cc4c44-e31c-429b-9ffe-833177398540",
+                            Id = "0f38a293-811c-40e7-97f9-c78111c5429d",
+                            ConcurrencyStamp = "b6410795-3b3d-471d-9b6f-71aa6ea3ab75",
                             Name = "Pet Owner",
                             NormalizedName = "PETOWNER"
                         },
                         new
                         {
-                            Id = "b30b07ca-2bdd-4238-bd30-434bacb8af9f",
-                            ConcurrencyStamp = "d9c333f8-025a-44e7-942e-5eb461c583cb",
+                            Id = "5b2bcc9e-05e1-4a0e-96d9-66773fbe5558",
+                            ConcurrencyStamp = "e6bc673a-c54d-4715-a543-ca3146fc298f",
                             Name = "Business Owner",
                             NormalizedName = "BUSINESSOWNER"
+                        },
+                        new
+                        {
+                            Id = "b33bb32c-806e-4dae-83fd-8611736e6eb9",
+                            ConcurrencyStamp = "6c0169f7-80e8-49ec-acfb-b2de2791d61c",
+                            Name = "Admin",
+                            NormalizedName = "Admin"
                         });
                 });
 
@@ -435,7 +423,7 @@ namespace GadeliniumGroupCapstone.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("SiteRoleClaims");
+                    b.ToTable("PetAppRoleClaims");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -459,7 +447,7 @@ namespace GadeliniumGroupCapstone.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("SiteUserClaims");
+                    b.ToTable("PetAppUserClaims");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -481,7 +469,7 @@ namespace GadeliniumGroupCapstone.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("SiteUserLogins");
+                    b.ToTable("PetAppUserLogins");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -496,7 +484,7 @@ namespace GadeliniumGroupCapstone.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("SiteUserRoles");
+                    b.ToTable("PetAppUserRoles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -515,22 +503,7 @@ namespace GadeliniumGroupCapstone.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("SiteUserTokens");
-                });
-
-            modelBuilder.Entity("GadeliniumGroupCapstone.Models.Account", b =>
-                {
-                    b.HasOne("GadeliniumGroupCapstone.Models.Business", "Business")
-                        .WithMany()
-                        .HasForeignKey("BusinessId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GadeliniumGroupCapstone.Models.PetAccount", "PetAccount")
-                        .WithMany()
-                        .HasForeignKey("PetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.ToTable("PetAppUserTokens");
                 });
 
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.Boarding", b =>
@@ -544,9 +517,9 @@ namespace GadeliniumGroupCapstone.Migrations
 
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.Business", b =>
                 {
-                    b.HasOne("GadeliniumGroupCapstone.Models.SiteUser", "SiteUser")
+                    b.HasOne("GadeliniumGroupCapstone.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("SiteUserId");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.Groomer", b =>
@@ -578,9 +551,9 @@ namespace GadeliniumGroupCapstone.Migrations
 
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.PetAccount", b =>
                 {
-                    b.HasOne("GadeliniumGroupCapstone.Models.SiteUser", "SiteUser")
+                    b.HasOne("GadeliniumGroupCapstone.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("SiteUserId");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.PetBio", b =>
@@ -630,7 +603,7 @@ namespace GadeliniumGroupCapstone.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("GadeliniumGroupCapstone.Models.SiteUser", null)
+                    b.HasOne("GadeliniumGroupCapstone.Models.User", null)
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -639,7 +612,7 @@ namespace GadeliniumGroupCapstone.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("GadeliniumGroupCapstone.Models.SiteUser", null)
+                    b.HasOne("GadeliniumGroupCapstone.Models.User", null)
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -654,7 +627,7 @@ namespace GadeliniumGroupCapstone.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("GadeliniumGroupCapstone.Models.SiteUser", null)
+                    b.HasOne("GadeliniumGroupCapstone.Models.User", null)
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -663,7 +636,7 @@ namespace GadeliniumGroupCapstone.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("GadeliniumGroupCapstone.Models.SiteUser", null)
+                    b.HasOne("GadeliniumGroupCapstone.Models.User", null)
                         .WithMany("Tokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
