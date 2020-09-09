@@ -23,6 +23,8 @@ namespace GadeliniumGroupCapstone.Controllers
 
         public IActionResult Index()
         {
+            Console.WriteLine(User);
+
             return View();
         }
 

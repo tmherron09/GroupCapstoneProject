@@ -10,7 +10,7 @@ namespace GadeliniumGroupCapstone.Data
     public class BoardingRepository : RepositoryBase<Boarding>, IBoardingRepository
     {
 
-        public BoardingRepository(ApplicationDbContext applicationDbContext):base(applicationDbContext)
+        public BoardingRepository(PetAppDbContext petAppDbContext):base(petAppDbContext)
         {
 
         }

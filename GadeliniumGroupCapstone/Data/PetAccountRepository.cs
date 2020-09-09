@@ -10,7 +10,7 @@ namespace GadeliniumGroupCapstone.Data
     public class PetAccountRepository : RepositoryBase<PetAccount>, IPetAccountRepository
     {
 
-        public PetAccountRepository(ApplicationDbContext applicationDbContext):base(applicationDbContext)
+        public PetAccountRepository(PetAppDbContext petAppDbContext):base(petAppDbContext)
         {
 
         }

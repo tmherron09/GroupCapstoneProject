@@ -10,7 +10,7 @@ namespace GadeliniumGroupCapstone.Data
     public class VetRepository : RepositoryBase<Vet>, IVetRepository
     {
 
-        public VetRepository(ApplicationDbContext applicationDbContext):base(applicationDbContext)
+        public VetRepository(PetAppDbContext petAppDbContext):base(petAppDbContext)
         {
 
         }

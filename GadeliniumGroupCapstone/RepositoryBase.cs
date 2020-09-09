@@ -10,36 +10,36 @@ namespace GadeliniumGroupCapstone.Contracts
 {
     public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {
-        protected ApplicationDbContext ApplicationDbContext { get; set; }
+        protected PetAppDbContext PetAppDbContext { get; set; }
 
-        public RepositoryBase(ApplicationDbContext applicationDbContext)
+        public RepositoryBase(PetAppDbContext petAppDbContext)
         {
-            ApplicationDbContext = applicationDbContext;
+            PetAppDbContext = petAppDbContext;
         }
 
         public IQueryable<T> FindAll()
         {
-            return ApplicationDbContext.Set<T>().AsNoTracking();
+            return PetAppDbContext.Set<T>().AsNoTracking();
 
         }
         public IQueryable<T> FindAllByCondition(Expression<Func<T, bool>> expression)
         {
-            return ApplicationDbContext.Set<T>().Where(expression).AsNoTracking();
+            return PetAppDbContext.Set<T>().Where(expression).AsNoTracking();
         }
 
         public void Create(T entity)
         {
-            ApplicationDbContext.Set<T>().Add(entity);
+            PetAppDbContext.Set<T>().Add(entity);
         }
 
         public void Delete(T entity)
         {
-            ApplicationDbContext.Set<T>().Remove(entity);
+            PetAppDbContext.Set<T>().Remove(entity);
         }
 
         public void Update(T entity)
         {
-            ApplicationDbContext.Set<T>().Update(entity);
+            PetAppDbContext.Set<T>().Update(entity);
         }
     }
 }

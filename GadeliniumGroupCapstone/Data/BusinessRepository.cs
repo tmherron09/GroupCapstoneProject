@@ -10,7 +10,7 @@ namespace GadeliniumGroupCapstone.Data
     public class BusinessRepository : RepositoryBase<Business>, IBusinessRepository
     {
 
-        public BusinessRepository(ApplicationDbContext applicationDbContext):base(applicationDbContext)
+        public BusinessRepository(PetAppDbContext petAppDbContext):base(petAppDbContext)
         {
 
         }
