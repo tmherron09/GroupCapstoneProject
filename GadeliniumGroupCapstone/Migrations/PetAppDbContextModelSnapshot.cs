@@ -331,6 +331,76 @@ namespace GadeliniumGroupCapstone.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("PetAppUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "08985f88-f992-417e-ba80-c0324683ea91",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "1aa9c963-47d8-466c-b25c-c5dc783d6cfc",
+                            Email = "Choua@choua.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "CHOUA@CHOUA.COM",
+                            NormalizedUserName = "CHOUA@CHOUA.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEL1tat7CzuP3E74HMHZg46VOIRV8zU2OrGlrZiiZ1lOE95v65PMnd45XoNFQRRepjQ==",
+                            PhoneNumber = "555-555-5555",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "HWS6RX53NTMKWLVBRAQNCIKIFAUQ3FPK",
+                            TwoFactorEnabled = false,
+                            UserName = "Choua@choua.com"
+                        },
+                        new
+                        {
+                            Id = "5b339db7-fd08-4ffe-9467-4695dee7bd65",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "d1fdd1d6-884c-4d28-bd50-a6f32e6bfbe1",
+                            Email = "Tim@tim.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "TIM@TIM.COM",
+                            NormalizedUserName = "TIM@TIM.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEG6euUT06GKNaSJe2Ksy0sRvdp+HJVJFBGPtqclwdvbu7S8IWdVhamthAkZPrLbTfQ==",
+                            PhoneNumber = "555-555-5555",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "IKYVWNRLBUNDPYA2FTNX5TCFYZWCS7OO",
+                            TwoFactorEnabled = false,
+                            UserName = "Tim@tim.com"
+                        },
+                        new
+                        {
+                            Id = "d453a413-17b1-4f27-89d8-8f26af48f90b",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "9bcc49dc-5974-4ae5-8350-cb95c257d550",
+                            Email = "Sam@sam.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "SAM@SAM.COM",
+                            NormalizedUserName = "SAM@SAM.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGsIaD6NQJAT3n+lzCO4sEaNFKfc4NVzi8A6MoNnlCJsoehkvqPkbRTDbOjLr2tKbQ==",
+                            PhoneNumber = "555-555-5555",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "4ZIGJCZL4JJEWK7PDYDN467AR3AVFJU7",
+                            TwoFactorEnabled = false,
+                            UserName = "Sam@sam.com"
+                        },
+                        new
+                        {
+                            Id = "d8195859-5968-48a5-b400-2afa2e29f775",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "8e3ea5b9-3cc2-4d52-8f2b-1b993dd7732e",
+                            Email = "Milan@Milan.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "MILAN@MILAN.COM",
+                            NormalizedUserName = "MILAN@MILAN.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPvPMaCo9UmPJVbeV+Btd3Y83X5Eyekn/hwXRbcfZEKrwB2welahQAJkL6ZjGZkeQw==",
+                            PhoneNumber = "555-555-5555",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "4PHNLV4WVA7LCIA3S2QNDCYQGRCY6WJS",
+                            TwoFactorEnabled = false,
+                            UserName = "Milan@Milan.com"
+                        });
                 });
 
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.Vet", b =>
@@ -379,22 +449,22 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "0f38a293-811c-40e7-97f9-c78111c5429d",
-                            ConcurrencyStamp = "b6410795-3b3d-471d-9b6f-71aa6ea3ab75",
+                            Id = "a5744d31-b22b-4a6d-a96f-1c350e3bb8b8",
+                            ConcurrencyStamp = "b6991e5f-f8af-457e-8f4c-c7ddb9bf539d",
                             Name = "Pet Owner",
                             NormalizedName = "PETOWNER"
                         },
                         new
                         {
-                            Id = "5b2bcc9e-05e1-4a0e-96d9-66773fbe5558",
-                            ConcurrencyStamp = "e6bc673a-c54d-4715-a543-ca3146fc298f",
+                            Id = "b67ed68a-6fb9-48dd-b2af-6e0a771264ee",
+                            ConcurrencyStamp = "591d3a87-1a05-4d75-9ad5-daf4f16df876",
                             Name = "Business Owner",
                             NormalizedName = "BUSINESSOWNER"
                         },
                         new
                         {
-                            Id = "b33bb32c-806e-4dae-83fd-8611736e6eb9",
-                            ConcurrencyStamp = "6c0169f7-80e8-49ec-acfb-b2de2791d61c",
+                            Id = "0a51698e-b62a-437d-adc6-a06b92018078",
+                            ConcurrencyStamp = "8fc3ad57-82d3-430f-8726-e97335820762",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         });

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GadeliniumGroupCapstone.Migrations
 {
-    public partial class MigrateToNewModel : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -401,17 +401,23 @@ namespace GadeliniumGroupCapstone.Migrations
             migrationBuilder.InsertData(
                 table: "PetAppRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "0f38a293-811c-40e7-97f9-c78111c5429d", "b6410795-3b3d-471d-9b6f-71aa6ea3ab75", "Pet Owner", "PETOWNER" });
+                values: new object[,]
+                {
+                    { "a5744d31-b22b-4a6d-a96f-1c350e3bb8b8", "b6991e5f-f8af-457e-8f4c-c7ddb9bf539d", "Pet Owner", "PETOWNER" },
+                    { "b67ed68a-6fb9-48dd-b2af-6e0a771264ee", "591d3a87-1a05-4d75-9ad5-daf4f16df876", "Business Owner", "BUSINESSOWNER" },
+                    { "0a51698e-b62a-437d-adc6-a06b92018078", "8fc3ad57-82d3-430f-8726-e97335820762", "Admin", "Admin" }
+                });
 
             migrationBuilder.InsertData(
-                table: "PetAppRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "5b2bcc9e-05e1-4a0e-96d9-66773fbe5558", "e6bc673a-c54d-4715-a543-ca3146fc298f", "Business Owner", "BUSINESSOWNER" });
-
-            migrationBuilder.InsertData(
-                table: "PetAppRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "b33bb32c-806e-4dae-83fd-8611736e6eb9", "6c0169f7-80e8-49ec-acfb-b2de2791d61c", "Admin", "Admin" });
+                table: "PetAppUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedFirstName", "NormalizedLastName", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { "08985f88-f992-417e-ba80-c0324683ea91", 0, "1aa9c963-47d8-466c-b25c-c5dc783d6cfc", "Choua@choua.com", false, null, null, true, null, "CHOUA@CHOUA.COM", null, null, "CHOUA@CHOUA.COM", "AQAAAAEAACcQAAAAEL1tat7CzuP3E74HMHZg46VOIRV8zU2OrGlrZiiZ1lOE95v65PMnd45XoNFQRRepjQ==", "555-555-5555", false, "HWS6RX53NTMKWLVBRAQNCIKIFAUQ3FPK", false, "Choua@choua.com" },
+                    { "5b339db7-fd08-4ffe-9467-4695dee7bd65", 0, "d1fdd1d6-884c-4d28-bd50-a6f32e6bfbe1", "Tim@tim.com", false, null, null, true, null, "TIM@TIM.COM", null, null, "TIM@TIM.COM", "AQAAAAEAACcQAAAAEG6euUT06GKNaSJe2Ksy0sRvdp+HJVJFBGPtqclwdvbu7S8IWdVhamthAkZPrLbTfQ==", "555-555-5555", false, "IKYVWNRLBUNDPYA2FTNX5TCFYZWCS7OO", false, "Tim@tim.com" },
+                    { "d453a413-17b1-4f27-89d8-8f26af48f90b", 0, "9bcc49dc-5974-4ae5-8350-cb95c257d550", "Sam@sam.com", false, null, null, true, null, "SAM@SAM.COM", null, null, "SAM@SAM.COM", "AQAAAAEAACcQAAAAEGsIaD6NQJAT3n+lzCO4sEaNFKfc4NVzi8A6MoNnlCJsoehkvqPkbRTDbOjLr2tKbQ==", "555-555-5555", false, "4ZIGJCZL4JJEWK7PDYDN467AR3AVFJU7", false, "Sam@sam.com" },
+                    { "d8195859-5968-48a5-b400-2afa2e29f775", 0, "8e3ea5b9-3cc2-4d52-8f2b-1b993dd7732e", "Milan@Milan.com", false, null, null, true, null, "MILAN@MILAN.COM", null, null, "MILAN@MILAN.COM", "AQAAAAEAACcQAAAAEPvPMaCo9UmPJVbeV+Btd3Y83X5Eyekn/hwXRbcfZEKrwB2welahQAJkL6ZjGZkeQw==", "555-555-5555", false, "4PHNLV4WVA7LCIA3S2QNDCYQGRCY6WJS", false, "Milan@Milan.com" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Boardings_BusinessId",
