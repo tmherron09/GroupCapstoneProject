@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GadeliniumGroupCapstone.Models
 {
-    public class PetAccount
+    public class PetAccount : IAccount
     {
 
         public int PetAccountId { get; set; }

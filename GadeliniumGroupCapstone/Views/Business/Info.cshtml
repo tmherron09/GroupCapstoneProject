@@ -1,0 +1,109 @@
+﻿@model GadeliniumGroupCapstone.ViewModels.BusinessInfoViewModel
+
+@using GadeliniumGroupCapstone.AuthorizationPolicies
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService _auth
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = $"{Model.Business.BusinessName} Info";
+
+    string imageBase64 = Convert.ToBase64String(Model.Business.BusinessLogo.Content);
+    string imageSrc = string.Format("data:image/gif;base64,{0}", imageBase64);
+    int serviceCount = 0;
+    var isAuthorized = await _auth.AuthorizeAsync(User, Model.Business, new UserIdMatchRequirement());
+}
+
+
+
+<div class="container">
+    <div class="card w-75 border-primary mx-auto">
+        <div class="card-header text-center">
+            <h2>@Model.Business.BusinessName</h2>
+            <img src="@imageSrc" alt="@Model.Business.PhotoBinId" width="100" height="100" />
+        </div>
+
+        <div class="card-body row">
+            <div class="col-6">
+                Insert Hours Here
+            </div>
+            <div class="col-6">
+                <div class="card-header">
+                    Address
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">@Model.Business.Address</li>
+                    <li class="list-group-item">@Model.Business.Zip</li>
+                </ul>
+            </div>
+        </div>
+        <div class="card-footer">
+            <small class="text-muted">@Model.Business.Phone</small>
+        </div>
+    </div>
+</div>
+@if (isAuthorized.Succeeded)
+{
+<div class="container">
+    <div class="btn-group-vertical btn-group-lg">
+        <a asp-action="Create" asp-route-id="@Model.Business.BusinessId" class="btn btn-light">Add Service</a>
+        </div>
+    </div>
+    }
+
+
+    @foreach (var item in Model.Services)
+    {
+        serviceCount += 1;
+        if (serviceCount % 2 == 1)
+        {
+            <hr class="featurette-divider">
+            @if (isAuthorized.Succeeded)
+            {
+            <div class="container">
+                <div class="btn-group-vertical btn-group-lg">
+                    <a asp-action="EditService" asp-route-id="@item.ServiceId" class="btn btn-light">Edit Service</a>
+                    </div>
+                </div>
+            }
+            <div class="row featurette align-items-center bg-light py-3">
+                <div class="col-md-7">
+                    <h2 class="featurette-heading">
+                        @item.ServiceName <br />
+                        <span class="text-muted">@item.ServiceTagLine</span>
+                    </h2>
+                    <p class="lead">@item.ServiceDescription</p>
+                    @if (item.ServiceFurtherDescription == null || item.ServiceFurtherDescription.Length > 5)
+                    {
+                        <hr />
+                        <p>@item.ServiceFurtherDescription</p>
+                    }
+                </div>
+                <div class="col-md-5">
+                    <img src="~/images/ServiceBanners/pet_store.png" class="border rounded-lg float-right" width="300" height="300" alt="@item.ServiceTag Banner Photo" />
+                </div>
+            </div>
+        }
+        else
+        {
+            <hr class="featurette-divider">
+
+            <div class="row featurette align-items-center bg-light py-3">
+                <div class="col-md-5">
+                    <img src="~/images/ServiceBanners/pet_store.png" class="border rounded-lg float-left" width="300" height="300" alt="@item.ServiceTag Banner Photo" />
+                </div>
+                <div class="col-md-7">
+                    <h2 class="featurette-heading">
+                        @item.ServiceName <br />
+                        <span class="text-muted">@item.ServiceTagLine</span>
+                    </h2>
+                    <p class="lead">@item.ServiceDescription</p>
+                    @if (item.ServiceFurtherDescription == null || item.ServiceFurtherDescription.Length > 5)
+                    {
+                        <hr />
+                        <p>@item.ServiceFurtherDescription</p>
+                    }
+                </div>
+            </div>
+        }
+    }

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GadeliniumGroupCapstone.AuthorizationPolicies
 {
-    public class UserIdMatchHandler : AuthorizationHandler<UserIdMatchRequirement, PetAccount>
+    public class UserIdMatchHandler : AuthorizationHandler<UserIdMatchRequirement, IAccount>
     {
 
         protected UserManager<User> _userManager;
@@ -20,7 +20,7 @@ namespace GadeliniumGroupCapstone.AuthorizationPolicies
             _userManager = userManager;
         }
 
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, UserIdMatchRequirement requirement, PetAccount resource )
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, UserIdMatchRequirement requirement, IAccount resource )
         {
             if(context.User == null || resource == null)
             {
