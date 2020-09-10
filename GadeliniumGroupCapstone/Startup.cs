@@ -19,6 +19,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using GadeliniumGroupCapstone.Models;
 using GadeliniumGroupCapstone.AuthorizationPolicies;
+using Microsoft.AspNetCore.ResponseCompression;
+
 
 namespace GadeliniumGroupCapstone
 {
@@ -102,18 +104,26 @@ namespace GadeliniumGroupCapstone
 
             services.AddScoped<IAuthorizationHandler, UserIdMatchHandler>();
 
+            services.AddSignalR();
             
-
             // Insert Pet App Related Services below
 
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddServerSideBlazor();
+            services.AddResponseCompression(opts =>
+            {
+                opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+                    new[] { "application/octet-stream" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseResponseCompression();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -139,6 +149,7 @@ namespace GadeliniumGroupCapstone
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+                endpoints.MapHub<PetAppHub>("/PetAppHub");
             });
         }
     }

@@ -1,13 +1,47 @@
-﻿@{
+@inject System.Security.Claims.ClaimsPrincipal _claims 
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@{
     ViewData["Title"] = "Home Page";
 }
-
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 <div class="container">
     <div class="jumbotron">
-        <h1>Hello, @User.Identity.Name! What's new?</h1>
+        <h1 class="text-center">Hello, @User.Identity.Name</h1>
     </div>
 </div>
+@*---conditional to display registration seletion for accountl-ess users---*@
+@{ 
+    var check1 = User.IsInRole("Pet Owner");
+    var check2 = User.IsInRole("Business Owner");
+    if ((!User.IsInRole("Pet Owner") && !User.IsInRole("Business Owner")) && SignInManager.IsSignedIn(User))
+    {
+    <div class="container">
+        <form asp-controller="Registration">
+            <h1 class="display-4 text-center">Register an Account Type!</h1>
+            <div class="row">
+                <div class="col-sm-6 d-flex align-items-stretch">
+                    <div class="card">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Pet Account</h5>
+                            <p class="card-text">Create a profile for your pet to store information, upload photos, and connect with other pet-owners and businesses in your area.</p>
+                            <button type="submit" asp-controller="Registration" asp-action="PetOwnerRegistration" class="btn btn-primary mt-auto">Create Pet Account</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 d-flex align-items-stretch">
+                    <div class="card">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Business Account</h5>
+                            <p class="card-text">Create a profile for your business to market and expand your local customer network.</p>
+                            <button asp-controller="Registration" asp-action="BusinessRegistration" class="btn btn-primary mt-auto">Create Business Account</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    }
+}

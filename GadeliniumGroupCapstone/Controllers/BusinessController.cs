@@ -28,9 +28,10 @@ namespace GadeliniumGroupCapstone.Controllers
         }
 
         // GET: BusinessController
-        [HttpGet]
 
-        public IActionResult Index(int businessId)
+        [HttpGet("{controller}/info/{businessId}")]
+        public IActionResult Info(int businessId)
+
         { 
 
             var business = _repo.Business.GetBusiness(businessId);
@@ -40,6 +41,15 @@ namespace GadeliniumGroupCapstone.Controllers
 
             return View("Info",model);
         }
+
+
+        public IActionResult SearchBusinesses()
+        {
+
+            return View();
+
+        }
+
 
         // GET: BusinessController/Details/5
         public ActionResult Details(int id)
@@ -71,7 +81,9 @@ namespace GadeliniumGroupCapstone.Controllers
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+
+                return RedirectToAction(nameof(Info));
+
             }
             catch
             {
@@ -97,7 +109,9 @@ namespace GadeliniumGroupCapstone.Controllers
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+
+                return RedirectToAction(nameof(Info));
+
             }
             catch
             {
@@ -118,7 +132,9 @@ namespace GadeliniumGroupCapstone.Controllers
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+
+                return RedirectToAction(nameof(Info));
+
             }
             catch
             {
