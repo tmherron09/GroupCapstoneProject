@@ -4,14 +4,16 @@ using GadeliniumGroupCapstone.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GadeliniumGroupCapstone.Migrations
 {
     [DbContext(typeof(PetAppDbContext))]
-    partial class PetAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200909151427_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,17 +48,11 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("BusinessName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Hours")
                         .HasColumnType("int");
 
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PhotoBinId")
-                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -66,11 +62,9 @@ namespace GadeliniumGroupCapstone.Migrations
 
                     b.HasKey("BusinessId");
 
-                    b.HasIndex("PhotoBinId");
-
                     b.HasIndex("UserId");
 
-                    b.ToTable("Businesses");
+                    b.ToTable("Buisnesses");
                 });
 
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.Groomer", b =>
@@ -213,46 +207,6 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.HasKey("PhotoId");
 
                     b.ToTable("PhotoBins");
-                });
-
-            modelBuilder.Entity("GadeliniumGroupCapstone.Models.Service", b =>
-                {
-                    b.Property<int>("ServiceId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("BusinessId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ServiceDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ServiceDisplayOrder")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ServiceFurtherDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ServiceName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ServiceTag")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ServiceTagLine")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ServiceThumbnailPhotoId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ServiceId");
-
-                    b.HasIndex("BusinessId");
-
-                    b.HasIndex("ServiceThumbnailPhotoId");
-
-                    b.ToTable("Services");
                 });
 
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.Sitter", b =>
@@ -497,19 +451,22 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.HasData(
                         new
                         {
-
+                            Id = "a5744d31-b22b-4a6d-a96f-1c350e3bb8b8",
+                            ConcurrencyStamp = "b6991e5f-f8af-457e-8f4c-c7ddb9bf539d",
                             Name = "Pet Owner",
                             NormalizedName = "PETOWNER"
                         },
                         new
                         {
-
+                            Id = "b67ed68a-6fb9-48dd-b2af-6e0a771264ee",
+                            ConcurrencyStamp = "591d3a87-1a05-4d75-9ad5-daf4f16df876",
                             Name = "Business Owner",
                             NormalizedName = "BUSINESSOWNER"
                         },
                         new
                         {
-
+                            Id = "0a51698e-b62a-437d-adc6-a06b92018078",
+                            ConcurrencyStamp = "8fc3ad57-82d3-430f-8726-e97335820762",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         });
@@ -630,12 +587,6 @@ namespace GadeliniumGroupCapstone.Migrations
 
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.Business", b =>
                 {
-                    b.HasOne("GadeliniumGroupCapstone.Models.PhotoBin", "BusinessLogo")
-                        .WithMany()
-                        .HasForeignKey("PhotoBinId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("GadeliniumGroupCapstone.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
@@ -682,19 +633,6 @@ namespace GadeliniumGroupCapstone.Migrations
                         .HasForeignKey("PetId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("GadeliniumGroupCapstone.Models.Service", b =>
-                {
-                    b.HasOne("GadeliniumGroupCapstone.Models.Business", "Business")
-                        .WithMany()
-                        .HasForeignKey("BusinessId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GadeliniumGroupCapstone.Models.PhotoBin", "ServiceThumbnail")
-                        .WithMany()
-                        .HasForeignKey("ServiceThumbnailPhotoId");
                 });
 
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.Sitter", b =>
