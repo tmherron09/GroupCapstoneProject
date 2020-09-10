@@ -70,7 +70,7 @@ namespace GadeliniumGroupCapstone.Controllers
         {
             businessAccount.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             businessAccount.User = _context.Users.Where(u => u.Id == businessAccount.UserId).FirstOrDefault();
-            _context.Buisnesses.Add(businessAccount);
+            _context.Businesses.Add(businessAccount);
             _context.SaveChanges();
             return RedirectToAction("Index", "Home");
         }
