@@ -1,5 +1,6 @@
 ﻿using GadeliniumGroupCapstone.Contracts;
 using GadeliniumGroupCapstone.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,8 +29,26 @@ namespace GadeliniumGroupCapstone.Data
 
         public List<Business> SearchByName(string searchValue)
         {
-            var items = FindAllByCondition(b => b.BusinessName.Contains(searchValue)).ToList();
-            return items;
+            var results = FindAllByCondition(b => b.BusinessName.Contains(searchValue)).ToList();
+
+            for (int i = 0; i < results.Count; i++)
+            {
+                results[i].BusinessLogo = PetAppDbContext.PhotoBins.Where(p => p.PhotoId == results[i].PhotoBinId).SingleOrDefault();
+            }
+
+                return results;
+        }
+
+        public List<Business> SearchForServices(string searchValue)
+        {
+            var results = FindAllByCondition(b => b.BusinessName.Contains(searchValue)).ToList();
+
+            for (int i = 0; i < results.Count; i++)
+            {
+                results[i].Services = PetAppDbContext.Services.Where(s => s.BusinessId == results[i].BusinessId).ToList();
+            }
+
+            return results;
         }
     }
 }

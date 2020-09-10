@@ -14,13 +14,13 @@ namespace GadeliniumGroupCapstone
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BusinessListApi : ControllerBase
+    public class PetAppApi : ControllerBase
     {
         private IRepositoryWrapper _repo;
         private IAuthorizationService _authorizationService;
         private UserManager<User> _userManager;
 
-        public BusinessListApi(IRepositoryWrapper repo, IAuthorizationService authorizationService, UserManager<User> userManager)
+        public PetAppApi(IRepositoryWrapper repo, IAuthorizationService authorizationService, UserManager<User> userManager)
         {
             _repo = repo;
             _authorizationService = authorizationService;
@@ -28,21 +28,21 @@ namespace GadeliniumGroupCapstone
         }
 
 
-        // GET: api/<BusinessListApi>
+        // GET: api/<PetAppApi>
         [HttpGet]
         public List<Business> Get()
         {
             return _repo.Business.GetAllBusinesses();
         }
 
-        // GET api/<BusinessListApi>/5
+        // GET api/<PetAppApi>/5
         [HttpGet("{id}")]
         public Business Get(int id)
         {
             return _repo.Business.GetBusiness(id);
         }
 
-        // POST api/<BusinessListApi>
+        // POST api/<PetAppApi>
         [HttpPost]
         public List<Business> Post([FromBody] string value)
         {
@@ -51,13 +51,13 @@ namespace GadeliniumGroupCapstone
 
         }
 
-        // PUT api/<BusinessListApi>/5
+        // PUT api/<PetAppApi>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/<BusinessListApi>/5
+        // DELETE api/<PetAppApi>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
