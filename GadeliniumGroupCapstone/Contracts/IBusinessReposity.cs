@@ -10,6 +10,7 @@ namespace GadeliniumGroupCapstone.Contracts
     {
         List<Business> GetAllBusinesses();
         Business GetBusiness(int businessId);
+        Business GetBusinessOfUserId(string userId);
         void CreateBusiness(Business business);
         List<Business> SearchByName(string searchValue);
     }

@@ -1,61 +1,61 @@
 ﻿@model GadeliniumGroupCapstone.Models.Service
 
 @{
-    ViewData["Title"] = "Add Service";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
-<h1>Create</h1>
 
-<h4>Service</h4>
-<hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-controller="Business" asp-action="CreateService" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="BusinessId" />
             <div class="form-group">
                 <label asp-for="ServiceTag" class="control-label"></label>
-                <input asp-for="ServiceTag" class="form-control" />
-                <span asp-validation-for="ServiceTag" class="text-danger"></span>
+                <select asp-for="ServiceTag">
+                    <option value="Vet">Vet</option>
+                    <option value="Toys">Toys</option>
+                    <option value="Food">Food</option>
+                    <option value="Boarding">Boarding</option>
+                    <option value="Sitter">Sitter</option>
+                    <option value="Groomer">Groomer</option>
+                    <option value="Trainer">Trainer</option>
+                </select>
             </div>
             <div class="form-group">
-                <label asp-for="ServiceName" class="control-label"></label>
+                <label asp-for="ServiceName" class="control-label">Name of Service</label>
                 <input asp-for="ServiceName" class="form-control" />
                 <span asp-validation-for="ServiceName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ServiceTagLine" class="control-label"></label>
+                <label asp-for="ServiceTagLine" class="control-label">Tag Line of Service</label>
                 <input asp-for="ServiceTagLine" class="form-control" />
                 <span asp-validation-for="ServiceTagLine" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ServiceDescription" class="control-label"></label>
+                <label asp-for="ServiceDescription" class="control-label">Description of service provided</label>
                 <input asp-for="ServiceDescription" class="form-control" />
                 <span asp-validation-for="ServiceDescription" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ServiceFurtherDescription" class="control-label"></label>
+                <label asp-for="ServiceFurtherDescription" class="control-label">Further description of service (optional)</label>
                 <input asp-for="ServiceFurtherDescription" class="form-control" />
                 <span asp-validation-for="ServiceFurtherDescription" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ServiceDisplayOrder" class="control-label"></label>
+                <label asp-for="ServiceDisplayOrder" class="control-label">Enter Priority (numeric value)</label>
                 <input asp-for="ServiceDisplayOrder" class="form-control" />
                 <span asp-validation-for="ServiceDisplayOrder" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="BusinessId" class="control-label"></label>
-                <select asp-for="BusinessId" class ="form-control" asp-items="ViewBag.BusinessId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Add" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Home">Return Home</a>
 </div>
 
 @section Scripts {

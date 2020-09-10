@@ -1,0 +1,25 @@
+﻿@model Service
+
+@{
+    ViewData["Title"] = "Add Service";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<div class="container">
+    @await Component.InvokeAsync("AddService", Model.BusinessId)
+</div>
+
+
+<h4>Service</h4>
+<hr />
+
+
+<div>
+    <a asp-action="Index" asp-route-businessId="@Model.BusinessId"></a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

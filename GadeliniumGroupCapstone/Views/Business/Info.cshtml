@@ -42,14 +42,35 @@
         </div>
     </div>
 </div>
-@if (isAuthorized.Succeeded)
-{
-<div class="container">
-    <div class="btn-group-vertical btn-group-lg">
-        <a asp-action="Create" asp-route-id="@Model.Business.BusinessId" class="btn btn-light">Add Service</a>
+<div class="container my-3">
+
+    @if (isAuthorized.Succeeded)
+    {
+
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Business Owner Options</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-3">
+                        <div class="btn-group-vertical btn-group-lg">
+                            <a asp-action="EditBusiness" asp-route-id="@Model.Business.BusinessId" class="btn btn-light">Edit Business</a>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="btn-group-vertical btn-group-lg">
+                            <a asp-action="AddService" asp-route-id="@Model.Business.BusinessId" class="btn btn-light">Add Service</a>
+                        </div>
+                    </div>
+
+                    <div class="col-6"></div>
+                </div>
+            </div>
         </div>
-    </div>
+
     }
+
 
 
     @foreach (var item in Model.Services)
@@ -60,9 +81,9 @@
             <hr class="featurette-divider">
             @if (isAuthorized.Succeeded)
             {
-            <div class="container">
-                <div class="btn-group-vertical btn-group-lg">
-                    <a asp-action="EditService" asp-route-id="@item.ServiceId" class="btn btn-light">Edit Service</a>
+                <div class="container">
+                    <div class="btn-group-vertical btn-group-lg">
+                        <a asp-action="EditService" asp-route-id="@item.ServiceId" class="btn btn-light">Edit Service</a>
                     </div>
                 </div>
             }
@@ -107,3 +128,5 @@
             </div>
         }
     }
+
+</div>

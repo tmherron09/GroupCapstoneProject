@@ -26,18 +26,37 @@ namespace GadeliniumGroupCapstone.Controllers
             _authorizationService = authorizationService;
             _userManager = userManager;
         }
+        [Route("{controller}")]
+        [Route("{controller}/Home")]
+        public IActionResult Home()
+        {
+            var userdId = _userManager.GetUserId(User);
+
+            var business = _repo.Business.GetBusinessOfUserId(userdId);
+
+            if (business == null)
+            {
+                return RedirectToAction("SearchBusinesses", "Business");
+            }
+
+            BusinessInfoViewModel model = new BusinessInfoViewModel(business, _repo);
+
+            return View("Info", model);
+        }
+
 
         // GET: BusinessController
-        [HttpGet("{controller}/info/{businessId}")]
+        [Route("{controller}/{businessId}")]
+        [Route("{controller}/info/{businessId}")]
         public IActionResult Info(int businessId)
-        { 
+        {
 
             var business = _repo.Business.GetBusiness(businessId);
 
             BusinessInfoViewModel model = new BusinessInfoViewModel(business, _repo);
 
 
-            return View("Info",model);
+            return View("Info", model);
         }
 
         public IActionResult SearchBusinesses()
@@ -54,11 +73,64 @@ namespace GadeliniumGroupCapstone.Controllers
         }
 
         // GET: BusinessController/Create
-        public async Task<IActionResult> Create(int businessId)
+        [HttpGet("{controller}/EditServices/{businessId}")]
+        public async Task<IActionResult> AddService(int? businessId)
         {
-            var business = _repo.Business.GetBusiness(businessId);
+            if (businessId == null)
+            {
+                return View("Home", "Business");
+            }
 
-            //business.UserId = _userManager.GetUserId(User);
+            var business = _repo.Business.GetBusiness((int)businessId);
+
+            var isAuthorized = await _authorizationService.AuthorizeAsync(User, business, new UserIdMatchRequirement());
+            if (!isAuthorized.Succeeded)
+            {
+                return Forbid();
+            }
+
+            Service service = new Service();
+            service.BusinessId = business.BusinessId;
+
+            return View(service);
+        }
+
+        // POST: BusinessController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateService(Service newService)
+        {
+
+            var business = _repo.Business.GetBusiness(newService.BusinessId);
+            BusinessInfoViewModel model = new BusinessInfoViewModel(business, _repo);
+            var isAuthorized = await _authorizationService.AuthorizeAsync(User, business, new UserIdMatchRequirement());
+            if (!isAuthorized.Succeeded)
+            {
+                return Forbid();
+            }
+
+            try
+            {
+                _repo.Service.Create(newService);
+                _repo.Save();
+
+                return Info(business.BusinessId);
+            }
+            catch
+            {
+                return View("Info", model);
+            }
+        }
+
+        // GET: BusinessController/Edit/5
+        public async Task<IActionResult> EditBusiness(int? id)
+        {
+            if (id == null)
+            {
+                return View("Home", "Business");
+            }
+
+            var business = _repo.Business.GetBusiness((int)id);
 
             var isAuthorized = await _authorizationService.AuthorizeAsync(User, business, new UserIdMatchRequirement());
             if (!isAuthorized.Succeeded)
@@ -67,34 +139,38 @@ namespace GadeliniumGroupCapstone.Controllers
             }
 
 
-            return View();
+            return View(business);
         }
-
-        // POST: BusinessController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> EditBusiness(Business business)
         {
+
+            var isAuthorized = await _authorizationService.AuthorizeAsync(User, business, new UserIdMatchRequirement());
+            if (!isAuthorized.Succeeded)
+            {
+                return Forbid();
+            }
+
             try
             {
-                return RedirectToAction(nameof(Info));
+                _repo.Business.Update(business);
+                _repo.Save();
             }
             catch
             {
-                return View();
+                return View("Home", "Business");
             }
+
+
+            return View("Home", "Business");
         }
 
-        // GET: BusinessController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-        
         public IActionResult EditService(int id)
         {
             return View();
         }
+
 
         // POST: BusinessController/Edit/5
         [HttpPost]

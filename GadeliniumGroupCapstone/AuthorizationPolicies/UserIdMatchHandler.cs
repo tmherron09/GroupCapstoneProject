@@ -22,6 +22,7 @@ namespace GadeliniumGroupCapstone.AuthorizationPolicies
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, UserIdMatchRequirement requirement, IAccount resource )
         {
+
             if(context.User == null || resource == null)
             {
                 return Task.CompletedTask;
