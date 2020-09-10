@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GadeliniumGroupCapstone.Data;
 using GadeliniumGroupCapstone.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GadeliniumGroupCapstone.Controllers
@@ -13,9 +14,11 @@ namespace GadeliniumGroupCapstone.Controllers
     public class RegistrationController : Controller
     {
         public PetAppDbContext _context;
-        public RegistrationController(PetAppDbContext context)
+        public UserManager<User> _userManager;
+        public RegistrationController(PetAppDbContext context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: RegistrationController
@@ -32,6 +35,8 @@ namespace GadeliniumGroupCapstone.Controllers
             try
             {
                 petAccount.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                petAccount.User = _context.Users.Where(u => u.Id == petAccount.UserId).FirstOrDefault();
+                _userManager.AddToRoleAsync(petAccount.User, "Pet Owner");
                 _context.PetAccounts.Add(petAccount);
                 _context.SaveChanges();
                 return RedirectToAction("Index", "Home");
@@ -65,29 +70,11 @@ namespace GadeliniumGroupCapstone.Controllers
             try
             {
                 businessAccount.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                businessAccount.User = _context.Users.Where(u => u.Id == businessAccount.UserId).FirstOrDefault();
+                _userManager.AddToRoleAsync(businessAccount.User, "Business Owner");
                 _context.Buisnesses.Add(businessAccount);
                 _context.SaveChanges();
                 return RedirectToAction("Index", "Home");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-        // GET: RegistrationController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: RegistrationController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
             }
             catch
             {

@@ -17,9 +17,8 @@
 @*---conditional to display registration seletion for accountl-ess users---*@
 
 @{ 
-    if ((!_claims.IsInRole("Pet Owner") || !_claims.IsInRole("Business Owner")) && SignInManager.IsSignedIn(User))
+    if ((!_claims.IsInRole("Pet Owner") && !_claims.IsInRole("Business Owner")) && SignInManager.IsSignedIn(User))
     {
-
     <div class="container">
         <form asp-controller="Registration">
             <h1 class="display-4 text-center">Register an Account Type!</h1>
