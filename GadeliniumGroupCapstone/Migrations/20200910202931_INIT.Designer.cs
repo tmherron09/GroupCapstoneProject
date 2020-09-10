@@ -4,14 +4,16 @@ using GadeliniumGroupCapstone.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GadeliniumGroupCapstone.Migrations
 {
     [DbContext(typeof(PetAppDbContext))]
-    partial class PetAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200910202931_INIT")]
+    partial class INIT
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -497,24 +499,22 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.HasData(
                         new
                         {
-
-
-
+                            Id = "7ee1ba72-3a8f-41c3-b0ba-d81dc3c538a0",
+                            ConcurrencyStamp = "ea5289ff-a044-4af9-ba81-3309b0ea7ca5",
                             Name = "Pet Owner",
                             NormalizedName = "PETOWNER"
                         },
                         new
                         {
-
-
-
+                            Id = "d040f34b-4b0a-4159-902d-49f78097308f",
+                            ConcurrencyStamp = "5dbabe3a-e5a3-4eab-aaf4-6a8a38d3733b",
                             Name = "Business Owner",
                             NormalizedName = "BUSINESSOWNER"
                         },
                         new
                         {
-
-
+                            Id = "5c41ff0b-1eb4-4bbf-ab78-e8883708f666",
+                            ConcurrencyStamp = "79bf9fd6-6acc-4ef4-acd7-11400c0891d0",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         });

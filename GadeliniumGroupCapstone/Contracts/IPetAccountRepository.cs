@@ -10,5 +10,11 @@ namespace GadeliniumGroupCapstone.Contracts
     {
         PetAccount GetPetAccount(int petAccountId);
         void CreatePetAccount(PetAccount petAccount);
+
+        void UpdatePetAccount(PetAccount petAccount);
+
+        void DeletePetAccount(PetAccount petAccount);
+
+        void Save();
     }
 }

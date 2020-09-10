@@ -4,14 +4,16 @@ using GadeliniumGroupCapstone.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GadeliniumGroupCapstone.Migrations
 {
     [DbContext(typeof(PetAppDbContext))]
-    partial class PetAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200911084600_second commit")]
+    partial class secondcommit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -497,24 +499,22 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.HasData(
                         new
                         {
-
-
-
+                            Id = "973e869b-ffc8-47be-899a-bf3e9e14cc2f",
+                            ConcurrencyStamp = "1f1dab6e-303d-405b-9ea6-9d706b0b4233",
                             Name = "Pet Owner",
                             NormalizedName = "PETOWNER"
                         },
                         new
                         {
-
-
-
+                            Id = "034499bd-4caa-4834-ae6a-adb33e5473df",
+                            ConcurrencyStamp = "25456ae4-ac68-4887-869f-bd34ce9bc1c3",
                             Name = "Business Owner",
                             NormalizedName = "BUSINESSOWNER"
                         },
                         new
                         {
-
-
+                            Id = "3d1e397d-e558-47b7-a701-2631c23fe519",
+                            ConcurrencyStamp = "c125f572-77f1-41e4-8411-c01401b66150",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         });

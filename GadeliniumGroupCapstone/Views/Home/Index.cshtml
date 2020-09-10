@@ -1,24 +1,19 @@
-﻿@inject System.Security.Claims.ClaimsPrincipal _claims 
+@inject System.Security.Claims.ClaimsPrincipal _claims 
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
-
 @{
     ViewData["Title"] = "Home Page";
 }
-
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
 </div>
 <div class="container">
     <div class="jumbotron">
-        <h1 class="text-center">@User.Identity.Name</h1>
+        <h1 class="text-center">Hello, @User.Identity.Name</h1>
     </div>
 </div>
-
 @*---conditional to display registration seletion for accountl-ess users---*@
-
 @{ 
-
     var check1 = User.IsInRole("Pet Owner");
     var check2 = User.IsInRole("Business Owner");
     if ((!User.IsInRole("Pet Owner") && !User.IsInRole("Business Owner")) && SignInManager.IsSignedIn(User))

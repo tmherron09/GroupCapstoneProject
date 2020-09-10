@@ -15,6 +15,8 @@ namespace GadeliniumGroupCapstone.Contracts
         IMedicalRecordRepository MedicalRecord { get; }
         IOtherRepository Other { get; }
         IPetAccountRepository PetAccount { get; }
+
+        IPetBioRepository PetBio { get; }
         IPhotoBinRepository PhotoBin { get; }
         IUserRepository User { get; }
         IServiceRepository Service { get; }
