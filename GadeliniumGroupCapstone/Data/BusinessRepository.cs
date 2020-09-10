@@ -15,6 +15,9 @@ namespace GadeliniumGroupCapstone.Data
 
         }
 
+        public List<Business> GetAllBusinesses() =>
+            FindAll().ToList();
+
         public void CreateBusiness(Business business)
         {
             throw new NotImplementedException();
@@ -23,6 +26,10 @@ namespace GadeliniumGroupCapstone.Data
         public Business GetBusiness(int businessId) =>
             FindAllByCondition(b => b.BusinessId == businessId).SingleOrDefault();
 
-
+        public List<Business> SearchByName(string searchValue)
+        {
+            var items = FindAllByCondition(b => b.BusinessName.Contains(searchValue)).ToList();
+            return items;
+        }
     }
 }

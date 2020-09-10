@@ -1,0 +1,74 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = $"Business Search";
+    List<Business> searchResult = new List<Business>();
+    string SearchValue = "";
+}
+
+
+<div class="container my-5">
+
+    <div class="card mx-auto w-75">
+        <div class="m-3">
+            <form method="post" class="form-horizontal">
+                <label for="@SearchValue" class="control-label">Search By Name</label>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <input type="text" asp-for="@SearchValue" class="form-control" placeholder="Search by Business Name" />
+                    </div>
+                    <hr />
+                    <div class="col-sm-4">
+                        <button onclick="">
+                            Find
+                        </button>
+                    </div>
+                </div>
+                <p>@SearchValue</p>
+            </form>
+        </div>
+    </div>
+
+</div>
+<div class="container">
+    <div class="row">
+        @if (searchResult.Count == 0 || searchResult == null)
+        {
+            <div class="text-center">
+                <h2>No Results Found</h2>
+            </div>
+        }
+        else
+        {
+            @foreach (var item in Model)
+            {
+                <div class="col-md-4">
+                    <div class="profile-card-4 text-center">
+                        <img src="poster_dumby.jpg" class="img img-responsive">
+                        <div class="profile-content">
+                            <div class="profile-name">
+                                Business Name
+                                <p>Business Tagline</p>
+                            </div>
+                            <div class="profile-description">Business Description</div>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <div class="profile-overview">
+                                        <p>Visit</p>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="profile-overview">
+                                        <p>Favorite</p>
+                                        <h4>click here</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<script src=".js"></script>
