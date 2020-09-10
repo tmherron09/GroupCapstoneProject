@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,9 +14,13 @@ namespace GadeliniumGroupCapstone.Models
         public int PetAccountId { get; set; }
         public string Breed { get; set; }
         public string Species { get; set; }
+        
+        [DisplayName("Pet Name")]
         public string PetName { get; set; }
         public DateTime Dob { get; set; }
+        [DisplayName("Animal Type")]
         public string AnimalType { get; set; }
+        [DisplayName("Phone Number")]
         public string PetPhone { get; set; }
 
         [ForeignKey("User")]

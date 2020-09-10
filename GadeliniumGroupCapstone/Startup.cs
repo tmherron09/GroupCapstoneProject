@@ -21,6 +21,7 @@ using GadeliniumGroupCapstone.Models;
 using GadeliniumGroupCapstone.AuthorizationPolicies;
 using Microsoft.AspNetCore.ResponseCompression;
 
+
 namespace GadeliniumGroupCapstone
 {
     public class Startup
@@ -105,7 +106,6 @@ namespace GadeliniumGroupCapstone
 
             services.AddSignalR();
             
-
             // Insert Pet App Related Services below
 
 

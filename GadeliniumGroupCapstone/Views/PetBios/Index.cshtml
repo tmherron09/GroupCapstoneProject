@@ -1,0 +1,65 @@
+﻿@model IEnumerable<GadeliniumGroupCapstone.Models.PetBio>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<div class="container">
+    <div class="card-header">
+        <img class="one" src="https://www.keystonepuppies.com/wp-content/uploads/2018/09/Akita-Puppy.jpg" alt="Akita Puppies are Cool!" />
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PetInfo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Likes)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Dislikes)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Hobbies)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PetAccount)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PetInfo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Likes)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Dislikes)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Hobbies)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PetAccount.PetAccountId)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.PetBioId">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.PetBioId">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.PetBioId">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
