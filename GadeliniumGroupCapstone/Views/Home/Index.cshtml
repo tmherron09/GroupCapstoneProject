@@ -1,5 +1,6 @@
 ﻿@inject System.Security.Claims.ClaimsPrincipal _claims 
 @inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 
 @{
     ViewData["Title"] = "Home Page";
@@ -17,7 +18,10 @@
 @*---conditional to display registration seletion for accountl-ess users---*@
 
 @{ 
-    if ((!_claims.IsInRole("Pet Owner") && !_claims.IsInRole("Business Owner")) && SignInManager.IsSignedIn(User))
+
+    var check1 = User.IsInRole("Pet Owner");
+    var check2 = User.IsInRole("Business Owner");
+    if ((!User.IsInRole("Pet Owner") && !User.IsInRole("Business Owner")) && SignInManager.IsSignedIn(User))
     {
     <div class="container">
         <form asp-controller="Registration">
