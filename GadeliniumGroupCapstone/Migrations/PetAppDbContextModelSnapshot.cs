@@ -497,19 +497,22 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.HasData(
                         new
                         {
-
+                            Id = "39f8ad01-d5c3-4dd7-bb47-338addb112a8",
+                            ConcurrencyStamp = "66482094-a0bd-4dab-aaba-b83129b0b87f",
                             Name = "Pet Owner",
                             NormalizedName = "PETOWNER"
                         },
                         new
                         {
-
+                            Id = "e76dad71-0d84-4209-9d37-eb257e1cb687",
+                            ConcurrencyStamp = "ba3cfbdf-ff65-4941-9b7b-536dd69a22bd",
                             Name = "Business Owner",
                             NormalizedName = "BUSINESSOWNER"
                         },
                         new
                         {
-
+                            Id = "0f715be2-fa66-4757-b9f4-4c357838118b",
+                            ConcurrencyStamp = "358f4d47-d15c-4415-af18-15a78bf8c034",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         });
@@ -687,7 +690,7 @@ namespace GadeliniumGroupCapstone.Migrations
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.Service", b =>
                 {
                     b.HasOne("GadeliniumGroupCapstone.Models.Business", "Business")
-                        .WithMany()
+                        .WithMany("Services")
                         .HasForeignKey("BusinessId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

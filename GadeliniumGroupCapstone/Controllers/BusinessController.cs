@@ -73,7 +73,7 @@ namespace GadeliniumGroupCapstone.Controllers
         }
 
         // GET: BusinessController/Create
-        [HttpGet("{controller}/EditServices/{businessId}")]
+        [HttpGet("{controller}/AddService/{businessId}")]
         public async Task<IActionResult> AddService(int? businessId)
         {
             if (businessId == null)
