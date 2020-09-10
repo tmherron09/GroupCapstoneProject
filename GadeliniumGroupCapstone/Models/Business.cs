@@ -26,5 +26,7 @@ namespace GadeliniumGroupCapstone.Models
         [ForeignKey("User")]
         public string UserId { get; set; }
         public User User { get; set; }
+
+        public List<Service> Services { get; set; }
     }
 }
