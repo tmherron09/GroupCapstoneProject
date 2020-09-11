@@ -13,13 +13,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Breed)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Species)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.PetName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Breed)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Dob)
@@ -40,13 +37,11 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Breed)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Species)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.PetName)
+            </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.Breed)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Dob)
@@ -58,7 +53,7 @@
                 @Html.DisplayFor(modelItem => item.PetPhone)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.User.Id)
+                @Html.DisplayFor(modelItem => item.User.UserName)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.PetAccountId">Edit</a> |
