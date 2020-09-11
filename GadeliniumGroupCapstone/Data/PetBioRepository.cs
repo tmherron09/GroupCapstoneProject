@@ -22,6 +22,15 @@ namespace GadeliniumGroupCapstone.Data
             throw new NotImplementedException();
         }
 
+        public PetAccount GetAssociatedPet(int petBioId)
+        {
+            var petBio = FindAllByCondition(p => p.PetBioId == petBioId).Single();
+
+            var pet = PetAppDbContext.PetAccounts.Where(pa => pa.PetAccountId == petBio.PetId).Single();
+            return pet;
+
+        }
+
         public PetBio GetPetBio(int petBioId)
         {
             var petBio = FindAllByCondition(p => p.PetBioId.Equals(petBioId)).SingleOrDefault();
@@ -40,9 +49,6 @@ namespace GadeliniumGroupCapstone.Data
             Update(petBio);
         }
 
-        Test IPetBioRepository.GetPetBio(int petBioId)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

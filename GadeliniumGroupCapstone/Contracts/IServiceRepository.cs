@@ -8,8 +8,10 @@ namespace GadeliniumGroupCapstone.Contracts
 {
     public interface IServiceRepository : IRepositoryBase<Service>
     {
-        Test GetService(int otherId);
-        void CreateService(Sitter sitter);
+        Service GetService(int serviceId);
+        void CreateService(Service service);
         List<Service> GetBusinessServices(int businessId);
+        int LastServiceAddedId();
+        
     }
 }

@@ -69,9 +69,7 @@ namespace GadeliniumGroupCapstone.Controllers
                 _repo.Save();
                 return RedirectToAction("Details");
             }
-            
-
-            klfjdkajkfldjkalsfjkdlasjklfda THIS IS THE CORRECT VERSION!~!!!!
+           
 
             return View(petBio);
         }
