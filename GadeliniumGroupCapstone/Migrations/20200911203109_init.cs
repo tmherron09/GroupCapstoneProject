@@ -8,6 +8,39 @@ namespace GadeliniumGroupCapstone.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "BusinessHours",
+                columns: table => new
+                {
+                    BusinessHourId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IsOpenMonday = table.Column<bool>(nullable: false),
+                    MondayOpening = table.Column<int>(nullable: false),
+                    MondayClosing = table.Column<int>(nullable: false),
+                    IsOpenTuesday = table.Column<bool>(nullable: false),
+                    TuesdayOpening = table.Column<int>(nullable: false),
+                    TuesdayClosing = table.Column<int>(nullable: false),
+                    IsOpenWednesday = table.Column<bool>(nullable: false),
+                    WednesdayOpening = table.Column<int>(nullable: false),
+                    WednesdayClosing = table.Column<int>(nullable: false),
+                    IsOpenThursday = table.Column<bool>(nullable: false),
+                    ThursdayOpening = table.Column<int>(nullable: false),
+                    ThursdayClosing = table.Column<int>(nullable: false),
+                    IsOpenFriday = table.Column<bool>(nullable: false),
+                    FridayOpening = table.Column<int>(nullable: false),
+                    FridayClosing = table.Column<int>(nullable: false),
+                    IsOpenSaturday = table.Column<bool>(nullable: false),
+                    SaturdayOpening = table.Column<int>(nullable: false),
+                    SaturdayClosing = table.Column<int>(nullable: false),
+                    IsOpenSunday = table.Column<bool>(nullable: false),
+                    SundayOpening = table.Column<int>(nullable: false),
+                    SundayClosing = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BusinessHours", x => x.BusinessHourId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Guests",
                 columns: table => new
                 {
@@ -228,20 +261,26 @@ namespace GadeliniumGroupCapstone.Migrations
                     BusinessName = table.Column<string>(nullable: true),
                     Address = table.Column<string>(nullable: true),
                     Zip = table.Column<string>(nullable: true),
-                    Hours = table.Column<int>(nullable: false),
+                    BusinessHourId = table.Column<int>(nullable: false),
                     Phone = table.Column<string>(nullable: true),
-                    PhotoBinId = table.Column<int>(nullable: false),
+                    PhotoBinId = table.Column<int>(nullable: true),
                     UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Businesses", x => x.BusinessId);
                     table.ForeignKey(
+                        name: "FK_Businesses_BusinessHours_BusinessHourId",
+                        column: x => x.BusinessHourId,
+                        principalTable: "BusinessHours",
+                        principalColumn: "BusinessHourId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Businesses_PhotoBins_PhotoBinId",
                         column: x => x.PhotoBinId,
                         principalTable: "PhotoBins",
                         principalColumn: "PhotoId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Businesses_PetAppUsers_UserId",
                         column: x => x.UserId,
@@ -359,7 +398,7 @@ namespace GadeliniumGroupCapstone.Migrations
                     ServiceName = table.Column<string>(nullable: true),
                     ServiceTagLine = table.Column<string>(nullable: true),
                     ServiceDescription = table.Column<string>(nullable: true),
-                    ServiceThumbnailPhotoId = table.Column<int>(nullable: true),
+                    PhotoBinId = table.Column<int>(nullable: false),
                     ServiceFurtherDescription = table.Column<string>(nullable: true),
                     ServiceDisplayOrder = table.Column<int>(nullable: false),
                     BusinessId = table.Column<int>(nullable: false)
@@ -374,11 +413,11 @@ namespace GadeliniumGroupCapstone.Migrations
                         principalColumn: "BusinessId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Services_PhotoBins_ServiceThumbnailPhotoId",
-                        column: x => x.ServiceThumbnailPhotoId,
+                        name: "FK_Services_PhotoBins_PhotoBinId",
+                        column: x => x.PhotoBinId,
                         principalTable: "PhotoBins",
                         principalColumn: "PhotoId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -439,7 +478,7 @@ namespace GadeliniumGroupCapstone.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "immunizations",
+                name: "Immunizations",
                 columns: table => new
                 {
                     ImmunizationId = table.Column<int>(nullable: false)
@@ -450,9 +489,9 @@ namespace GadeliniumGroupCapstone.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_immunizations", x => x.ImmunizationId);
+                    table.PrimaryKey("PK_Immunizations", x => x.ImmunizationId);
                     table.ForeignKey(
-                        name: "FK_immunizations_MedicalRecords_MedicalRecordId",
+                        name: "FK_Immunizations_MedicalRecords_MedicalRecordId",
                         column: x => x.MedicalRecordId,
                         principalTable: "MedicalRecords",
                         principalColumn: "MedicalRecordId",
@@ -460,7 +499,7 @@ namespace GadeliniumGroupCapstone.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "medications",
+                name: "Medications",
                 columns: table => new
                 {
                     MedicationId = table.Column<int>(nullable: false)
@@ -471,9 +510,9 @@ namespace GadeliniumGroupCapstone.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_medications", x => x.MedicationId);
+                    table.PrimaryKey("PK_Medications", x => x.MedicationId);
                     table.ForeignKey(
-                        name: "FK_medications_MedicalRecords_MedicalRecordId",
+                        name: "FK_Medications_MedicalRecords_MedicalRecordId",
                         column: x => x.MedicalRecordId,
                         principalTable: "MedicalRecords",
                         principalColumn: "MedicalRecordId",
@@ -485,9 +524,9 @@ namespace GadeliniumGroupCapstone.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "934c9a36-f8d5-48b6-a85f-eda612a49e53", "427f4e7c-c41e-4d4e-a184-8b1ab35f31ba", "Pet Owner", "PETOWNER" },
-                    { "2defdc66-1909-4b47-a51e-2a89d63d4a94", "aab86285-0b81-4986-af0b-8f6c5dfc769a", "Business Owner", "BUSINESSOWNER" },
-                    { "c8a170dd-32ba-4c22-bd53-3fca5aa31dea", "83d264b4-3a49-4961-89dc-ecfecb7141b0", "Admin", "Admin" }
+                    { "f71f63e3-95bf-4cb2-b87f-6995e851357c", "40748d27-730d-4892-9334-f69d33f1dd67", "Pet Owner", "PETOWNER" },
+                    { "d8f557ad-c288-4946-a825-0aa2717517dd", "e293378d-ae90-471f-bd70-23ebfb0af343", "Business Owner", "BUSINESSOWNER" },
+                    { "5a32a224-4a39-45da-a119-046be02c8b72", "8adb6df3-fda1-4fcd-ad6f-db345efaa525", "Admin", "Admin" }
                 });
 
             migrationBuilder.InsertData(
@@ -507,6 +546,11 @@ namespace GadeliniumGroupCapstone.Migrations
                 column: "BusinessId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Businesses_BusinessHourId",
+                table: "Businesses",
+                column: "BusinessHourId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Businesses_PhotoBinId",
                 table: "Businesses",
                 column: "PhotoBinId");
@@ -522,8 +566,8 @@ namespace GadeliniumGroupCapstone.Migrations
                 column: "BusinessId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_immunizations_MedicalRecordId",
-                table: "immunizations",
+                name: "IX_Immunizations_MedicalRecordId",
+                table: "Immunizations",
                 column: "MedicalRecordId");
 
             migrationBuilder.CreateIndex(
@@ -532,8 +576,8 @@ namespace GadeliniumGroupCapstone.Migrations
                 column: "PetId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_medications_MedicalRecordId",
-                table: "medications",
+                name: "IX_Medications_MedicalRecordId",
+                table: "Medications",
                 column: "MedicalRecordId");
 
             migrationBuilder.CreateIndex(
@@ -596,9 +640,9 @@ namespace GadeliniumGroupCapstone.Migrations
                 column: "BusinessId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Services_ServiceThumbnailPhotoId",
+                name: "IX_Services_PhotoBinId",
                 table: "Services",
-                column: "ServiceThumbnailPhotoId");
+                column: "PhotoBinId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Sitters_BusinessId",
@@ -628,10 +672,10 @@ namespace GadeliniumGroupCapstone.Migrations
                 name: "Guests");
 
             migrationBuilder.DropTable(
-                name: "immunizations");
+                name: "Immunizations");
 
             migrationBuilder.DropTable(
-                name: "medications");
+                name: "Medications");
 
             migrationBuilder.DropTable(
                 name: "Others");
@@ -680,6 +724,9 @@ namespace GadeliniumGroupCapstone.Migrations
 
             migrationBuilder.DropTable(
                 name: "PetAccounts");
+
+            migrationBuilder.DropTable(
+                name: "BusinessHours");
 
             migrationBuilder.DropTable(
                 name: "PhotoBins");

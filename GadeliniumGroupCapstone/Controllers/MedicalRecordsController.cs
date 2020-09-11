@@ -32,8 +32,8 @@ namespace GadeliniumGroupCapstone.Controllers
             MedicalRecord medicalRecord = _context.MedicalRecords.Where(m => m.PetId == petId).FirstOrDefault();
             if (medicalRecord != null)
             {
-                List<Immunization> immunizations = _context.immunizations.Where(i => i.MedicalRecordId == medicalRecord.MedicalRecordId).ToList();
-                List<Medication> medications = _context.medications.Where(m => m.MedicalRecordId == medicalRecord.MedicalRecordId).ToList();
+                List<Immunization> immunizations = _context.Immunizations.Where(i => i.MedicalRecordId == medicalRecord.MedicalRecordId).ToList();
+                List<Medication> medications = _context.Medications.Where(m => m.MedicalRecordId == medicalRecord.MedicalRecordId).ToList();
                 myModel.Immunizations = immunizations;
                 myModel.Medications = medications;
             }
@@ -48,7 +48,7 @@ namespace GadeliniumGroupCapstone.Controllers
             medicalRecord.PetId = petId;
             _context.MedicalRecords.Add(medicalRecord);
             _context.SaveChanges();
-            return View(RedirectToAction("Index", "MedicalRecords"));
+            return RedirectToAction("Index", "MedicalRecords", new { petId = medicalRecord.PetId });
         }
 
         public ActionResult CreateMedication(int recordId)
@@ -64,7 +64,7 @@ namespace GadeliniumGroupCapstone.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateMedicationDb(Medication medication)
         {
-            _context.medications.Add(medication);
+            _context.Medications.Add(medication);
             _context.SaveChanges();
             var medicalId = medication.MedicalRecordId;
             MedicalRecord medicalRecord = _context.MedicalRecords.Where(r => r.MedicalRecordId == medicalId).FirstOrDefault();
@@ -83,7 +83,7 @@ namespace GadeliniumGroupCapstone.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateImmunizationDb(Immunization immunization)
         {
-            _context.immunizations.Add(immunization);
+            _context.Immunizations.Add(immunization);
             _context.SaveChanges();
             var medicalId = immunization.MedicalRecordId;
             MedicalRecord medicalRecord = _context.MedicalRecords.Where(r => r.MedicalRecordId == medicalId).FirstOrDefault();

@@ -199,7 +199,7 @@ namespace GadeliniumGroupCapstone.Migrations
 
                     b.HasIndex("MedicalRecordId");
 
-                    b.ToTable("immunizations");
+                    b.ToTable("Immunizations");
                 });
 
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.MedicalRecord", b =>
@@ -239,7 +239,7 @@ namespace GadeliniumGroupCapstone.Migrations
 
                     b.HasIndex("MedicalRecordId");
 
-                    b.ToTable("medications");
+                    b.ToTable("Medications");
                 });
 
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.Other", b =>
@@ -620,28 +620,22 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.HasData(
                         new
                         {
-
-                            Id = "df7bbe4a-2717-44b3-8b3b-207b6e7ee9c5",
-                            ConcurrencyStamp = "3f36d1ba-0e17-4ae1-8739-5bf0e1b35f66",
-
+                            Id = "f71f63e3-95bf-4cb2-b87f-6995e851357c",
+                            ConcurrencyStamp = "40748d27-730d-4892-9334-f69d33f1dd67",
                             Name = "Pet Owner",
                             NormalizedName = "PETOWNER"
                         },
                         new
                         {
-
-                            Id = "8c47e90b-5f1b-462a-8b78-4693833fafd8",
-                            ConcurrencyStamp = "01c2c3fe-1c7b-4d89-ba8f-a72350bd1537",
-
+                            Id = "d8f557ad-c288-4946-a825-0aa2717517dd",
+                            ConcurrencyStamp = "e293378d-ae90-471f-bd70-23ebfb0af343",
                             Name = "Business Owner",
                             NormalizedName = "BUSINESSOWNER"
                         },
                         new
                         {
-
-                            Id = "52dc6cdb-1acb-40ad-90d1-f1626ca26c2b",
-                            ConcurrencyStamp = "289e9130-3bc8-457c-a5fa-c896ae91531f",
-
+                            Id = "5a32a224-4a39-45da-a119-046be02c8b72",
+                            ConcurrencyStamp = "8adb6df3-fda1-4fcd-ad6f-db345efaa525",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         });
