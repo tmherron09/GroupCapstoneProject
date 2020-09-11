@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using GadeliniumGroupCapstone.AuthorizationPolicies;
@@ -91,17 +92,19 @@ namespace GadeliniumGroupCapstone.Controllers
 
             Service service = new Service();
             service.BusinessId = business.BusinessId;
+            service.Business = business;
+            ServiceWithPhotoUpload serviceToCreate = new ServiceWithPhotoUpload(service);
 
-            return View(service);
+            return View(serviceToCreate);
         }
 
         // POST: BusinessController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateService(Service newService)
+        public async Task<IActionResult> CreateService(ServiceWithPhotoUpload newService)
         {
 
-            var business = _repo.Business.GetBusiness(newService.BusinessId);
+            var business = _repo.Business.GetBusiness(newService.Service.BusinessId);
             BusinessInfoViewModel model = new BusinessInfoViewModel(business, _repo);
             var isAuthorized = await _authorizationService.AuthorizeAsync(User, business, new UserIdMatchRequirement());
             if (!isAuthorized.Succeeded)
@@ -111,23 +114,119 @@ namespace GadeliniumGroupCapstone.Controllers
 
             try
             {
-                _repo.Service.Create(newService);
+                if (newService.UploadFile == null)
+                {
+                    byte[] imgdata = await System.IO.File.ReadAllBytesAsync(@"wwwroot\images\Default\default_servicethumbnail.png");
+                    PhotoBin logo = new PhotoBin();
+                    logo.Content = imgdata;
+                    _repo.PhotoBin.Create(logo);
+                    _repo.Save();
+                }
+                else
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await newService.UploadFile.CopyToAsync(memoryStream);
+                        newService.Service.ServiceThumbnail = new PhotoBin();
+                        newService.Service.ServiceThumbnail.Content = memoryStream.ToArray();
+
+                        //string Base64 = Convert.ToBase64String(newService.Service.ServiceThumbnail.Content);
+                        //byte[] array = Convert.FromBase64String(Base64);
+                        _repo.PhotoBin.Create(newService.Service.ServiceThumbnail);
+                        _repo.Save();
+                        // Retrieve photoid just saved to put into service model.
+                        
+                    }
+                }
+                newService.Service.PhotoBinId = _repo.PhotoBin.LastPhotoAddedId();
+
+                _repo.Service.Create(newService.Service);
                 _repo.Save();
 
-                return Info(business.BusinessId);
+                return RedirectToAction("Info", business.BusinessId);
             }
             catch
             {
-                return View("Info", model);
+                return RedirectToAction("Info", business.BusinessId);
             }
         }
+
+        public async Task<IActionResult> EditService(int? id)
+        {
+            if (id == null)
+            {
+                return View("Home");
+            }
+
+            var service = _repo.Service.GetService((int)id);
+            var business = _repo.Business.GetBusiness(service.BusinessId);
+
+            var isAuthorized = await _authorizationService.AuthorizeAsync(User, business, new UserIdMatchRequirement());
+            if (!isAuthorized.Succeeded)
+            {
+                return Forbid();
+            }
+
+            service.Business = business;
+            service.ServiceThumbnail = _repo.PhotoBin.GetPhoto(service.PhotoBinId);
+            ServiceWithPhotoUpload serviceToEdit = new ServiceWithPhotoUpload(service);
+
+            return View(serviceToEdit);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditService(ServiceWithPhotoUpload model)
+        {
+            model.Service.Business = _repo.Business.GetBusiness(model.Service.BusinessId);
+            var isAuthorized = await _authorizationService.AuthorizeAsync(User, model.Service.Business, new UserIdMatchRequirement());
+            if (!isAuthorized.Succeeded)
+            {
+                return Forbid();
+            }
+
+            try
+            {
+                if (model.UploadFile != null)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await model.UploadFile.CopyToAsync(memoryStream);
+                        model.Service.ServiceThumbnail = new PhotoBin();
+                        model.Service.ServiceThumbnail.Content = memoryStream.ToArray();
+
+                        //string Base64 = Convert.ToBase64String(model.Service.ServiceThumbnail.Content);
+                        //byte[] array = Convert.FromBase64String(Base64);
+
+                        model.Service.ServiceThumbnail.PhotoId = (int)model.Service.PhotoBinId;
+
+                        _repo.PhotoBin.Update(model.Service.ServiceThumbnail);
+                        _repo.Save();
+                    }
+                }
+
+            
+
+                _repo.Service.Update(model.Service);
+                _repo.Save();
+            }
+            catch
+            {
+                ViewBag.error = "Failed to update Service";
+                return RedirectToAction("Home");
+            }
+
+            ViewBag.success = "Service Updated";
+            return RedirectToAction("Home");
+        }
+
 
         // GET: BusinessController/Edit/5
         public async Task<IActionResult> EditBusiness(int? id)
         {
             if (id == null)
             {
-                return View("Home", "Business");
+                return View("Home");
             }
 
             var business = _repo.Business.GetBusiness((int)id);
@@ -138,15 +237,18 @@ namespace GadeliniumGroupCapstone.Controllers
                 return Forbid();
             }
 
+            RegisterEditBusinessViewModel model = new RegisterEditBusinessViewModel(business);
+            model.Business.BusinessHour = _repo.BusinessHour.GetBusinessHour(model.Business.BusinessHourId);
+            model.Business.BusinessLogo = _repo.PhotoBin.GetPhoto(model.Business.PhotoBinId);
 
-            return View(business);
+            return View(model);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditBusiness(Business business)
+        public async Task<IActionResult> EditBusiness(RegisterEditBusinessViewModel model)
         {
 
-            var isAuthorized = await _authorizationService.AuthorizeAsync(User, business, new UserIdMatchRequirement());
+            var isAuthorized = await _authorizationService.AuthorizeAsync(User, model.Business, new UserIdMatchRequirement());
             if (!isAuthorized.Succeeded)
             {
                 return Forbid();
@@ -154,58 +256,45 @@ namespace GadeliniumGroupCapstone.Controllers
 
             try
             {
-                _repo.Business.Update(business);
+                if (model.UploadFile != null)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await model.UploadFile.CopyToAsync(memoryStream);
+                        model.PhotoBin.Content = memoryStream.ToArray();
+
+                        string Base64 = Convert.ToBase64String(model.PhotoBin.Content);
+                        byte[] array = Convert.FromBase64String(Base64);
+
+                        model.PhotoBin.PhotoId = (int)model.Business.PhotoBinId;
+
+                        _repo.PhotoBin.Update(model.PhotoBin);
+                        _repo.Save();
+                    }
+                }
+
+                _repo.BusinessHour.Update(model.Business.BusinessHour);
+
+                _repo.Business.Update(model.Business);
                 _repo.Save();
             }
             catch
             {
-                return View("Home", "Business");
+                ViewBag.error = "Failed to update Business";
+                return RedirectToAction("Home");
             }
 
-
-            return View("Home", "Business");
+            ViewBag.success = "Business Updated";
+            return RedirectToAction("Home");
         }
 
-        public IActionResult EditService(int id)
-        {
-            return View();
-        }
+        
 
 
-        // POST: BusinessController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Info));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        
 
-        // GET: BusinessController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+       
 
-        // POST: BusinessController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Info));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using GadeliniumGroupCapstone.Models;
+using GadeliniumGroupCapstone.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -16,9 +17,9 @@ namespace GadeliniumGroupCapstone.Views.Business.ViewComponents
             service = new Service();
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(int businessId)
+        public async Task<IViewComponentResult> InvokeAsync(ServiceWithPhotoUpload service)
         {
-            service.BusinessId = businessId;
+            
             return View(service);
 
         }

@@ -15,7 +15,7 @@ namespace GadeliniumGroupCapstone.Data
 
         }
 
-        public void CreateService(Sitter sitter)
+        public void CreateService(Service service)
         {
             throw new NotImplementedException();
         }
@@ -23,9 +23,10 @@ namespace GadeliniumGroupCapstone.Data
         public List<Service> GetBusinessServices(int businessId) =>
             FindAllByCondition(s => s.BusinessId == businessId).ToList();
 
-        public Test GetService(int otherId)
-        {
-            throw new NotImplementedException();
-        }
+        public Service GetService(int serviceId) =>
+            FindAllByCondition(s => s.ServiceId == serviceId).Single();
+
+        public int LastServiceAddedId() =>
+            PetAppDbContext.Services.OrderByDescending(p => p.ServiceId).Select(p => p.ServiceId).FirstOrDefault();
     }
 }

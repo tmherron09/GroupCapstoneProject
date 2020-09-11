@@ -1,27 +1,18 @@
 ﻿@model GadeliniumGroupCapstone.ViewModels.RegisterEditBusinessViewModel
 
 @{
-    ViewData["Title"] = "EditBusiness";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "BusinessRegistration";
 
-    string imageBase64 = Convert.ToBase64String(Model.Business.BusinessLogo.Content);
-    string imageSrc = string.Format("data:image/gif;base64,{0}", imageBase64);
 }
 
-<h1>EditBusiness</h1>
+<h1>BusinessRegistration</h1>
 
-<h4>@Model.Business.BusinessName</h4>
+<h4>Business</h4>
 <hr />
-
-
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="EditBusiness" enctype="multipart/form-data">
+        <form asp-action="CreateBusinessAccountWithProfileImage" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Business.BusinessId" />
-            <input type="hidden" asp-for="Business.BusinessHourId" />
-            <input type="hidden" asp-for="Business.UserId" />
-            <input type="hidden" asp-for="Business.PhotoBinId" />
             <div class="form-group">
                 <label asp-for="Business.Address" class="control-label"></label>
                 <input asp-for="Business.Address" class="form-control" />
@@ -128,13 +119,8 @@
                 <input asp-for="Business.Phone" class="form-control" />
                 <span asp-validation-for="Business.Phone" class="text-danger"></span>
             </div>
-            <div class="container row">
-                <div class="col-12">
-                    <img src="@imageSrc" alt="@Model.Business.PhotoBinId" width="100" height="100" />
-                </div>
-                <div class="form-group">
-                    <input type="file" asp-for="UploadFile" name="uploadFile" />
-                </div>
+            <div class="form-group">
+                <input type="file" asp-for="UploadFile" name="uploadFile" />
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -143,9 +129,8 @@
     </div>
 </div>
 
-
 <div>
-    <a asp-controller="Business" asp-action="Home">Return Home</a>
+    <a asp-controller="Home" asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

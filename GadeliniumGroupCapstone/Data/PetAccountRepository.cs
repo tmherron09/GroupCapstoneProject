@@ -50,5 +50,9 @@ namespace GadeliniumGroupCapstone.Data
                 PetAppDbContext.SaveChanges();
             }
 
+        public List<PetAccount> GetPetAccountOfUserId(string userId) =>
+            FindAllByCondition(p => p.UserId == userId).ToList();
+
+        
     }
 }

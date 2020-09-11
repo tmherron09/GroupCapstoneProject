@@ -71,10 +71,14 @@
 
     }
 
+    @{ List<string> imageBase64Service = new List<string>();
+        List<string> imageSrcService = new List<string> ();
+        }
 
-
-    @foreach (var item in Model.Services)
+    @for(int i = 0; i< Model.Services.Count; i++)
     {
+        imageBase64Service.Add(Convert.ToBase64String(Model.Services[i].ServiceThumbnail.Content));
+        imageSrcService.Add(string.Format("data:image/gif;base64,{0}", imageBase64Service[i]));
         serviceCount += 1;
         if (serviceCount % 2 == 1)
         {
@@ -83,25 +87,25 @@
             {
                 <div class="container">
                     <div class="btn-group-vertical btn-group-lg">
-                        <a asp-action="EditService" asp-route-id="@item.ServiceId" class="btn btn-light">Edit Service</a>
+                        <a asp-action="EditService" asp-route-id="@Model.Services[i].ServiceId" class="btn btn-light">Edit Service</a>
                     </div>
                 </div>
             }
             <div class="row featurette align-items-center bg-light py-3">
                 <div class="col-md-7">
                     <h2 class="featurette-heading">
-                        @item.ServiceName <br />
-                        <span class="text-muted">@item.ServiceTagLine</span>
+                        @Model.Services[i].ServiceName <br />
+                        <span class="text-muted">@Model.Services[i].ServiceTagLine</span>
                     </h2>
-                    <p class="lead">@item.ServiceDescription</p>
-                    @if (item.ServiceFurtherDescription == null || item.ServiceFurtherDescription.Length > 5)
+                    <p class="lead">@Model.Services[i].ServiceDescription</p>
+                    @if (Model.Services[i].ServiceFurtherDescription == null || Model.Services[i].ServiceFurtherDescription.Length > 5)
                     {
                         <hr />
-                        <p>@item.ServiceFurtherDescription</p>
+                        <p>@Model.Services[i].ServiceFurtherDescription</p>
                     }
                 </div>
                 <div class="col-md-5">
-                    <img src="~/images/ServiceBanners/pet_store.png" class="border rounded-lg float-right" width="300" height="300" alt="@item.ServiceTag Banner Photo" />
+                    <img src="@imageSrcService[i]" class="border rounded-lg float-right" width="300" height="300" alt="@Model.Services[i].ServiceTag Banner Photo" />
                 </div>
             </div>
         }
@@ -111,18 +115,18 @@
 
             <div class="row featurette align-items-center bg-light py-3">
                 <div class="col-md-5">
-                    <img src="~/images/ServiceBanners/pet_store.png" class="border rounded-lg float-left" width="300" height="300" alt="@item.ServiceTag Banner Photo" />
+                    <img src="@imageSrcService[i]" class="border rounded-lg float-right" width="300" height="300" alt="@Model.Services[i].ServiceTag Banner Photo" />
                 </div>
                 <div class="col-md-7">
                     <h2 class="featurette-heading">
-                        @item.ServiceName <br />
-                        <span class="text-muted">@item.ServiceTagLine</span>
+                        @Model.Services[i].ServiceName <br />
+                        <span class="text-muted">@Model.Services[i].ServiceTagLine</span>
                     </h2>
-                    <p class="lead">@item.ServiceDescription</p>
-                    @if (item.ServiceFurtherDescription == null || item.ServiceFurtherDescription.Length > 5)
+                    <p class="lead">@Model.Services[i].ServiceDescription</p>
+                    @if (Model.Services[i].ServiceFurtherDescription == null || Model.Services[i].ServiceFurtherDescription.Length > 5)
                     {
                         <hr />
-                        <p>@item.ServiceFurtherDescription</p>
+                        <p>@Model.Services[i].ServiceFurtherDescription</p>
                     }
                 </div>
             </div>

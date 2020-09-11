@@ -1,14 +1,14 @@
 ﻿@model GadeliniumGroupCapstone.ViewModels.ServiceWithPhotoUpload
 
 @{
-    ViewData["Title"] = "Add Service";
+    ViewData["Title"] = "Edit Service";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<h1>Edit @Model.Service.ServiceName</h1>
 
 <div class="container">
-    @await Component.InvokeAsync("AddService", @Model)
+    @await Component.InvokeAsync("EditService", @Model)
 </div>
 
 
