@@ -12,6 +12,7 @@ using GadeliniumGroupCapstone.Contracts;
 using Microsoft.AspNetCore.Identity.UI.V3.Pages.Internal.Account;
 using GadeliniumGroupCapstone.AuthorizationPolicies;
 using SQLitePCL;
+using Microsoft.AspNetCore.Identity;
 
 namespace GadeliniumGroupCapstone.Controllers
 {
@@ -19,22 +20,49 @@ namespace GadeliniumGroupCapstone.Controllers
     {
         private IRepositoryWrapper _repo;
         private readonly PetAppDbContext _context;
+        private UserManager<User> _userManager;
+        private SignInManager<User> _signInManager;
 
-        public PetAccountsController(PetAppDbContext context, IRepositoryWrapper repo)
+        public PetAccountsController(PetAppDbContext context, IRepositoryWrapper repo, UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _context = context;
             _repo = repo;
+            _userManager = userManager;
+            _signInManager = signInManager;
+        }
 
+        [Route("{controller}/")]
+        [Route("{controller}/Home")]
+        public IActionResult Home()
+        {
+            if(!IsPetOwnerOrSignerIn())
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var userdId = _userManager.GetUserId(User);
+
+            var petAccount = _repo.PetAccount.GetPetAccountOfUserId(userdId);
+
+            if (petAccount == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+
+            return Details();
         }
 
         // GET: PetAccounts
-        public async Task<IActionResult> Index(int id)
+        [Route("{controller}/Index")]
+        public async Task<IActionResult> Index(int petAccountId)
         {
             var petAppDbContext = _context.PetAccounts.Include(p => p.User);
             return View(await petAppDbContext.ToListAsync());
         }
 
         // GET: PetAccounts/Details/5
+        [Route("{controller}/Details/{id}")]
         public async Task<IActionResult> Details(int id)
         {
             
@@ -46,6 +74,26 @@ namespace GadeliniumGroupCapstone.Controllers
             }
 
             return View(petAccount);
+        }
+
+        [Route("{controller}/Details")]
+        public IActionResult Details()
+        {
+            if (!IsPetOwnerOrSignerIn())
+            {
+                return View("Index", "PetAccount");
+            }
+
+            var userId = _userManager.GetUserId(User);
+            var firstPet = _repo.PetAccount.GetPetAccountOfUserId(userId);
+
+            if(firstPet.Count == 0)
+            {
+                return View("Index", "PetAccount");
+            }
+            var pet = firstPet[0];
+            return View("Details", pet);
+
         }
 
         // GET: PetAccounts/Create
@@ -71,7 +119,7 @@ namespace GadeliniumGroupCapstone.Controllers
                 return View("Details", petAccount);
             }
 
-            return View(petAccount);
+            return await Details(petAccount.PetAccountId);
         }
 
         // GET: PetAccounts/Edit/5
@@ -142,6 +190,22 @@ namespace GadeliniumGroupCapstone.Controllers
             return RedirectToAction(nameof(Index));
 
         }
+
+
+        // Method to Test if Signed in and Pet Account Owner
+        private bool IsPetOwnerOrSignerIn()
+        {
+            if (!User.IsInRole("Pet Owner"))
+            {
+                return false;
+            }
+            else if (!_signInManager.IsSignedIn(User))
+            {
+                return false;
+            }
+            return true;
+        }
+
 
 
     }

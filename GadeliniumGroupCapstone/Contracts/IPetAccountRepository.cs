@@ -15,6 +15,8 @@ namespace GadeliniumGroupCapstone.Contracts
 
         void DeletePetAccount(PetAccount petAccount);
 
+        List<PetAccount> GetPetAccountOfUserId(string userId);
+
         int GetPetBioId(int petAccountId);
 
         void Save();

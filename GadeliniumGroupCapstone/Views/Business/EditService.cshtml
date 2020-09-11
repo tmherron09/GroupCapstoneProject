@@ -1,0 +1,25 @@
+﻿@model GadeliniumGroupCapstone.ViewModels.ServiceWithPhotoUpload
+
+@{
+    ViewData["Title"] = "Edit Service";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit @Model.Service.ServiceName</h1>
+
+<div class="container">
+    @await Component.InvokeAsync("EditService", @Model)
+</div>
+
+
+<h4>Service</h4>
+<hr />
+
+
+<div>
+    <a asp-action="Home" asp-controller="Business"></a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
