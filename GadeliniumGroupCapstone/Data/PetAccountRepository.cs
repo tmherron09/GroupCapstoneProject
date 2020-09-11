@@ -50,5 +50,9 @@ namespace GadeliniumGroupCapstone.Data
                 PetAppDbContext.SaveChanges();
             }
 
+        public int GetPetBioId(int petAccountId)
+        {
+            return PetAppDbContext.PetBios.Where(pb => pb.PetId == petAccountId).Select(pb=> pb.PetBioId).SingleOrDefault();
+        }
     }
 }

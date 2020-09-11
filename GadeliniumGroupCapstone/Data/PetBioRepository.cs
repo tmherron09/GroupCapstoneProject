@@ -36,7 +36,7 @@ namespace GadeliniumGroupCapstone.Data
 
         public PetBio GetPetBioAccount(int petBioId)
         {
-            var petBio = FindAllByCondition(p => p.PetBioId.Equals(petBioId)).SingleOrDefault();
+            var petBio = FindAllByCondition(p => p.PetBioId == petBioId).SingleOrDefault();
             return petBio;
         }
 

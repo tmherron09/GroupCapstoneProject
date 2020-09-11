@@ -36,11 +36,13 @@ namespace GadeliniumGroupCapstone.Controllers
         public async Task<IActionResult> Details(int id)
         {
 
-            var petBio = _repo.PetBio.GetPetBioAccount(id);
+            var petbioId = _repo.PetAccount.GetPetBioId(id);
+
+            var petBio = _repo.PetBio.GetPetBioAccount(petbioId);
 
             if (petBio == null)
             {
-                return RedirectToAction("Create");
+                return RedirectToAction("Create", new { petAccountid = id });
             }
 
 
@@ -48,10 +50,13 @@ namespace GadeliniumGroupCapstone.Controllers
         }
 
         // GET: PetBios/Create
-        public IActionResult Create()
-        
+        public IActionResult Create(int petAccountid)
         {
-            return View();
+            PetBio petBio = new PetBio();
+            petBio.PetId = petAccountid;
+
+
+            return View(petBio);
         }
 
         // POST: PetBios/Create
@@ -62,14 +67,15 @@ namespace GadeliniumGroupCapstone.Controllers
         public async Task<IActionResult> Create(PetBio petBio)
         {
 
-            //petBio.PetAccount = _repo.PetBio.GetAssociatedPet(petBio.PetBioId);
 
+            //petBio.PetAccount = _repo.PetBio.GetAssociatedPet(petBio.PetBioId);
+            
 
             if (ModelState.IsValid)
             {
                 _repo.PetBio.Create(petBio);
                 _repo.Save();
-                return RedirectToAction("Details");
+                return RedirectToAction("Details", new { id = petBio.PetId });
             }
             
 

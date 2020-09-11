@@ -14,8 +14,9 @@
 <hr />
 <div class="row">
     <div class="col-md-"4">
-        <form asp-action="Create">
+        <form asp-action="Create" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="PetId" value="@Model.PetId" />
             <div class="form-group">
                 <label asp-for="PetInfo" class="control-label"></label>
                
