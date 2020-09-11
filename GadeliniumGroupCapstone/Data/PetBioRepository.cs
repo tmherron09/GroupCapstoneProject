@@ -33,16 +33,11 @@ namespace GadeliniumGroupCapstone.Data
 
         }
 
-        public PetAccount GetAssociatedPet(int petBioId)
-        {
-            var petBio = FindAllByCondition(p => p.PetBioId == petBioId).Single();
-
-            var pet = PetAppDbContext.PetAccounts.Where(pa => pa.PetAccountId == petBio.PetId).Single();
-            return pet;
-
-        }
-
         public PetBio GetPetBio(int petBioId)
+        {
+            var petBio = FindAllByCondition(p => p.PetBioId.Equals(petBioId)).SingleOrDefault();
+            return petBio;
+        }
 
         public PetBio GetPetBioAccount(int petBioId)
         {

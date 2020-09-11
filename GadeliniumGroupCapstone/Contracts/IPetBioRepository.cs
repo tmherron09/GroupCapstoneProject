@@ -10,6 +10,7 @@ namespace GadeliniumGroupCapstone.Contracts
     {
 
         PetBio GetPetBioAccount(int petBioId);
+        PetBio GetPetBio(int petBioId);
         void CreatePetBio(PetBio petBio);
 
         void UpdatePetBio(int petBioId);
