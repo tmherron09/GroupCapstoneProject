@@ -21,9 +21,7 @@ namespace GadeliniumGroupCapstone.Data
         }
 
 
-        public BusinessHour GetBusinessHour(int businessHourId)
-        {
-            throw new NotImplementedException();
-        }
+        public BusinessHour GetBusinessHour(int businessHourId) =>
+            FindAllByCondition(b => b.BusinessHourId == businessHourId).Single();
     }
 }

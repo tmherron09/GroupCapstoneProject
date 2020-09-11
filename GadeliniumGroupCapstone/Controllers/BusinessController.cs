@@ -40,9 +40,16 @@ namespace GadeliniumGroupCapstone.Controllers
                 return RedirectToAction("SearchBusinesses", "Business");
             }
 
+            business.BusinessHour = _repo.BusinessHour.GetBusinessHour(business.BusinessHourId);
             BusinessInfoViewModel model = new BusinessInfoViewModel(business, _repo);
 
+            ViewBag.error = TempData["error"];
+            ViewBag.success = TempData["success"];
+
+
             return View("Info", model);
+
+            
         }
 
 
@@ -62,6 +69,7 @@ namespace GadeliniumGroupCapstone.Controllers
 
         public IActionResult SearchBusinesses()
         {
+
 
             return View();
 
@@ -143,11 +151,13 @@ namespace GadeliniumGroupCapstone.Controllers
                 _repo.Service.Create(newService.Service);
                 _repo.Save();
 
-                return RedirectToAction("Info", business.BusinessId);
+                TempData["success"] = "Service Successfully Added";
+                return RedirectToAction("Home");
             }
             catch
             {
-                return RedirectToAction("Info", business.BusinessId);
+                TempData["error"] = "Service failed to create. Try Again.";
+                return RedirectToAction("Home");
             }
         }
 
@@ -170,6 +180,7 @@ namespace GadeliniumGroupCapstone.Controllers
             service.Business = business;
             service.ServiceThumbnail = _repo.PhotoBin.GetPhoto(service.PhotoBinId);
             ServiceWithPhotoUpload serviceToEdit = new ServiceWithPhotoUpload(service);
+
 
             return View(serviceToEdit);
         }
@@ -212,11 +223,12 @@ namespace GadeliniumGroupCapstone.Controllers
             }
             catch
             {
-                ViewBag.error = "Failed to update Service";
+                TempData["error"] = "Failed to update Service";
                 return RedirectToAction("Home");
             }
 
-            ViewBag.success = "Service Updated";
+
+            TempData["success"] = "Service Updated";
             return RedirectToAction("Home");
         }
 
@@ -280,11 +292,11 @@ namespace GadeliniumGroupCapstone.Controllers
             }
             catch
             {
-                ViewBag.error = "Failed to update Business";
+                TempData["error"] = "Failed to update Business";
                 return RedirectToAction("Home");
             }
 
-            ViewBag.success = "Business Updated";
+            TempData["success"] = "Business Updated";
             return RedirectToAction("Home");
         }
 

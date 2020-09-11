@@ -17,15 +17,89 @@
 
 
 <div class="container">
-    <div class="card w-75 border-primary mx-auto">
+    <partial name="_AlertPartial" />
+    <div class="card border-primary mx-auto">
         <div class="card-header text-center">
             <h2>@Model.Business.BusinessName</h2>
-            <img src="@imageSrc" alt="@Model.Business.PhotoBinId" width="100" height="100" />
+            <img src="@imageSrc" alt="@Model.Business.PhotoBinId" height="400" />
         </div>
 
         <div class="card-body row">
             <div class="col-6">
-                Insert Hours Here
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <tr class="table-info">
+                            <th>
+                                Business Hours
+                            </th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td>Monday</td>
+                            <td>
+                                Opening: @Model.Business.BusinessHour.MondayOpening am
+                            </td>
+                            <td>
+                                Closing: @Model.Business.BusinessHour.MondayClosing pm
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Tuesday</td>
+                            <td>
+                                Opening: @Model.Business.BusinessHour.TuesdayOpening am
+                            </td>
+                            <td>
+                                Closing: @Model.Business.BusinessHour.TuesdayClosing pm
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Wednesday</td>
+                            <td>
+                                Opening: @Model.Business.BusinessHour.WednesdayOpening am
+                            </td>
+                            <td>
+                                Closing: @Model.Business.BusinessHour.WednesdayClosing pm
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Thursday</td>
+                            <td>
+                                Opening: @Model.Business.BusinessHour.ThursdayOpening am
+                            </td>
+                            <td>
+                                Closing: @Model.Business.BusinessHour.ThursdayClosing pm
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Friday</td>
+                            <td>
+                                Opening: @Model.Business.BusinessHour.FridayOpening am
+                            </td>
+                            <td>
+                                Closing: @Model.Business.BusinessHour.FridayClosing pm
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Saturday</td>
+                            <td>
+                                Opening: @Model.Business.BusinessHour.SaturdayOpening am
+                            </td>
+                            <td>
+                                Closing: @Model.Business.BusinessHour.SaturdayClosing pm
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Sunday</td>
+                            <td>
+                                Opening: @Model.Business.BusinessHour.SundayOpening am
+                            </td>
+                            <td>
+                                Closing: @Model.Business.BusinessHour.SundayClosing pm
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
             <div class="col-6">
                 <div class="card-header">
@@ -105,7 +179,7 @@
                     }
                 </div>
                 <div class="col-md-5">
-                    <img src="@imageSrcService[i]" class="border rounded-lg float-right" width="300" height="300" alt="@Model.Services[i].ServiceTag Banner Photo" />
+                    <img src="@imageSrcService[i]" class="border rounded-lg float-right" height="300" alt="@Model.Services[i].ServiceTag Banner Photo" />
                 </div>
             </div>
         }
@@ -115,7 +189,7 @@
 
             <div class="row featurette align-items-center bg-light py-3">
                 <div class="col-md-5">
-                    <img src="@imageSrcService[i]" class="border rounded-lg float-right" width="300" height="300" alt="@Model.Services[i].ServiceTag Banner Photo" />
+                    <img src="@imageSrcService[i]" class="border rounded-lg float-right"height="300" alt="@Model.Services[i].ServiceTag Banner Photo" />
                 </div>
                 <div class="col-md-7">
                     <h2 class="featurette-heading">
