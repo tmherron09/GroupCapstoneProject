@@ -10,37 +10,48 @@ using GadeliniumGroupCapstone.Models;
 using System.Security.Claims;
 using GadeliniumGroupCapstone.Contracts;
 using Microsoft.AspNetCore.Identity.UI.V3.Pages.Internal.Account;
+using GadeliniumGroupCapstone.AuthorizationPolicies;
+using SQLitePCL;
 
 namespace GadeliniumGroupCapstone.Controllers
 {
     public class PetAccountsController : Controller
     {
-        private readonly ApplicationDbContext _context;
         private IRepositoryWrapper _repo;
+        private readonly PetAppDbContext _context;
 
-        public PetAccountsController(ApplicationDbContext context, IRepositoryWrapper repo)
+        public PetAccountsController(PetAppDbContext context, IRepositoryWrapper repo)
         {
             _context = context;
-
-                _repo = repo;
-
+            _repo = repo;
 
         }
 
         // GET: PetAccounts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int petAccountId)
         {
-            //var applicationDbContext = _context.PetAccounts.Include(p => p.User);
-            //return View(await applicationDbContext.ToListAsync());
+            var petAppDbContext = _context.PetAccounts.Include(p => p.User);
+            return View(await petAppDbContext.ToListAsync());
 
-            return RedirectToAction("Details");
+            //var petAccount = _repo.PetAccount.GetPetAccount(petAccountId);
+
+            ////PetAccountInfoViewModel model = new PetAccountInfoViewModel(petACcount, _repo);
+
+
+            //return View("Details");
+
         }
 
         // GET: PetAccounts/Details/5
         public async Task<IActionResult> Details(int id)
         {
-
+            
             var petAccount = _repo.PetAccount.GetPetAccount(id);
+
+            if (petAccount == null)
+            {
+                return RedirectToAction("Create");
+            }
 
             return View(petAccount);
         }
@@ -48,7 +59,6 @@ namespace GadeliniumGroupCapstone.Controllers
         // GET: PetAccounts/Create
         public IActionResult Create()
         {
-            //ViewData["UserId"] = new SelectList(_context.Set<User>(), "UserId", "UserId");
             return View();
         }
 
@@ -59,30 +69,35 @@ namespace GadeliniumGroupCapstone.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PetAccount petAccount)
         {
+
             if (ModelState.IsValid)
             {
-                _context.Add(petAccount);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                _repo.PetAccount.Create(petAccount);
+                petAccount.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                _repo.Save();
+                return RedirectToAction("Details", petAccount);
             }
-            ViewData["UserId"] = new SelectList(_context.Set<User>(), "UserId", "UserId", petAccount.UserId);
+
             return View(petAccount);
         }
 
         // GET: PetAccounts/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var petAccount = await _context.PetAccounts.FindAsync(id);
+            var petAccount = _repo.PetAccount.GetPetAccount(id);
+
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
+
+
             if (petAccount == null)
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.Set<User>(), "UserId", "UserId", petAccount.UserId);
+
             return View(petAccount);
         }
 
@@ -91,7 +106,7 @@ namespace GadeliniumGroupCapstone.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PetAccountId,Breed,Species,PetName,Dob,AnimalType,PetPhone,UserId")] PetAccount petAccount)
+        public async Task<IActionResult> Edit(int id, PetAccount petAccount)
         {
             if (id != petAccount.PetAccountId)
             {
@@ -100,40 +115,23 @@ namespace GadeliniumGroupCapstone.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(petAccount);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PetAccountExists(petAccount.PetAccountId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                                
+                _repo.PetAccount.Update(petAccount);
+                _repo.Save();
+                return View(petAccount);
+                    
             }
-            ViewData["UserId"] = new SelectList(_context.Set<User>(), "UserId", "UserId", petAccount.UserId);
+
+
             return View(petAccount);
         }
 
         // GET: PetAccounts/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var petAccount = _repo.PetAccount.GetPetAccount(id);
 
-            var petAccount = await _context.PetAccounts
-                .Include(p => p.User)
-                .FirstOrDefaultAsync(m => m.PetAccountId == id);
-            if (petAccount == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -146,16 +144,16 @@ namespace GadeliniumGroupCapstone.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var petAccount = await _context.PetAccounts.FindAsync(id);
-            _context.PetAccounts.Remove(petAccount);
-            await _context.SaveChangesAsync();
+            var petAccount = _repo.PetAccount.GetPetAccount(id);
+
+            _repo.PetAccount.Delete(petAccount);
+            
+            _repo.Save();
+
             return RedirectToAction(nameof(Index));
+
         }
 
-        private bool PetAccountExists(int id)
-        {
-            return _context.PetAccounts.Any(e => e.PetAccountId == id);
-        }
 
     }
 }

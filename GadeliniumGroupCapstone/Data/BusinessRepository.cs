@@ -10,7 +10,7 @@ namespace GadeliniumGroupCapstone.Data
     public class BusinessRepository : RepositoryBase<Business>, IBusinessRepository
     {
 
-        public BusinessRepository(ApplicationDbContext applicationDbContext):base(applicationDbContext)
+        public BusinessRepository(PetAppDbContext petAppDbContext):base(petAppDbContext)
         {
 
         }
@@ -20,9 +20,9 @@ namespace GadeliniumGroupCapstone.Data
             throw new NotImplementedException();
         }
 
-        public Business GetBusiness(int businessId)
-        {
-            throw new NotImplementedException();
-        }
+        public Business GetBusiness(int businessId) =>
+            FindAllByCondition(b => b.BusinessId == businessId).SingleOrDefault();
+
+
     }
 }

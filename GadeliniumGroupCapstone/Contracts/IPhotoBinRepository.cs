@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace GadeliniumGroupCapstone.Contracts
 {
-    //public interface ISiteUserRepository : IRepositoryBase<SiteUser>
-    //{
-    //    Test GetSiteUser(int siteUserId);
-    //    void CreateSiteUser(SiteUser siteUser);
-    //}
+    public interface IPhotoBinRepository : IRepositoryBase<PhotoBin>
+    {
+        PhotoBin GetPhoto(int photoId);
+        void CreatePhoto(PhotoBin photoBin);
+    }
 }

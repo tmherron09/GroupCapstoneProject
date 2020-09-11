@@ -7,20 +7,20 @@ using System.Threading.Tasks;
 
 namespace GadeliniumGroupCapstone.Data
 {
-    public class AccountRepository : RepositoryBase<Account>, IAccountRepository
+    public class UserRepository : RepositoryBase<User>, IUserRepository
     {
 
-        public AccountRepository(ApplicationDbContext applicationDbContext):base(applicationDbContext)
+        public UserRepository(PetAppDbContext petAppDbContext) : base(petAppDbContext)
         {
 
         }
 
-        public void CreateAccount(Account account)
+        public void CreateUser(User siteUser)
         {
             throw new NotImplementedException();
         }
 
-        public Test GetAccount(int accountId)
+        public Test GetUser(int siteUserId)
         {
             throw new NotImplementedException();
         }

@@ -10,7 +10,7 @@ namespace GadeliniumGroupCapstone.Data
     public class OtherRepository : RepositoryBase<Other>, IOtherRepository
     {
 
-        public OtherRepository(ApplicationDbContext applicationDbContext):base(applicationDbContext)
+        public OtherRepository(PetAppDbContext petAppDbContext):base(petAppDbContext)
         {
 
         }

@@ -10,7 +10,7 @@ namespace GadeliniumGroupCapstone.Data
     public class MedicalRecordRepository : RepositoryBase<MedicalRecord>, IMedicalRecordRepository
     {
 
-        public MedicalRecordRepository(ApplicationDbContext applicationDbContext):base(applicationDbContext)
+        public MedicalRecordRepository(PetAppDbContext petAppDbContext):base(petAppDbContext)
         {
 
         }

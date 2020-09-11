@@ -8,9 +8,9 @@ namespace GadeliniumGroupCapstone.Contracts
 {
     public class RepositoryWrapper : IRepositoryWrapper
     {
-        private ApplicationDbContext _context;
+        private PetAppDbContext _context;
         private ITestRepository _test;
-        private IAccountRepository _account;
+        private IAddressRepository _address;
         private IBoardingRepository _boarding;
         private IBusinessRepository _business;
         private IGroomerRepository _groomer;
@@ -18,7 +18,9 @@ namespace GadeliniumGroupCapstone.Contracts
         private IOtherRepository _other;
         private IPetAccountRepository _petAccount;
         private IPetBioRepository _petBio;
-        //private ISiteUserRepository _siteUser;
+        private IPhotoBinRepository _photo;
+        private IUserRepository _user;
+        private IServiceRepository _service;
         private ISitterRepository _sitter;
         private ITrainerRepository _trainer;
         private IVetRepository _vet;
@@ -26,25 +28,30 @@ namespace GadeliniumGroupCapstone.Contracts
         {
             get
             {
-                if(_test == null)
+                if (_test == null)
                 {
                     _test = new TestRepository(_context);
                 }
                 return _test;
             }
         }
-        public IAccountRepository Account
+
+        public RepositoryWrapper(PetAppDbContext context)
+        {
+            _context = context;
+        }
+
+        public IAddressRepository Address
         {
             get
             {
-                if (_account == null)
+                if (_address == null)
                 {
-                    _account = new AccountRepository(_context);
+                    _address = new AddressRepository(_context);
                 }
-                return _account;
+                return _address;
             }
         }
-
         public IBoardingRepository Boarding
         {
             get
@@ -81,87 +88,123 @@ namespace GadeliniumGroupCapstone.Contracts
             }
         }
 
-        public IMedicalRecordRepository MedicalRecord {
+        public IMedicalRecordRepository MedicalRecord
+        {
             get
             {
-                if ( _medicalRecord == null)
+                if (_medicalRecord == null)
                 {
                     _medicalRecord = new MedicalRecordRepository(_context);
-    }
+                }
                 return _medicalRecord;
             }
         }
 
-        public IOtherRepository Other {
+        public IOtherRepository Other
+        {
             get
             {
                 if (_other == null)
                 {
                     _other = new OtherRepository(_context);
-    }
+                }
                 return _other;
             }
         }
 
-        public IPetAccountRepository PetAccount {
+        public IPetAccountRepository PetAccount
+        {
             get
             {
                 if (_petAccount == null)
                 {
                     _petAccount = new PetAccountRepository(_context);
-    }
+                }
                 return _petAccount;
             }
         }
+        public IPetBioRepository PetBio
+        {
+            get
+            {
+                if (_petBio == null)
+                {
+                    _petBio = new PetBioRepository(_context);
+                }
+                return _petBio;
+            }
+        }
+        public IPhotoBinRepository PhotoBin
+        {
+            get
+            {
+                if (_photo == null)
+                {
+                    _photo = new PhotoBinRepository(_context);
+                }
+                return _photo;
+            }
+        }
 
-    //    public ISiteUserRepository SiteUser {
-    //        get
-    //        {
-    //            if (_siteUser == null)
-    //            {
-    //                _siteUser = new SiteUserRepository(_context);
-    //}
-    //            return _siteUser;
-    //        }
-    //    }
+        public IUserRepository User
+        {
+            get
+            {
+                if (_user == null)
+                {
+                    _user = new UserRepository(_context);
+                }
+                return _user;
+            }
+        }
 
-        public ISitterRepository Sitter {
+        public ISitterRepository Sitter
+        {
             get
             {
                 if (_sitter == null)
                 {
                     _sitter = new SitterRepository(_context);
-    }
+                }
                 return _sitter;
             }
         }
+        public IServiceRepository Service
+        {
+            get
+            {
+                if (_service == null)
+                {
+                    _service = new ServiceRepository(_context);
+                }
+                return _service;
+            }
+        }
 
-        public ITrainerRepository Trainer {
+        public ITrainerRepository Trainer
+        {
             get
             {
                 if (_trainer == null)
                 {
                     _trainer = new TrainerRepository(_context);
-    }
+                }
                 return _trainer;
             }
         }
 
-        public IVetRepository Vet {
+        public IVetRepository Vet
+        {
             get
             {
                 if (_vet == null)
                 {
                     _vet = new VetRepository(_context);
-    }
+                }
                 return _vet;
             }
         }
 
-        public RepositoryWrapper(ApplicationDbContext context)
-        {
-            _context = context;
-        }
         public void Save()
         {
             //_context.SaveChangesAsync();

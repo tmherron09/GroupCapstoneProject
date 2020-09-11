@@ -10,7 +10,7 @@ namespace GadeliniumGroupCapstone.Data
     public class TrainerRepository : RepositoryBase<Trainer>, ITrainerRepository
     {
 
-        public TrainerRepository(ApplicationDbContext applicationDbContext):base(applicationDbContext)
+        public TrainerRepository(PetAppDbContext petAppDbContext):base(petAppDbContext)
         {
 
         }

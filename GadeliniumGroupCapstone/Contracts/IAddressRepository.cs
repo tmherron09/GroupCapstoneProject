@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace GadeliniumGroupCapstone.Contracts
 {
-    public interface IAccountRepository : IRepositoryBase<Account>
+    public interface IBoardingRepository : IRepositoryBase<Boarding>
     {
-        Test GetAccount(int accountId);
-        void CreateAccount(Account account);
+        Test GetBoarding(int boardingId);
+        void CreateBoarding(Boarding boarding);
     }
 }

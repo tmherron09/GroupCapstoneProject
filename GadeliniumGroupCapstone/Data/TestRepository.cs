@@ -10,7 +10,7 @@ namespace GadeliniumGroupCapstone.Data
     public class TestRepository : RepositoryBase<Test>, ITestRepository
     {
 
-        public TestRepository(ApplicationDbContext applicationDbContext):base(applicationDbContext)
+        public TestRepository(PetAppDbContext siteUserContext):base(siteUserContext)
         {
 
         }
