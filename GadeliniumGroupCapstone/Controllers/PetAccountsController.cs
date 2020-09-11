@@ -28,18 +28,10 @@ namespace GadeliniumGroupCapstone.Controllers
         }
 
         // GET: PetAccounts
-        public async Task<IActionResult> Index(int petAccountId)
+        public async Task<IActionResult> Index(int id)
         {
             var petAppDbContext = _context.PetAccounts.Include(p => p.User);
             return View(await petAppDbContext.ToListAsync());
-
-            //var petAccount = _repo.PetAccount.GetPetAccount(petAccountId);
-
-            ////PetAccountInfoViewModel model = new PetAccountInfoViewModel(petACcount, _repo);
-
-
-            //return View("Details");
-
         }
 
         // GET: PetAccounts/Details/5
@@ -75,7 +67,8 @@ namespace GadeliniumGroupCapstone.Controllers
                 _repo.PetAccount.Create(petAccount);
                 petAccount.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 _repo.Save();
-                return RedirectToAction("Details", petAccount);
+
+                return View("Details", petAccount);
             }
 
             return View(petAccount);
@@ -86,11 +79,6 @@ namespace GadeliniumGroupCapstone.Controllers
         {
 
             var petAccount = _repo.PetAccount.GetPetAccount(id);
-
-            //if (id == null)
-            //{
-            //    return NotFound();
-            //}
 
 
             if (petAccount == null)
@@ -109,6 +97,7 @@ namespace GadeliniumGroupCapstone.Controllers
         public async Task<IActionResult> Edit(int id, PetAccount petAccount)
         {
             if (id != petAccount.PetAccountId)
+
             {
                 return NotFound();
             }
@@ -118,12 +107,12 @@ namespace GadeliniumGroupCapstone.Controllers
                                 
                 _repo.PetAccount.Update(petAccount);
                 _repo.Save();
-                return View(petAccount);
+                return View("Details", petAccount);
                     
             }
 
 
-            return View(petAccount);
+            return View("Details", petAccount);
         }
 
         // GET: PetAccounts/Delete/5

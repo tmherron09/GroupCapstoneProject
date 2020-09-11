@@ -8,12 +8,15 @@ namespace GadeliniumGroupCapstone.Contracts
 {
     public interface IPetBioRepository : IRepositoryBase<PetBio>
     {
-        Test GetPetBio(int petBioId);
+
+        PetBio GetPetBioAccount(int petBioId);
         void CreatePetBio(PetBio petBio);
 
         void UpdatePetBio(int petBioId);
 
         void DeletePetBio(PetBio petBio);
+
+        PetAccount GetAssociatedPet(int petBioId);
 
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GadeliniumGroupCapstone.Migrations
 {
-    public partial class INIT : Migration
+    public partial class INITafternuke : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -443,9 +443,9 @@ namespace GadeliniumGroupCapstone.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "7ee1ba72-3a8f-41c3-b0ba-d81dc3c538a0", "ea5289ff-a044-4af9-ba81-3309b0ea7ca5", "Pet Owner", "PETOWNER" },
-                    { "d040f34b-4b0a-4159-902d-49f78097308f", "5dbabe3a-e5a3-4eab-aaf4-6a8a38d3733b", "Business Owner", "BUSINESSOWNER" },
-                    { "5c41ff0b-1eb4-4bbf-ab78-e8883708f666", "79bf9fd6-6acc-4ef4-acd7-11400c0891d0", "Admin", "Admin" }
+                    { "517f204d-bf77-4744-8a10-e20fa9570081", "841cee9a-e7d6-4457-ac8e-954793e57fdf", "Pet Owner", "PETOWNER" },
+                    { "934b07f4-a467-4f3b-9c6d-7fa91388ff5f", "cf0394f0-bb31-489e-9df9-f9818f99220e", "Business Owner", "BUSINESSOWNER" },
+                    { "7c18d256-1909-4814-bc03-a94e3de44cbb", "6965e266-c429-4355-a716-29a58c3809a2", "Admin", "Admin" }
                 });
 
             migrationBuilder.InsertData(

@@ -13,7 +13,6 @@ namespace GadeliniumGroupCapstone.Models
 
         public int PetAccountId { get; set; }
         public string Breed { get; set; }
-        public string Species { get; set; }
         
         [DisplayName("Pet Name")]
         public string PetName { get; set; }

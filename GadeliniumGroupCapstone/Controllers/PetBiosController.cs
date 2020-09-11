@@ -17,6 +17,7 @@ namespace GadeliniumGroupCapstone.Controllers
         private readonly PetAppDbContext _context;
         private IRepositoryWrapper _repo;
 
+        
         public PetBiosController(PetAppDbContext context, IRepositoryWrapper repo)
         {
             _context = context;
@@ -25,20 +26,17 @@ namespace GadeliniumGroupCapstone.Controllers
         }
 
         // GET: PetBios
-        public async Task<IActionResult> Index(int id)
+        public async Task<IActionResult> Index()
         {
-
-            var petBio = await _context.PetBios
-            .Include(p => p.PetAccount)
-            .FirstOrDefaultAsync(m => m.PetBioId == id);
-
+            
             return RedirectToAction("Details");
         }
 
         // GET: PetBios/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            var petBio = _repo.PetAccount.GetPetAccount(id);
+
+            var petBio = _repo.PetBio.GetPetBioAccount(id);
 
             if (petBio == null)
             {
@@ -51,6 +49,7 @@ namespace GadeliniumGroupCapstone.Controllers
 
         // GET: PetBios/Create
         public IActionResult Create()
+        
         {
             return View();
         }
@@ -62,16 +61,17 @@ namespace GadeliniumGroupCapstone.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PetBio petBio)
         {
+
+            //petBio.PetAccount = _repo.PetBio.GetAssociatedPet(petBio.PetBioId);
+
+
             if (ModelState.IsValid)
             {
-
                 _repo.PetBio.Create(petBio);
                 _repo.Save();
                 return RedirectToAction("Details");
             }
             
-
-            klfjdkajkfldjkalsfjkdlasjklfda THIS IS THE CORRECT VERSION!~!!!!
 
             return View(petBio);
         }
@@ -79,6 +79,8 @@ namespace GadeliniumGroupCapstone.Controllers
         // GET: PetBios/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            
+            
             if (id == null)
             {
                 return NotFound();
@@ -89,7 +91,11 @@ namespace GadeliniumGroupCapstone.Controllers
             {
                 return NotFound();
             }
-            ViewData["PetId"] = new SelectList(_context.PetAccounts, "PetAccountId", "PetAccountId", petBio.PetId);
+
+
+            petBio.PetAccount = _repo.PetBio.GetAssociatedPet(petBio.PetBioId);
+            
+            
             return View(petBio);
         }
 
@@ -98,8 +104,10 @@ namespace GadeliniumGroupCapstone.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PetBioId,PetInfo,Likes,Dislikes,Hobbies,PetId")] PetBio petBio)
+        public async Task<IActionResult> Edit(int id, PetBio petBio)
         {
+            
+            
             if (id != petBio.PetBioId)
             {
                 return NotFound();
@@ -125,7 +133,7 @@ namespace GadeliniumGroupCapstone.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PetId"] = new SelectList(_context.PetAccounts, "PetAccountId", "PetAccountId", petBio.PetId);
+            //ViewData["PetId"] = new SelectList(_context.PetAccounts, "PetAccountId", "PetAccountId", petBio.PetId);
             return View(petBio);
         }
 

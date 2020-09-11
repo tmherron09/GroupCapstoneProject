@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GadeliniumGroupCapstone.Migrations
 {
     [DbContext(typeof(PetAppDbContext))]
-    [Migration("20200911084600_second commit")]
-    partial class secondcommit
+    [Migration("20200911121653_INIT after nuke")]
+    partial class INITafternuke
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -499,22 +499,22 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "973e869b-ffc8-47be-899a-bf3e9e14cc2f",
-                            ConcurrencyStamp = "1f1dab6e-303d-405b-9ea6-9d706b0b4233",
+                            Id = "517f204d-bf77-4744-8a10-e20fa9570081",
+                            ConcurrencyStamp = "841cee9a-e7d6-4457-ac8e-954793e57fdf",
                             Name = "Pet Owner",
                             NormalizedName = "PETOWNER"
                         },
                         new
                         {
-                            Id = "034499bd-4caa-4834-ae6a-adb33e5473df",
-                            ConcurrencyStamp = "25456ae4-ac68-4887-869f-bd34ce9bc1c3",
+                            Id = "934b07f4-a467-4f3b-9c6d-7fa91388ff5f",
+                            ConcurrencyStamp = "cf0394f0-bb31-489e-9df9-f9818f99220e",
                             Name = "Business Owner",
                             NormalizedName = "BUSINESSOWNER"
                         },
                         new
                         {
-                            Id = "3d1e397d-e558-47b7-a701-2631c23fe519",
-                            ConcurrencyStamp = "c125f572-77f1-41e4-8411-c01401b66150",
+                            Id = "7c18d256-1909-4814-bc03-a94e3de44cbb",
+                            ConcurrencyStamp = "6965e266-c429-4355-a716-29a58c3809a2",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         });
@@ -692,7 +692,7 @@ namespace GadeliniumGroupCapstone.Migrations
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.Service", b =>
                 {
                     b.HasOne("GadeliniumGroupCapstone.Models.Business", "Business")
-                        .WithMany()
+                        .WithMany("Services")
                         .HasForeignKey("BusinessId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
