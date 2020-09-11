@@ -25,11 +25,11 @@ namespace GadeliniumGroupCapstone.Controllers
         }
 
         // GET: MedicalRecords
-        public async Task<IActionResult> Index(PetAccount petAccount)
+        public async Task<IActionResult> Index(int petId)
         {
             dynamic myModel = new ExpandoObject();
-            myModel.petAccount = petAccount;
-            MedicalRecord medicalRecord = _context.MedicalRecords.Where(m => m.PetId == petAccount.PetAccountId).FirstOrDefault();
+            myModel.petId = petId; 
+            MedicalRecord medicalRecord = _context.MedicalRecords.Where(m => m.PetId == petId).FirstOrDefault();
             if (medicalRecord != null)
             {
                 List<Immunization> immunizations = _context.immunizations.Where(i => i.MedicalRecordId == medicalRecord.MedicalRecordId).ToList();
@@ -41,25 +41,6 @@ namespace GadeliniumGroupCapstone.Controllers
             return View(myModel);
         }
 
-        // GET: MedicalRecords/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var medicalRecord = await _context.MedicalRecords
-                .Include(m => m.PetAccount)
-                .FirstOrDefaultAsync(m => m.MedicalRecordId == id);
-            if (medicalRecord == null)
-            {
-                return NotFound();
-            }
-
-            return View(medicalRecord);
-        }
-
         // GET: MedicalRecords/Create
         public IActionResult Create(int petId)
         {
@@ -67,24 +48,46 @@ namespace GadeliniumGroupCapstone.Controllers
             medicalRecord.PetId = petId;
             _context.MedicalRecords.Add(medicalRecord);
             _context.SaveChanges();
-            return View();
+            return View(RedirectToAction("Index", "MedicalRecords"));
         }
 
+        public ActionResult CreateMedication(int recordId)
+        {
+            Medication medication = new Medication();
+            medication.MedicalRecordId = recordId;
+            return View(medication);
+        }
         // POST: MedicalRecords/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MedicalRecordId,PetId")] MedicalRecord medicalRecord)
+        public async Task<IActionResult> CreateMedicationDb(Medication medication)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(medicalRecord);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["PetId"] = new SelectList(_context.PetAccounts, "PetAccountId", "PetAccountId", medicalRecord.PetId);
-            return View(medicalRecord);
+            _context.medications.Add(medication);
+            _context.SaveChanges();
+            var medicalId = medication.MedicalRecordId;
+            MedicalRecord medicalRecord = _context.MedicalRecords.Where(r => r.MedicalRecordId == medicalId).FirstOrDefault();
+            return RedirectToAction("Index", "MedicalRecords", new { petId = medicalRecord.PetId });
+        }
+        public ActionResult CreateImmunization(int recordId)
+        {
+            Immunization immunization = new Immunization();
+            immunization.MedicalRecordId = recordId;
+            return View(immunization);
+        }
+        // POST: MedicalRecords/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateImmunizationDb(Immunization immunization)
+        {
+            _context.immunizations.Add(immunization);
+            _context.SaveChanges();
+            var medicalId = immunization.MedicalRecordId;
+            MedicalRecord medicalRecord = _context.MedicalRecords.Where(r => r.MedicalRecordId == medicalId).FirstOrDefault();
+            return RedirectToAction("Index", "MedicalRecords", new { petId = medicalRecord.PetId });
         }
 
         // GET: MedicalRecords/Edit/5
