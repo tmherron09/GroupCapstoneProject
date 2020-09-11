@@ -27,6 +27,7 @@ namespace GadeliniumGroupCapstone.Data
         public Business GetBusiness(int businessId) =>
             FindAllByCondition(b => b.BusinessId == businessId).SingleOrDefault();
 
+
         public List<Business> SearchByName(string searchValue)
         {
             var results = FindAllByCondition(b => b.BusinessName.Contains(searchValue)).ToList();
@@ -50,5 +51,6 @@ namespace GadeliniumGroupCapstone.Data
 
             return results;
         }
+
     }
 }

@@ -10,5 +10,10 @@ namespace GadeliniumGroupCapstone.Contracts
     {
         Test GetPetBio(int petBioId);
         void CreatePetBio(PetBio petBio);
+
+        void UpdatePetBio(int petBioId);
+
+        void DeletePetBio(PetBio petBio);
+
     }
 }
