@@ -70,9 +70,6 @@ namespace GadeliniumGroupCapstone.Controllers
                 return RedirectToAction("Details");
             }
             
-
-            klfjdkajkfldjkalsfjkdlasjklfda THIS IS THE CORRECT VERSION!~!!!!
-
             return View(petBio);
         }
 
