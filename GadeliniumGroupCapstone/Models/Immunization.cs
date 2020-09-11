@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,13 +7,19 @@ using System.Threading.Tasks;
 
 namespace GadeliniumGroupCapstone.Models
 {
-    public class MedicalRecord
+    public class Immunization
     {
         [Key]
-        public int MedicalRecordId { get; set; }
+        public int ImmunizationId { get; set; }
 
-        [ForeignKey("PetAccount")]
-        public int PetId { get; set; }
-        public PetAccount PetAccount { get; set; }
+        public string ImmunizationName { get; set; }
+
+        public DateTime DateReceived { get; set; }
+
+        [ForeignKey("MedicalRecord")]
+        public int MedicalRecordId { get; set; }
+        public MedicalRecord medicalRecord { get; set; }
+
+
     }
 }

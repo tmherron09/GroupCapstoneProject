@@ -1,0 +1,82 @@
+﻿@model dynamic
+
+<h1 class="display-3 pb-3">✚Medical-Record </h1>
+
+@{ 
+    if (Model.Record == null)
+    {
+        <p>
+            <a asp-action="Create" asp-route-petId="@Model.petId">Create New</a>
+        </p>
+
+    }
+    else
+    {
+        var petId = Model.petId;
+        var recordId = Model.Record.MedicalRecordId;
+<div class="row">
+    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+      <a class="nav-link active" id="v-pills-overview-tab" data-toggle="pill" href="#v-pills-overview" role="tab" aria-controls="v-pills-overview" aria-selected="true">Overview</a>
+      <a class="nav-link" id="v-pills-immunization-tab" data-toggle="pill" href="#v-pills-immunization" role="tab" aria-controls="v-pills-immunization" aria-selected="false">Immunizations</a>
+      <a class="nav-link" id="v-pills-medications-tab" data-toggle="pill" href="#v-pills-medications" role="tab" aria-controls="v-pills-medications" aria-selected="false">Medications</a>
+    </div>
+    <div class="tab-content col" id="v-pills-tabContent">
+          <div class="tab-pane fade show active" id="v-pills-overview" role="tabpanel" aria-labelledby="v-pills-overview-tab">
+              <ul class="list-group list-group-flush">
+                  <li class="list-group-item">Placeholder</li>
+                  <li class="list-group-item">Dapibus ac facilisis in</li>
+                  <li class="list-group-item">Morbi leo risus</li>
+                  <li class="list-group-item">Porta ac consectetur ac</li>
+                  <li class="list-group-item">Vestibulum at eros</li>
+              </ul>
+          </div>
+          <div class="tab-pane fade" id="v-pills-immunization" role="tabpanel" aria-labelledby="v-pills-immunization-tab">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Immunization Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                  @foreach (Immunization immunization in Model.Immunizations)
+                  {
+                      <tr>
+                        <th>
+                            @immunization.DateReceived
+                        </th>
+                        <td>@immunization.ImmunizationName</td>
+                      </tr>
+                  }
+                    </tbody>
+                </table>
+              <a asp-action="CreateImmunization" asp-route-recordId="@Model.Record.MedicalRecordId" class="float-right btn btn-primary mt-auto">Add Immunization</a>
+          </div>
+          <div class="tab-pane fade" id="v-pills-medications" role="tabpanel" aria-labelledby="v-pills-medications-tab">
+                <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Medication Name</th>
+                                <th scope="col">Notes/Instructions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                      @foreach (Medication medication in Model.Medications)
+                      {
+                          <tr>
+                            <th>
+                                @medication.MedicationName
+                            </th>
+                            <td>@medication.Instructions</td>
+                          </tr>
+                      }
+                        </tbody>
+                </table>
+              <a asp-action="CreateMedication" asp-route-recordId="@Model.Record.MedicalRecordId" class="float-right btn btn-primary mt-auto">Add Medication</a>
+          </div>
+    </div>
+</div>
+    }
+}
+
+

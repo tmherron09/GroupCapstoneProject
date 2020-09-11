@@ -208,5 +208,9 @@ namespace GadeliniumGroupCapstone.Data
         public DbSet<PhotoBin> PhotoBins { get; set; }
         public DbSet<BusinessHour> BusinessHours{ get; set; }
 
+        public DbSet<Immunization> immunizations { get; set; }
+
+        public DbSet<Medication> medications { get; set; }
+
     }
 }

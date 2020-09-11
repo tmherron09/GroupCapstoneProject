@@ -4,7 +4,6 @@
     ViewData["Title"] = "Details";
 }
 
-<html>
 <style>
 
     img.one{
@@ -83,4 +82,12 @@
     <div class="container" align="center">
         <a asp-action="Edit" asp-route-id="@Model.PetAccountId">Edit</a> |
         <a asp-action="Index">Back to List</a> | 
+        <a asp-controller="MedicalRecords" asp-action="Index" asp-route-petId="@Model.PetAccountId">Medical Record</a>
     </div>
+
+    @*<form asp-action="Index" asp-controller="MedicalRecords">
+        <input type="hidden" asp-for="@Model" />
+        <div class="form-group">
+            <input type="submit" value="Details" class="btn btn-primary" />
+        </div>
+    </form>*@

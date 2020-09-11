@@ -4,14 +4,16 @@ using GadeliniumGroupCapstone.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GadeliniumGroupCapstone.Migrations
 {
     [DbContext(typeof(PetAppDbContext))]
-    partial class PetAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200911044839_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,16 +48,16 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("BusinessHourId")
-                        .HasColumnType("int");
-
                     b.Property<string>("BusinessName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Hours")
+                        .HasColumnType("int");
 
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PhotoBinId")
+                    b.Property<int>("PhotoBinId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -66,88 +68,11 @@ namespace GadeliniumGroupCapstone.Migrations
 
                     b.HasKey("BusinessId");
 
-                    b.HasIndex("BusinessHourId");
-
                     b.HasIndex("PhotoBinId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Businesses");
-                });
-
-            modelBuilder.Entity("GadeliniumGroupCapstone.Models.BusinessHour", b =>
-                {
-                    b.Property<int>("BusinessHourId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("FridayClosing")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FridayOpening")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsOpenFriday")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsOpenMonday")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsOpenSaturday")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsOpenSunday")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsOpenThursday")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsOpenTuesday")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsOpenWednesday")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("MondayClosing")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MondayOpening")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SaturdayClosing")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SaturdayOpening")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SundayClosing")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SundayOpening")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ThursdayClosing")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ThursdayOpening")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TuesdayClosing")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TuesdayOpening")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WednesdayClosing")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WednesdayOpening")
-                        .HasColumnType("int");
-
-                    b.HasKey("BusinessHourId");
-
-                    b.ToTable("BusinessHours");
                 });
 
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.Groomer", b =>
@@ -348,9 +273,6 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.Property<int>("BusinessId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PhotoBinId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ServiceDescription")
                         .HasColumnType("nvarchar(max)");
 
@@ -369,11 +291,14 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.Property<string>("ServiceTagLine")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ServiceThumbnailPhotoId")
+                        .HasColumnType("int");
+
                     b.HasKey("ServiceId");
 
                     b.HasIndex("BusinessId");
 
-                    b.HasIndex("PhotoBinId");
+                    b.HasIndex("ServiceThumbnailPhotoId");
 
                     b.ToTable("Services");
                 });
@@ -620,28 +545,22 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.HasData(
                         new
                         {
-
-                            Id = "df7bbe4a-2717-44b3-8b3b-207b6e7ee9c5",
-                            ConcurrencyStamp = "3f36d1ba-0e17-4ae1-8739-5bf0e1b35f66",
-
+                            Id = "934c9a36-f8d5-48b6-a85f-eda612a49e53",
+                            ConcurrencyStamp = "427f4e7c-c41e-4d4e-a184-8b1ab35f31ba",
                             Name = "Pet Owner",
                             NormalizedName = "PETOWNER"
                         },
                         new
                         {
-
-                            Id = "8c47e90b-5f1b-462a-8b78-4693833fafd8",
-                            ConcurrencyStamp = "01c2c3fe-1c7b-4d89-ba8f-a72350bd1537",
-
+                            Id = "2defdc66-1909-4b47-a51e-2a89d63d4a94",
+                            ConcurrencyStamp = "aab86285-0b81-4986-af0b-8f6c5dfc769a",
                             Name = "Business Owner",
                             NormalizedName = "BUSINESSOWNER"
                         },
                         new
                         {
-
-                            Id = "52dc6cdb-1acb-40ad-90d1-f1626ca26c2b",
-                            ConcurrencyStamp = "289e9130-3bc8-457c-a5fa-c896ae91531f",
-
+                            Id = "c8a170dd-32ba-4c22-bd53-3fca5aa31dea",
+                            ConcurrencyStamp = "83d264b4-3a49-4961-89dc-ecfecb7141b0",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         });
@@ -762,15 +681,11 @@ namespace GadeliniumGroupCapstone.Migrations
 
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.Business", b =>
                 {
-                    b.HasOne("GadeliniumGroupCapstone.Models.BusinessHour", "BusinessHour")
-                        .WithMany()
-                        .HasForeignKey("BusinessHourId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("GadeliniumGroupCapstone.Models.PhotoBin", "BusinessLogo")
                         .WithMany()
-                        .HasForeignKey("PhotoBinId");
+                        .HasForeignKey("PhotoBinId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("GadeliniumGroupCapstone.Models.User", "User")
                         .WithMany()
@@ -848,9 +763,7 @@ namespace GadeliniumGroupCapstone.Migrations
 
                     b.HasOne("GadeliniumGroupCapstone.Models.PhotoBin", "ServiceThumbnail")
                         .WithMany()
-                        .HasForeignKey("PhotoBinId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ServiceThumbnailPhotoId");
                 });
 
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.Sitter", b =>
