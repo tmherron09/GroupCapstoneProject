@@ -1,0 +1,65 @@
+﻿@* Edit Service *@
+
+@model GadeliniumGroupCapstone.ViewModels.ServiceWithPhotoUpload
+
+@{
+
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="Business" asp-action="EditService" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Service.BusinessId" />
+            <input type="hidden" asp-for="Service.ServiceId" />
+            <input type="hidden" asp-for="Service.PhotoBinId" />
+            <div class="form-group">
+                <label asp-for="Service.ServiceTag" class="control-label"></label>
+                <select asp-for="Service.ServiceTag">
+                    <option value="Vet">Vet</option>
+                    <option value="Toys">Toys</option>
+                    <option value="Food">Food</option>
+                    <option value="Boarding">Boarding</option>
+                    <option value="Sitter">Sitter</option>
+                    <option value="Groomer">Groomer</option>
+                    <option value="Trainer">Trainer</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Service.ServiceName" class="control-label">Name of Service</label>
+                <input asp-for="Service.ServiceName" class="form-control" />
+                <span asp-validation-for="Service.ServiceName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Service.ServiceTagLine" class="control-label">Tag Line of Service</label>
+                <input asp-for="Service.ServiceTagLine" class="form-control" />
+                <span asp-validation-for="Service.ServiceTagLine" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Service.ServiceDescription" class="control-label">Description of service provided</label>
+                <input asp-for="Service.ServiceDescription" class="form-control" />
+                <span asp-validation-for="Service.ServiceDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Service.ServiceFurtherDescription" class="control-label">Further description of service (optional)</label>
+                <input asp-for="Service.ServiceFurtherDescription" class="form-control" />
+                <span asp-validation-for="Service.ServiceFurtherDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Service.ServiceDisplayOrder" class="control-label">Enter Priority (numeric value)</label>
+                <input asp-for="Service.ServiceDisplayOrder" class="form-control" />
+                <span asp-validation-for="Service.ServiceDisplayOrder" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="file" asp-for="UploadFile" name="uploadFile" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Business" asp-action="Home">Return Home</a>
+</div>

@@ -1,0 +1,12 @@
+﻿@if (ViewBag.error != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <p><strong>@ViewBag.error</strong> </p>
+    </div>
+}
+@if (ViewBag.success != null)
+{
+    <div class="alert alert-success py-1" role="alert">
+        <p><strong>@ViewBag.success</strong> </p>
+    </div>
+}

@@ -1,7 +1,8 @@
-﻿@model GadeliniumGroupCapstone.Models.Business
+﻿@model GadeliniumGroupCapstone.ViewModels.RegisterEditBusinessViewModel
 
 @{
     ViewData["Title"] = "BusinessRegistration";
+
 }
 
 <h1>BusinessRegistration</h1>
@@ -14,23 +15,23 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label class="control-label">Business Name</label>
-                <input asp-for="BusinessName" class="form-control w-50" />
-                <span asp-validation-for="BusinessName" class="text-danger"></span>
+                <input asp-for="Business.BusinessName" class="form-control w-50" />
+                <span asp-validation-for="Business.BusinessName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control  w-50" />
-                <span asp-validation-for="Address" class="text-danger"></span>
+                <label asp-for="Business.Address" class="control-label"></label>
+                <input asp-for="Business.Address" class="form-control  w-50" />
+                <span asp-validation-for="Business.Address" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Zip" class="control-label"></label>
-                <input asp-for="Zip" class="form-control  w-50" />
-                <span asp-validation-for="Zip" class="text-danger"></span>
+                <label asp-for="Business.Zip" class="control-label"></label>
+                <input asp-for="Business.Zip" class="form-control  w-50" />
+                <span asp-validation-for="Business.Zip" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <div class="row">
                     <div class="col-6">
-                        <select class="mr-3" asp-for="BusinessHour.MondayOpening">
+                        <select class="mr-3" asp-for="Business.BusinessHour.MondayOpening">
                             @for (int i = 1; i < 13; i++)
                             {
                                 <option value="@i">@i</option>
@@ -39,7 +40,7 @@
                         <label>Monday Opening Time</label>
                     </div>
                     <div class="col-6">
-                        <select class="mr-3" asp-for="BusinessHour.TuesdayOpening">
+                        <select class="mr-3" asp-for="Business.BusinessHour.TuesdayOpening">
                             @for (int i = 1; i < 13; i++)
                             {
                                 <option value="@i">@i</option>
@@ -48,7 +49,7 @@
                         <label>Tuesday Opening Time</label>
                     </div>
                     <div class="col-6">
-                        <select class="mr-3" asp-for="BusinessHour.WednesdayOpening">
+                        <select class="mr-3" asp-for="Business.BusinessHour.WednesdayOpening">
                             @for (int i = 1; i < 13; i++)
                             {
                                 <option value="@i">@i</option>
@@ -57,7 +58,7 @@
                         <label>Wednesday Opening Time</label>
                     </div>
                     <div class="col-6">
-                        <select class="mr-3" asp-for="BusinessHour.ThursdayOpening">
+                        <select class="mr-3" asp-for="Business.BusinessHour.ThursdayOpening">
                             @for (int i = 1; i < 13; i++)
                             {
                                 <option value="@i">@i</option>
@@ -66,7 +67,7 @@
                         <label>Thursday Opening Time</label>
                     </div>
                     <div class="col-6">
-                        <select class="mr-3" asp-for="BusinessHour.FridayOpening">
+                        <select class="mr-3" asp-for="Business.BusinessHour.FridayOpening">
                             @for (int i = 1; i < 13; i++)
                             {
                                 <option value="@i">@i</option>
@@ -75,7 +76,7 @@
                         <label>Friday Opening Time</label>
                     </div>
                     <div class="col-6">
-                        <select class="mr-3" asp-for="BusinessHour.SaturdayOpening">
+                        <select class="mr-3" asp-for="Business.BusinessHour.SaturdayOpening">
                             @for (int i = 1; i < 13; i++)
                             {
                                 <option value="@i">@i</option>
@@ -84,7 +85,7 @@
                         <label>Saturday Opening Time</label>
                     </div>
                     <div class="col-6">
-                        <select class="mr-3" asp-for="BusinessHour.SundayOpening">
+                        <select class="mr-3" asp-for="Business.BusinessHour.SundayOpening">
                             @for (int i = 1; i < 13; i++)
                             {
                                 <option value="@i">@i</option>
@@ -95,7 +96,7 @@
 
 
                     <div class="col-6">
-                        <select class="mr-3" asp-for="BusinessHour.MondayClosing">
+                        <select class="mr-3" asp-for="Business.BusinessHour.MondayClosing">
                             @for (int i = 1; i < 13; i++)
                             {
                                 <option value="@i">@i</option>
@@ -104,7 +105,7 @@
                         <label>Monday Closing Time</label>
                     </div>
                     <div class="col-6">
-                        <select class="mr-3" asp-for="BusinessHour.TuesdayClosing">
+                        <select class="mr-3" asp-for="Business.BusinessHour.TuesdayClosing">
                             @for (int i = 1; i < 13; i++)
                             {
                                 <option value="@i">@i</option>
@@ -113,7 +114,7 @@
                         <label>Tuesday Closing Time</label>
                     </div>
                     <div class="col-6">
-                        <select class="mr-3" asp-for="BusinessHour.WednesdayClosing">
+                        <select class="mr-3" asp-for="Business.BusinessHour.WednesdayClosing">
                             @for (int i = 1; i < 13; i++)
                             {
                                 <option value="@i">@i</option>
@@ -122,7 +123,7 @@
                         <label>Tuesday Closing Time</label>
                     </div>
                     <div class="col-6">
-                        <select class="mr-3" asp-for="BusinessHour.ThursdayClosing">
+                        <select class="mr-3" asp-for="Business.BusinessHour.ThursdayClosing">
                             @for (int i = 1; i < 13; i++)
                             {
                                 <option value="@i">@i</option>
@@ -131,7 +132,7 @@
                         <label>Thursday Closing Time</label>
                     </div>
                     <div class="col-6">
-                        <select class="mr-3" asp-for="BusinessHour.FridayClosing">
+                        <select class="mr-3" asp-for="Business.BusinessHour.FridayClosing">
                             @for (int i = 1; i < 13; i++)
                             {
                                 <option value="@i">@i</option>
@@ -140,7 +141,7 @@
                         <label>Friday Closing Time</label>
                     </div>
                     <div class="col-6">
-                        <select class="mr-3" asp-for="BusinessHour.SaturdayClosing">
+                        <select class="mr-3" asp-for="Business.BusinessHour.SaturdayClosing">
                             @for (int i = 1; i < 13; i++)
                             {
                                 <option value="@i">@i</option>
@@ -149,7 +150,7 @@
                         <label>Saturday Closing Time</label>
                     </div>
                     <div class="col-6">
-                        <select class="mr-3" asp-for="BusinessHour.SundayClosing">
+                        <select class="mr-3" asp-for="Business.BusinessHour.SundayClosing">
                             @for (int i = 1; i < 13; i++)
                             {
                                 <option value="@i">@i</option>
@@ -161,13 +162,13 @@
 
             </div>
             <div class="form-group">
-                <label asp-for="Phone" class="control-label"></label>
-                <input asp-for="Phone" class="form-control  w-50" />
-                <span asp-validation-for="Phone" class="text-danger"></span>
+                <label asp-for="Business.Phone" class="control-label"></label>
+                <input asp-for="Business.Phone" class="form-control  w-50" />
+                <span asp-validation-for="Business.Phone" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
+            <div class="form-group">
                 <input type="file" asp-for="UploadFile" name="uploadFile" />
-            </div>*@
+            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

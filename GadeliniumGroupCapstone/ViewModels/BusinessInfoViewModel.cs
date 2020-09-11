@@ -18,6 +18,13 @@ namespace GadeliniumGroupCapstone.ViewModels
         {
             Business = business;
             Services = _repo.Service.GetBusinessServices(business.BusinessId);
+            if(Services.Count > 0)
+            {
+                for(int i = 0; i < Services.Count; i++)
+                {
+                    Services[i].ServiceThumbnail = _repo.PhotoBin.GetPhoto(Services[i].PhotoBinId);
+                }
+            }
             Business.BusinessLogo = _repo.PhotoBin.GetPhoto(business.PhotoBinId);
         }
 

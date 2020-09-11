@@ -11,11 +11,11 @@ namespace GadeliniumGroupCapstone.Contracts
         IAddressRepository Address { get; }
         IBoardingRepository Boarding { get; }
         IBusinessRepository Business { get; }
+        IBusinessHourRepository BusinessHour { get; }
         IGroomerRepository Groomer { get; }
         IMedicalRecordRepository MedicalRecord { get; }
         IOtherRepository Other { get; }
         IPetAccountRepository PetAccount { get; }
-
         IPetBioRepository PetBio { get; }
         IPhotoBinRepository PhotoBin { get; }
         IUserRepository User { get; }

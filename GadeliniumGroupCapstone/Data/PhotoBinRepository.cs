@@ -20,7 +20,9 @@ namespace GadeliniumGroupCapstone.Data
             throw new NotImplementedException();
         }
 
-        public PhotoBin GetPhoto(int photoId) =>
+        public PhotoBin GetPhoto(int? photoId) =>
             FindAllByCondition(p => p.PhotoId == photoId).SingleOrDefault();
+        public int LastPhotoAddedId() =>
+            PetAppDbContext.PhotoBins.OrderByDescending(p => p.PhotoId).Select(p => p.PhotoId).FirstOrDefault();
     }
 }

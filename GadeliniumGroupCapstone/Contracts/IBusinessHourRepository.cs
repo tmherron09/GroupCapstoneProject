@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace GadeliniumGroupCapstone.Contracts
 {
-    public interface IPhotoBinRepository : IRepositoryBase<PhotoBin>
+    public interface IBusinessHourRepository : IRepositoryBase<BusinessHour>
     {
-        PhotoBin GetPhoto(int? photoId);
-        void CreatePhoto(PhotoBin photoBin);
-        int LastPhotoAddedId();
+        BusinessHour GetBusinessHour(int businessHourId);
+        void CreateBusinessHour(BusinessHour businessHour);
+
     }
+
 }

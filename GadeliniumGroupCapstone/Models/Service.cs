@@ -22,6 +22,8 @@ namespace GadeliniumGroupCapstone.Models
                 }
                 return @"~\images\ServiceBanners\pet_store.png";
             }}
+        [ForeignKey("PhotoBin")]
+        public int PhotoBinId { get; set; }
         public PhotoBin ServiceThumbnail { get; set; }
         public string ServiceFurtherDescription { get; set; }
         public int ServiceDisplayOrder { get; set; }

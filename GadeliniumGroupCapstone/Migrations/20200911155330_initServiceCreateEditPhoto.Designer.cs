@@ -4,14 +4,16 @@ using GadeliniumGroupCapstone.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GadeliniumGroupCapstone.Migrations
 {
     [DbContext(typeof(PetAppDbContext))]
-    partial class PetAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200911155330_initServiceCreateEditPhoto")]
+    partial class initServiceCreateEditPhoto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -179,29 +181,6 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.ToTable("Guests");
                 });
 
-            modelBuilder.Entity("GadeliniumGroupCapstone.Models.Immunization", b =>
-                {
-                    b.Property<int>("ImmunizationId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DateReceived")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ImmunizationName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("MedicalRecordId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ImmunizationId");
-
-                    b.HasIndex("MedicalRecordId");
-
-                    b.ToTable("immunizations");
-                });
-
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.MedicalRecord", b =>
                 {
                     b.Property<int>("MedicalRecordId")
@@ -217,29 +196,6 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.HasIndex("PetId");
 
                     b.ToTable("MedicalRecords");
-                });
-
-            modelBuilder.Entity("GadeliniumGroupCapstone.Models.Medication", b =>
-                {
-                    b.Property<int>("MedicationId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Instructions")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("MedicalRecordId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("MedicationName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("MedicationId");
-
-                    b.HasIndex("MedicalRecordId");
-
-                    b.ToTable("medications");
                 });
 
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.Other", b =>
@@ -620,28 +576,22 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.HasData(
                         new
                         {
-
                             Id = "df7bbe4a-2717-44b3-8b3b-207b6e7ee9c5",
                             ConcurrencyStamp = "3f36d1ba-0e17-4ae1-8739-5bf0e1b35f66",
-
                             Name = "Pet Owner",
                             NormalizedName = "PETOWNER"
                         },
                         new
                         {
-
                             Id = "8c47e90b-5f1b-462a-8b78-4693833fafd8",
                             ConcurrencyStamp = "01c2c3fe-1c7b-4d89-ba8f-a72350bd1537",
-
                             Name = "Business Owner",
                             NormalizedName = "BUSINESSOWNER"
                         },
                         new
                         {
-
                             Id = "52dc6cdb-1acb-40ad-90d1-f1626ca26c2b",
                             ConcurrencyStamp = "289e9130-3bc8-457c-a5fa-c896ae91531f",
-
                             Name = "Admin",
                             NormalizedName = "Admin"
                         });
@@ -786,29 +736,11 @@ namespace GadeliniumGroupCapstone.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("GadeliniumGroupCapstone.Models.Immunization", b =>
-                {
-                    b.HasOne("GadeliniumGroupCapstone.Models.MedicalRecord", "medicalRecord")
-                        .WithMany()
-                        .HasForeignKey("MedicalRecordId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.MedicalRecord", b =>
                 {
                     b.HasOne("GadeliniumGroupCapstone.Models.PetAccount", "PetAccount")
                         .WithMany()
                         .HasForeignKey("PetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("GadeliniumGroupCapstone.Models.Medication", b =>
-                {
-                    b.HasOne("GadeliniumGroupCapstone.Models.MedicalRecord", "medicalRecord")
-                        .WithMany()
-                        .HasForeignKey("MedicalRecordId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

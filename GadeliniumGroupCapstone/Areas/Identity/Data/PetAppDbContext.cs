@@ -206,6 +206,7 @@ namespace GadeliniumGroupCapstone.Data
         public DbSet<Service> Services { get; set; }
         public override DbSet<User> Users { get; set; }
         public DbSet<PhotoBin> PhotoBins { get; set; }
+        public DbSet<BusinessHour> BusinessHours{ get; set; }
 
         public DbSet<Immunization> immunizations { get; set; }
 
