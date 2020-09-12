@@ -166,7 +166,7 @@
                 </div>
             }
             <div class="row featurette align-items-center bg-light py-3">
-                <div class="col-md-7">
+                <div class="col">
                     <h2 class="featurette-heading">
                         @Model.Services[i].ServiceName <br />
                         <span class="text-muted">@Model.Services[i].ServiceTagLine</span>
@@ -178,8 +178,8 @@
                         <p>@Model.Services[i].ServiceFurtherDescription</p>
                     }
                 </div>
-                <div class="col-md-5">
-                    <img src="@imageSrcService[i]" class="border rounded-lg float-right" height="300" alt="@Model.Services[i].ServiceTag Banner Photo" />
+                <div class="col">
+                    <img src="@imageSrcService[i]" class="border rounded-lg float-right w-100" alt="@Model.Services[i].ServiceTag Banner Photo" />
                 </div>
             </div>
         }
@@ -188,10 +188,10 @@
             <hr class="featurette-divider">
 
             <div class="row featurette align-items-center bg-light py-3">
-                <div class="col-md-5">
-                    <img src="@imageSrcService[i]" class="border rounded-lg float-right"height="300" alt="@Model.Services[i].ServiceTag Banner Photo" />
+                <div class="col">
+                    <img src="@imageSrcService[i]" class="border rounded-lg float-right w-100" alt="@Model.Services[i].ServiceTag Banner Photo" />
                 </div>
-                <div class="col-md-7">
+                <div class="col">
                     <h2 class="featurette-heading">
                         @Model.Services[i].ServiceName <br />
                         <span class="text-muted">@Model.Services[i].ServiceTagLine</span>

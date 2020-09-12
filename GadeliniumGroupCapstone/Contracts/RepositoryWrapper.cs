@@ -14,6 +14,7 @@ namespace GadeliniumGroupCapstone.Contracts
         private IBoardingRepository _boarding;
         private IBusinessRepository _business;
         private IBusinessHourRepository _businessHour;
+        private IFavoriteBusinessRepository _favoriteBusiness;
         private IGroomerRepository _groomer;
         private IMedicalRecordRepository _medicalRecord;
         private IOtherRepository _other;
@@ -85,6 +86,18 @@ namespace GadeliniumGroupCapstone.Contracts
                     _businessHour = new BusinessHourRepository(_context);
                 }
                 return _businessHour;
+            }
+        }
+
+        public IFavoriteBusinessRepository FavoriteBusiness
+        {
+            get
+            {
+                if (_favoriteBusiness == null)
+                {
+                    _favoriteBusiness = new FavoriteBusinessRepository(_context);
+                }
+                return _favoriteBusiness;
             }
         }
 

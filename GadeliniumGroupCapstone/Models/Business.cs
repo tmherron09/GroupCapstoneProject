@@ -29,5 +29,7 @@ namespace GadeliniumGroupCapstone.Models
         public User User { get; set; }
 
         public List<Service> Services { get; set; }
+        [NotMapped]
+        public bool IsFavorited { get; set; }
     }
 }

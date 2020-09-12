@@ -196,6 +196,7 @@ namespace GadeliniumGroupCapstone.Data
         public DbSet<Guest> Guests { get; set; }
         public DbSet<Trainer> Trainers { get; set; }
         public DbSet<Groomer> Groomers { get; set; }
+        public DbSet<FavoriteBusiness> FavoriteBusinesses { get; set; }
         public DbSet<Sitter> Sitters { get; set; }
         public DbSet<Other> Others { get; set; }
         public DbSet<Business> Businesses { get; set; }
