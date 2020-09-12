@@ -1,38 +1,35 @@
 ﻿using GadeliniumGroupCapstone.Models;
-using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace GadeliniumGroupCapstone.NewsFeedService.Models
 {
-    public class PetPost : IPost
+    public class Post
     {
         public int PostId { get; set; }
         public int PosterId { get; set; }
         public string PosterName { get; set; }
-        public PosterType PosterType
-        {
-            get
-            {
-                return PosterType.PetPoster;
-            }
-        }
+        public PosterType PosterType { get; }
         public string PostTitle { get; set; }
         public string PostContent { get; set; }
         public int? PhotoBinId { get; set; }
         public PhotoBin PostImage { get; set; }
+        [NotMapped]
         public int Likes { get; set; }
 
-        public PetPost(PetAccount postingPet)
-        {
+    }
 
-        }
-
-        public PetPost(PetAccount postingPet, IFormFile uploadFile)
-        {
-
-        }
+    public enum PosterType
+    {
+        BusinessPoster,
+        PetPoster,
+        AdminPoster,
+        ServicePoster,
+        AlertPoster
     }
 }

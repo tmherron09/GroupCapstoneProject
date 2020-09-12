@@ -5,7 +5,11 @@ using System.Threading.Tasks;
 
 namespace GadeliniumGroupCapstone.NewsFeedService.Models
 {
-    public class NewsfeedUser
+    public class PostUser
     {
+        public string UserId { get; set; }
+        public int PostId { get; set; }
+        public bool IsLiked { get; set; }
+
     }
 }

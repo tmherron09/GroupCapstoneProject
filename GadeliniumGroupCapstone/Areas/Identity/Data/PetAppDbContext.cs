@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GadeliniumGroupCapstone.Models;
+using GadeliniumGroupCapstone.NewsFeedService.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -212,6 +213,8 @@ namespace GadeliniumGroupCapstone.Data
         public DbSet<Immunization> Immunizations { get; set; }
 
         public DbSet<Medication> Medications { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<PostUser> PostUsers { get; set; }
 
     }
 }
