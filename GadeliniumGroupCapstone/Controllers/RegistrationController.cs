@@ -69,14 +69,7 @@ namespace GadeliniumGroupCapstone.Controllers
             return View(business);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
 
-        // GET: RegistrationController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
 
         // POST: RegistrationController/Edit/5
         [HttpPost]
@@ -114,38 +107,37 @@ namespace GadeliniumGroupCapstone.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+
+        //[Route("{controller}/Business")]
+        //[Route("{controller}/CreateBusiness")]
+        //[Route("Business/CreateBusiness")]
         [HttpGet("Registration/CreateBusinessAccountWithProfileImage")]
         public IActionResult CreateBusinessAccountWithProfileImage()
         {
-            RegisterEditBusinessViewModel registerEditBusinessViewModel = new RegisterEditBusinessViewModel();
+            if(_repo.Business.UserHasBusiness(User.FindFirstValue(ClaimTypes.NameIdentifier)))
+            {
+                return RedirectToAction("Home", "Business");
+            }
 
-            return View(registerEditBusinessViewModel);
+            RegisterEditBusinessViewModel regEditModel = new RegisterEditBusinessViewModel();
+
+            return View("CreateBusinessAccountWithProfileImage", regEditModel);
         }
 
         [HttpPost("Registration/CreateBusinessAccountWithProfileImage")]
+        //[HttpPost("Registration/CreateBusiness")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateBusinessAccountWithProfileImage(RegisterEditBusinessViewModel registerEditBusinessViewModel)
+        public async Task<IActionResult> CreateBusinessAccountWithProfileImage(RegisterEditBusinessViewModel regEditModel)
         {
             try
             {
                 // Get User Id for Business
-                registerEditBusinessViewModel.Business.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                registerEditBusinessViewModel.Business.User = _context.Users.Where(u => u.Id == registerEditBusinessViewModel.Business.UserId).FirstOrDefault();
+                regEditModel.Business.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                //regEditModel.Business.User = _context.Users.Where(u => u.Id == regEditModel.Business.UserId).FirstOrDefault();
 
-                if (registerEditBusinessViewModel.UploadFile == null)
-                {
-                    byte[] imgdata = await System.IO.File.ReadAllBytesAsync(@"wwwroot\images\Default\default_logo.png");
-                    PhotoBin logo = new PhotoBin();
-                    logo.Content = imgdata;
-                    await _context.PhotoBins.AddAsync(logo);
-                    await _context.SaveChangesAsync();
-                }
-                else
-                {
-                    await _uploadImageService.UploadImageCreateRegisterEditBusinessViewModel(registerEditBusinessViewModel);
-                }
+                await _uploadImageService.RegisterBusinessUploadImage(regEditModel);
 
-                registerEditBusinessViewModel.Business.BusinessHourId = _context.BusinessHours.OrderByDescending(p => p.BusinessHourId).Select(p => p.BusinessHourId).FirstOrDefault();
+                regEditModel.Business.BusinessHourId = _context.BusinessHours.OrderByDescending(p => p.BusinessHourId).Select(p => p.BusinessHourId).FirstOrDefault();
             }
             catch
             {
@@ -154,8 +146,8 @@ namespace GadeliniumGroupCapstone.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            await _context.BusinessHours.AddAsync(registerEditBusinessViewModel.Business.BusinessHour);
-            await _context.Businesses.AddAsync(registerEditBusinessViewModel.Business);
+            await _context.BusinessHours.AddAsync(regEditModel.Business.BusinessHour);
+            await _context.Businesses.AddAsync(regEditModel.Business);
             await _userManager.AddClaimAsync(await _userManager.FindByNameAsync(User.Identity.Name), new Claim(ClaimTypes.Role, "Business Owner"));
             await _signInManager.RefreshSignInAsync(await _userManager.FindByNameAsync(User.Identity.Name));
             _context.SaveChanges();

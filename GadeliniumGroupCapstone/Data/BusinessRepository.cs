@@ -56,6 +56,11 @@ namespace GadeliniumGroupCapstone.Data
         // Finds a "User" their business when going to the home index.
         public Business GetBusinessOfUserId(string userId) =>
             FindAllByCondition(b => b.UserId == userId).FirstOrDefault();
-           
+
+        public bool UserHasBusiness(string userId) =>
+            PetAppDbContext.Businesses.Any(b => b.UserId == userId);
+
+
+            
     }
 }

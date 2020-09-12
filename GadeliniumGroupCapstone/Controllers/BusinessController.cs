@@ -7,6 +7,7 @@ using GadeliniumGroupCapstone.AuthorizationPolicies;
 using GadeliniumGroupCapstone.Contracts;
 using GadeliniumGroupCapstone.Data;
 using GadeliniumGroupCapstone.Models;
+using GadeliniumGroupCapstone.UploadImage;
 using GadeliniumGroupCapstone.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -20,12 +21,14 @@ namespace GadeliniumGroupCapstone.Controllers
         private IRepositoryWrapper _repo;
         private IAuthorizationService _authorizationService;
         private UserManager<User> _userManager;
+        private UploadImageService _uploadImageService;
 
-        public BusinessController(IRepositoryWrapper repo, IAuthorizationService authorizationService, UserManager<User> userManager)
+        public BusinessController(IRepositoryWrapper repo, IAuthorizationService authorizationService, UserManager<User> userManager, UploadImageService uploadImageService)
         {
             _repo = repo;
             _authorizationService = authorizationService;
             _userManager = userManager;
+            _uploadImageService = uploadImageService;
         }
         
         /// <summary>
@@ -123,22 +126,24 @@ namespace GadeliniumGroupCapstone.Controllers
 
             try
             {
-                if (model.UploadFile != null)
-                {
-                    using (var memoryStream = new MemoryStream())
-                    {
-                        await model.UploadFile.CopyToAsync(memoryStream);
-                        model.PhotoBin.Content = memoryStream.ToArray();
+                //if (model.UploadFile != null)
+                //{
+                //    using (var memoryStream = new MemoryStream())
+                //    {
+                //        await model.UploadFile.CopyToAsync(memoryStream);
+                //        model.PhotoBin.Content = memoryStream.ToArray();
 
-                        string Base64 = Convert.ToBase64String(model.PhotoBin.Content);
-                        byte[] array = Convert.FromBase64String(Base64);
+                //        //string Base64 = Convert.ToBase64String(model.PhotoBin.Content);
+                //        //byte[] array = Convert.FromBase64String(Base64);
 
-                        model.PhotoBin.PhotoId = (int)model.Business.PhotoBinId;
+                //        model.PhotoBin.PhotoId = (int)model.Business.PhotoBinId;
 
-                        _repo.PhotoBin.Update(model.PhotoBin);
-                        _repo.Save();
-                    }
-                }
+                //        _repo.PhotoBin.Update(model.PhotoBin);
+                //        _repo.Save();
+                //    }
+                //}
+
+                await _uploadImageService.EditBusinessUploadImage(model);
 
                 _repo.BusinessHour.Update(model.Business.BusinessHour);
 
@@ -199,31 +204,31 @@ namespace GadeliniumGroupCapstone.Controllers
 
             try
             {
-                if (newService.UploadFile == null)
-                {
-                    byte[] imgdata = await System.IO.File.ReadAllBytesAsync(@"wwwroot\images\Default\default_servicethumbnail.png");
-                    PhotoBin logo = new PhotoBin();
-                    logo.Content = imgdata;
-                    _repo.PhotoBin.Create(logo);
-                    _repo.Save();
-                }
-                else
-                {
-                    using (var memoryStream = new MemoryStream())
-                    {
-                        await newService.UploadFile.CopyToAsync(memoryStream);
-                        newService.Service.ServiceThumbnail = new PhotoBin();
-                        newService.Service.ServiceThumbnail.Content = memoryStream.ToArray();
+                //if (newService.UploadFile == null)
+                //{
+                //    byte[] imgdata = await System.IO.File.ReadAllBytesAsync(@"wwwroot\images\Default\default_servicethumbnail.png");
+                //    PhotoBin logo = new PhotoBin();
+                //    logo.Content = imgdata;
+                //    _repo.PhotoBin.Create(logo);
+                //    _repo.Save();
+                //}
+                //else
+                //{
+                //    using (var memoryStream = new MemoryStream())
+                //    {
+                //        await newService.UploadFile.CopyToAsync(memoryStream);
+                //        newService.Service.ServiceThumbnail = new PhotoBin();
+                //        newService.Service.ServiceThumbnail.Content = memoryStream.ToArray();
 
-                        //string Base64 = Convert.ToBase64String(newService.Service.ServiceThumbnail.Content);
-                        //byte[] array = Convert.FromBase64String(Base64);
-                        _repo.PhotoBin.Create(newService.Service.ServiceThumbnail);
-                        _repo.Save();
-                        // Retrieve photoid just saved to put into service model.
+                //        _repo.PhotoBin.Create(newService.Service.ServiceThumbnail);
+                //        _repo.Save();
 
-                    }
-                }
-                newService.Service.PhotoBinId = _repo.PhotoBin.LastPhotoAddedId();
+                //    }
+                //}
+                //// Retrieve photoid just saved to put into service model.
+                //newService.Service.PhotoBinId = _repo.PhotoBin.LastPhotoAddedId();
+
+                await _uploadImageService.CreateServiceUploadImage(newService);
 
                 _repo.Service.Create(newService.Service);
                 _repo.Save();
@@ -275,23 +280,25 @@ namespace GadeliniumGroupCapstone.Controllers
 
             try
             {
-                if (model.UploadFile != null)
-                {
-                    using (var memoryStream = new MemoryStream())
-                    {
-                        await model.UploadFile.CopyToAsync(memoryStream);
-                        model.Service.ServiceThumbnail = new PhotoBin();
-                        model.Service.ServiceThumbnail.Content = memoryStream.ToArray();
+                //if (model.UploadFile != null)
+                //{
+                //    using (var memoryStream = new MemoryStream())
+                //    {
+                //        await model.UploadFile.CopyToAsync(memoryStream);
+                //        model.Service.ServiceThumbnail = new PhotoBin();
+                //        model.Service.ServiceThumbnail.Content = memoryStream.ToArray();
 
-                        //string Base64 = Convert.ToBase64String(model.Service.ServiceThumbnail.Content);
-                        //byte[] array = Convert.FromBase64String(Base64);
+                //        //string Base64 = Convert.ToBase64String(model.Service.ServiceThumbnail.Content);
+                //        //byte[] array = Convert.FromBase64String(Base64);
 
-                        model.Service.ServiceThumbnail.PhotoId = (int)model.Service.PhotoBinId;
+                //        model.Service.ServiceThumbnail.PhotoId = (int)model.Service.PhotoBinId;
 
-                        _repo.PhotoBin.Update(model.Service.ServiceThumbnail);
-                        _repo.Save();
-                    }
-                }
+                //        _repo.PhotoBin.Update(model.Service.ServiceThumbnail);
+                //        _repo.Save();
+                //    }
+                //}
+
+                await _uploadImageService.EditServiceUploadImage(model);
 
 
 

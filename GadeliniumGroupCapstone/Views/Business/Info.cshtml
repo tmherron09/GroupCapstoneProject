@@ -146,10 +146,10 @@
     }
 
     @{ List<string> imageBase64Service = new List<string>();
-        List<string> imageSrcService = new List<string> ();
-        }
+        List<string> imageSrcService = new List<string>();
+    }
 
-    @for(int i = 0; i< Model.Services.Count; i++)
+    @for (int i = 0; i < Model.Services.Count; i++)
     {
         imageBase64Service.Add(Convert.ToBase64String(Model.Services[i].ServiceThumbnail.Content));
         imageSrcService.Add(string.Format("data:image/gif;base64,{0}", imageBase64Service[i]));
@@ -159,9 +159,9 @@
             <hr class="featurette-divider">
             @if (isAuthorized.Succeeded)
             {
-                <div class="container">
+                <div class="container w-100 p-0">
                     <div class="btn-group-vertical btn-group-lg">
-                        <a asp-action="EditService" asp-route-id="@Model.Services[i].ServiceId" class="btn btn-light">Edit Service</a>
+                        <a asp-action="EditService" asp-route-id="@Model.Services[i].ServiceId" class="btn btn-warning ml-0">Edit Service</a>
                     </div>
                 </div>
             }
@@ -186,6 +186,15 @@
         else
         {
             <hr class="featurette-divider">
+
+            @if (isAuthorized.Succeeded)
+            {
+                <div class="container">
+                    <div class="btn-group-vertical btn-group-lg">
+                        <a asp-action="EditService" asp-route-id="@Model.Services[i].ServiceId" class="btn btn-warning ml-0">Edit Service</a>
+                    </div>
+                </div>
+            }
 
             <div class="row featurette align-items-center bg-light py-3">
                 <div class="col">

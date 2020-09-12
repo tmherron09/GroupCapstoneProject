@@ -13,6 +13,7 @@ namespace GadeliniumGroupCapstone.Contracts
         Business GetBusinessOfUserId(string userId);
         void CreateBusiness(Business business);
         List<Business> SearchByName(string searchValue);
+        bool UserHasBusiness(string userId);
     }
 
 }
