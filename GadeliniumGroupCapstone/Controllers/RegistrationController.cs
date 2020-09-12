@@ -4,8 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using GadeliniumGroupCapstone.Contracts;
 using GadeliniumGroupCapstone.Data;
 using GadeliniumGroupCapstone.Models;
+using GadeliniumGroupCapstone.UploadImage;
 using GadeliniumGroupCapstone.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -17,13 +19,17 @@ namespace GadeliniumGroupCapstone.Controllers
     public class RegistrationController : Controller
     {
         public PetAppDbContext _context;
+        private IRepositoryWrapper _repo;
         public UserManager<User> _userManager;
         public SignInManager<User> _signInManager;
-        public RegistrationController(PetAppDbContext context, UserManager<User> userManager, SignInManager<User> signInManager)
+        private UploadImageService _uploadImageService;
+        public RegistrationController(PetAppDbContext context, IRepositoryWrapper repo, UserManager<User> userManager, SignInManager<User> signInManager, UploadImageService uploadImageService)
         {
             _context = context;
+            _repo = repo;
             _userManager = userManager;
             _signInManager = signInManager;
+            _uploadImageService = uploadImageService;
         }
 
         // GET: RegistrationController
@@ -136,23 +142,9 @@ namespace GadeliniumGroupCapstone.Controllers
                 }
                 else
                 {
-
-                    // Process Uploaded Image from viewmodel IFileForm
-                    using (var memoryStream = new MemoryStream())
-                    {
-                        await registerEditBusinessViewModel.UploadFile.CopyToAsync(memoryStream);
-                        registerEditBusinessViewModel.PhotoBin.Content = memoryStream.ToArray();
-
-                        string Base64 = Convert.ToBase64String(registerEditBusinessViewModel.PhotoBin.Content);
-                        byte[] array = Convert.FromBase64String(Base64);
-                        await _context.PhotoBins.AddAsync(registerEditBusinessViewModel.PhotoBin);
-                        await _context.SaveChangesAsync();
-                        
-
-                    }
+                    await _uploadImageService.UploadImageCreateRegisterEditBusinessViewModel(registerEditBusinessViewModel);
                 }
-                // Retrieve photo just saved to put into business model.
-                registerEditBusinessViewModel.Business.PhotoBinId = _context.PhotoBins.OrderByDescending(p => p.PhotoId).Select(p => p.PhotoId).FirstOrDefault();
+
                 registerEditBusinessViewModel.Business.BusinessHourId = _context.BusinessHours.OrderByDescending(p => p.BusinessHourId).Select(p => p.BusinessHourId).FirstOrDefault();
             }
             catch

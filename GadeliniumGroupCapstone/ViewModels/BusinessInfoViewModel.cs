@@ -26,6 +26,7 @@ namespace GadeliniumGroupCapstone.ViewModels
                 }
             }
             Business.BusinessLogo = _repo.PhotoBin.GetPhoto(business.PhotoBinId);
+            Business.BusinessHour = _repo.BusinessHour.GetBusinessHour(Business.BusinessHourId);
         }
 
     }

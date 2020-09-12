@@ -639,22 +639,22 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "27fdb8b5-f0c3-4ca4-8f0b-cff5adb19c8f",
-                            ConcurrencyStamp = "01ef6718-c4c9-4eb6-aed7-d04c6317d6da",
+                            Id = "27da9b71-62b6-485d-886b-3dc8e490f82b",
+                            ConcurrencyStamp = "239c2de8-c454-43ef-9ff7-fea3aa54f90b",
                             Name = "Pet Owner",
                             NormalizedName = "PETOWNER"
                         },
                         new
                         {
-                            Id = "770136bd-e54c-4992-a334-207b189192b4",
-                            ConcurrencyStamp = "0db50cc2-65c9-49fe-ad9b-95674e15d6b9",
+                            Id = "543c73a3-5a7e-41b0-a114-efc317a12866",
+                            ConcurrencyStamp = "26966cdf-3036-4143-92ce-8af5c339da40",
                             Name = "Business Owner",
                             NormalizedName = "BUSINESSOWNER"
                         },
                         new
                         {
-                            Id = "c63d003b-327c-47e3-b1e1-0406cfc15a09",
-                            ConcurrencyStamp = "1526a811-7eb4-4cff-99a4-98fb7047e3c0",
+                            Id = "86f131ff-33d7-4670-8969-61f7714a4545",
+                            ConcurrencyStamp = "b99719c2-5f38-4fd4-b196-72e791f7deb5",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         });

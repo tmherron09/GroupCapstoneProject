@@ -27,59 +27,136 @@ namespace GadeliniumGroupCapstone.Controllers
             _authorizationService = authorizationService;
             _userManager = userManager;
         }
+        
+        /// <summary>
+        /// Default and All Purpose Routing/Method. Redirects a users to their Business Homepage if no values added to default route. Will route users without Business account to default search page for businesses.
+        /// </summary>
+        /// <returns></returns>
         [Route("{controller}")]
         [Route("{controller}/Home")]
         public IActionResult Home()
         {
             var userdId = _userManager.GetUserId(User);
-
             var business = _repo.Business.GetBusinessOfUserId(userdId);
-
             if (business == null)
             {
                 return RedirectToAction("SearchBusinesses", "Business");
             }
-
-            business.BusinessHour = _repo.BusinessHour.GetBusinessHour(business.BusinessHourId);
             BusinessInfoViewModel model = new BusinessInfoViewModel(business, _repo);
-
             ViewBag.error = TempData["error"];
             ViewBag.success = TempData["success"];
-
-
             return View("Info", model);
-
-            
         }
 
 
-        // GET: BusinessController
+        /// <summary>
+        /// This route/method is used to display a specific business home page based on their business id. If businessId is
+        /// </summary>
+        /// <param name="businessId">Business Id</param>
+        /// <returns>Business Display page/ On Error Calls Home method</returns>
         [Route("{controller}/{businessId}")]
         [Route("{controller}/info/{businessId}")]
         public IActionResult Info(int businessId)
         {
-
+            if (businessId <= 0) { RedirectToAction("Home"); }
             var business = _repo.Business.GetBusiness(businessId);
+            if (business == null) { RedirectToAction("Home"); }
 
             BusinessInfoViewModel model = new BusinessInfoViewModel(business, _repo);
-
-
             return View("Info", model);
         }
 
+
+        /// <summary>
+        /// Returns the search Businesses page (default page if not business user or specified business to display info.) Page Allows for Follow and UnFollowing of Businesses as well.
+        /// </summary>
+        /// <returns>SearchBusinesses View</returns>
         public IActionResult SearchBusinesses()
         {
-
-
             return View();
 
         }
 
-        // GET: BusinessController/Details/5
-        public ActionResult Details(int id)
+        #region Business Edit Methods (GET/POST)
+
+        /// <summary>
+        /// EditBusiness GET method. Checks to make sure currently signed in user has rights to edit the business. Returns a RegisterEditBusinessViewModel to the EditBusiness view
+        /// </summary>
+        /// <param name="id">Business Id</param>
+        /// <returns>RegisterEditBusinessViewModel containing selected business to EditBusinessView </returns>
+        public async Task<IActionResult> EditBusiness(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return View("Home");
+            }
+
+            var business = _repo.Business.GetBusiness((int)id);
+            var isAuthorized = await _authorizationService.AuthorizeAsync(User, business, new UserIdMatchRequirement());
+            if (!isAuthorized.Succeeded)
+            {
+                return Forbid();
+            }
+
+            RegisterEditBusinessViewModel model = new RegisterEditBusinessViewModel(business);
+            model.Business.BusinessHour = _repo.BusinessHour.GetBusinessHour(model.Business.BusinessHourId);
+            model.Business.BusinessLogo = _repo.PhotoBin.GetPhoto(model.Business.PhotoBinId);
+
+            return View(model);
         }
+        
+        /// <summary>
+        /// EditBusiness POST method. Registers the form data along with Business Logo into database. *Checks user authorization.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditBusiness(RegisterEditBusinessViewModel model)
+        {
+
+            var isAuthorized = await _authorizationService.AuthorizeAsync(User, model.Business, new UserIdMatchRequirement());
+            if (!isAuthorized.Succeeded)
+            {
+                return Forbid();
+            }
+
+            try
+            {
+                if (model.UploadFile != null)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await model.UploadFile.CopyToAsync(memoryStream);
+                        model.PhotoBin.Content = memoryStream.ToArray();
+
+                        string Base64 = Convert.ToBase64String(model.PhotoBin.Content);
+                        byte[] array = Convert.FromBase64String(Base64);
+
+                        model.PhotoBin.PhotoId = (int)model.Business.PhotoBinId;
+
+                        _repo.PhotoBin.Update(model.PhotoBin);
+                        _repo.Save();
+                    }
+                }
+
+                _repo.BusinessHour.Update(model.Business.BusinessHour);
+
+                _repo.Business.Update(model.Business);
+                _repo.Save();
+            }
+            catch
+            {
+                TempData["error"] = "Failed to update Business";
+                return RedirectToAction("Home");
+            }
+
+            TempData["success"] = "Business Updated";
+            return RedirectToAction("Home");
+        }
+
+        #endregion
+
 
         // GET: BusinessController/Create
         [HttpGet("{controller}/AddService/{businessId}")]
@@ -143,7 +220,7 @@ namespace GadeliniumGroupCapstone.Controllers
                         _repo.PhotoBin.Create(newService.Service.ServiceThumbnail);
                         _repo.Save();
                         // Retrieve photoid just saved to put into service model.
-                        
+
                     }
                 }
                 newService.Service.PhotoBinId = _repo.PhotoBin.LastPhotoAddedId();
@@ -216,7 +293,7 @@ namespace GadeliniumGroupCapstone.Controllers
                     }
                 }
 
-            
+
 
                 _repo.Service.Update(model.Service);
                 _repo.Save();
@@ -233,79 +310,12 @@ namespace GadeliniumGroupCapstone.Controllers
         }
 
 
-        // GET: BusinessController/Edit/5
-        public async Task<IActionResult> EditBusiness(int? id)
-        {
-            if (id == null)
-            {
-                return View("Home");
-            }
-
-            var business = _repo.Business.GetBusiness((int)id);
-
-            var isAuthorized = await _authorizationService.AuthorizeAsync(User, business, new UserIdMatchRequirement());
-            if (!isAuthorized.Succeeded)
-            {
-                return Forbid();
-            }
-
-            RegisterEditBusinessViewModel model = new RegisterEditBusinessViewModel(business);
-            model.Business.BusinessHour = _repo.BusinessHour.GetBusinessHour(model.Business.BusinessHourId);
-            model.Business.BusinessLogo = _repo.PhotoBin.GetPhoto(model.Business.PhotoBinId);
-
-            return View(model);
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditBusiness(RegisterEditBusinessViewModel model)
-        {
-
-            var isAuthorized = await _authorizationService.AuthorizeAsync(User, model.Business, new UserIdMatchRequirement());
-            if (!isAuthorized.Succeeded)
-            {
-                return Forbid();
-            }
-
-            try
-            {
-                if (model.UploadFile != null)
-                {
-                    using (var memoryStream = new MemoryStream())
-                    {
-                        await model.UploadFile.CopyToAsync(memoryStream);
-                        model.PhotoBin.Content = memoryStream.ToArray();
-
-                        string Base64 = Convert.ToBase64String(model.PhotoBin.Content);
-                        byte[] array = Convert.FromBase64String(Base64);
-
-                        model.PhotoBin.PhotoId = (int)model.Business.PhotoBinId;
-
-                        _repo.PhotoBin.Update(model.PhotoBin);
-                        _repo.Save();
-                    }
-                }
-
-                _repo.BusinessHour.Update(model.Business.BusinessHour);
-
-                _repo.Business.Update(model.Business);
-                _repo.Save();
-            }
-            catch
-            {
-                TempData["error"] = "Failed to update Business";
-                return RedirectToAction("Home");
-            }
-
-            TempData["success"] = "Business Updated";
-            return RedirectToAction("Home");
-        }
-
         
 
 
-        
 
-       
+
+
 
 
     }
