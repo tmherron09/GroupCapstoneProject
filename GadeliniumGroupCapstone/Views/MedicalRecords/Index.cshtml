@@ -1,8 +1,13 @@
 ﻿@model dynamic
 
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutMedical.cshtml";
+}
+
 <h1 class="display-3 pb-3">✚Medical-Record </h1>
 
-@{ 
+@{
     if (Model.Record == null)
     {
         <p>
@@ -14,46 +19,47 @@
     {
         var petId = Model.petId;
         var recordId = Model.Record.MedicalRecordId;
-<div class="row">
-    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-      <a class="nav-link active" id="v-pills-overview-tab" data-toggle="pill" href="#v-pills-overview" role="tab" aria-controls="v-pills-overview" aria-selected="true">Overview</a>
-      <a class="nav-link" id="v-pills-immunization-tab" data-toggle="pill" href="#v-pills-immunization" role="tab" aria-controls="v-pills-immunization" aria-selected="false">Immunizations</a>
-      <a class="nav-link" id="v-pills-medications-tab" data-toggle="pill" href="#v-pills-medications" role="tab" aria-controls="v-pills-medications" aria-selected="false">Medications</a>
-    </div>
-    <div class="tab-content col" id="v-pills-tabContent">
-          <div class="tab-pane fade show active" id="v-pills-overview" role="tabpanel" aria-labelledby="v-pills-overview-tab">
-              <ul class="list-group list-group-flush">
-                  <li class="list-group-item">Placeholder</li>
-                  <li class="list-group-item">Dapibus ac facilisis in</li>
-                  <li class="list-group-item">Morbi leo risus</li>
-                  <li class="list-group-item">Porta ac consectetur ac</li>
-                  <li class="list-group-item">Vestibulum at eros</li>
-              </ul>
-          </div>
-          <div class="tab-pane fade" id="v-pills-immunization" role="tabpanel" aria-labelledby="v-pills-immunization-tab">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Date</th>
-                            <th scope="col">Immunization Name</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                  @foreach (Immunization immunization in Model.Immunizations)
-                  {
-                      <tr>
-                        <th>
-                            @immunization.DateReceived
-                        </th>
-                        <td>@immunization.ImmunizationName</td>
-                      </tr>
-                  }
-                    </tbody>
-                </table>
-              <a asp-action="CreateImmunization" asp-route-recordId="@Model.Record.MedicalRecordId" class="float-right btn btn-primary mt-auto">Add Immunization</a>
-          </div>
-          <div class="tab-pane fade" id="v-pills-medications" role="tabpanel" aria-labelledby="v-pills-medications-tab">
-                <table class="table">
+        <div class="row">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" id="v-pills-overview-tab" data-toggle="pill" href="#v-pills-overview" role="tab" aria-controls="v-pills-overview" aria-selected="true">Overview</a>
+                <a class="nav-link" id="v-pills-immunization-tab" data-toggle="pill" href="#v-pills-immunization" role="tab" aria-controls="v-pills-immunization" aria-selected="false">Immunizations</a>
+                <a class="nav-link" id="v-pills-medications-tab" data-toggle="pill" href="#v-pills-medications" role="tab" aria-controls="v-pills-medications" aria-selected="false">Medications</a>
+                <a class="nav-link" id="v-pills-vet-tab" data-toggle="pill" href="#v-pills-vet" role="tab" aria-controls="v-pills-vet" aria-selected="false">Vet Search</a>
+            </div>
+            <div class="tab-content col" id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="v-pills-overview" role="tabpanel" aria-labelledby="v-pills-overview-tab">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Placeholder</li>
+                        <li class="list-group-item">Dapibus ac facilisis in</li>
+                        <li class="list-group-item">Morbi leo risus</li>
+                        <li class="list-group-item">Porta ac consectetur ac</li>
+                        <li class="list-group-item">Vestibulum at eros</li>
+                    </ul>
+                </div>
+                <div class="tab-pane fade" id="v-pills-immunization" role="tabpanel" aria-labelledby="v-pills-immunization-tab">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">Immunization Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (Immunization immunization in Model.Immunizations)
+                            {
+                                <tr>
+                                    <th>
+                                        @immunization.DateReceived
+                                    </th>
+                                    <td>@immunization.ImmunizationName</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <a asp-action="CreateImmunization" asp-route-recordId="@Model.Record.MedicalRecordId" class="float-right btn btn-primary mt-auto">Add Immunization</a>
+                </div>
+                <div class="tab-pane fade" id="v-pills-medications" role="tabpanel" aria-labelledby="v-pills-medications-tab">
+                    <table class="table">
                         <thead>
                             <tr>
                                 <th scope="col">Medication Name</th>
@@ -61,22 +67,189 @@
                             </tr>
                         </thead>
                         <tbody>
-                      @foreach (Medication medication in Model.Medications)
-                      {
-                          <tr>
-                            <th>
-                                @medication.MedicationName
-                            </th>
-                            <td>@medication.Instructions</td>
-                          </tr>
-                      }
+                            @foreach (Medication medication in Model.Medications)
+                            {
+                                <tr>
+                                    <th>
+                                        @medication.MedicationName
+                                    </th>
+                                    <td>@medication.Instructions</td>
+                                </tr>
+                            }
                         </tbody>
-                </table>
-              <a asp-action="CreateMedication" asp-route-recordId="@Model.Record.MedicalRecordId" class="float-right btn btn-primary mt-auto">Add Medication</a>
-          </div>
-    </div>
-</div>
+                    </table>
+                    <a asp-action="CreateMedication" asp-route-recordId="@Model.Record.MedicalRecordId" class="float-right btn btn-primary mt-auto">Add Medication</a>
+                </div>
+                <div class="tab-pane fade" id="v-pills-vet" role="tabpanel" aria-labelledby="v-pills-vet-tab">
+                    <div class="vet-search">
+                        <div id="findvets">
+                            <h6>Find vets in:</h6>
+                        </div>
+
+                        <div id="locationField">
+                            <input id="autocomplete" placeholder="Enter a city" type="text" />
+                        </div>
+
+                        <div id="controls">
+                            <select id="country">
+                                <option value="all">All</option>
+                                <option value="au">Australia</option>
+                                <option value="br">Brazil</option>
+                                <option value="ca">Canada</option>
+                                <option value="fr">France</option>
+                                <option value="de">Germany</option>
+                                <option value="mx">Mexico</option>
+                                <option value="nz">New Zealand</option>
+                                <option value="it">Italy</option>
+                                <option value="za">South Africa</option>
+                                <option value="es">Spain</option>
+                                <option value="pt">Portugal</option>
+                                <option value="us" selected>U.S.A.</option>
+                                <option value="uk">United Kingdom</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="map"></div>
+
+                    <div id="listing">
+                        <table id="resultsTable">
+                            <tbody id="results"></tbody>
+                        </table>
+                    </div>
+
+                    <div style="display: none">
+                        <div id="info-content">
+                            <table>
+                                <tr id="iw-url-row" class="iw_table_row">
+                                    <td id="iw-icon" class="iw_table_icon"></td>
+                                    <td id="iw-url"></td>
+                                </tr>
+                                <tr id="iw-address-row" class="iw_table_row">
+                                    <td class="iw_attribute_name">Address:</td>
+                                    <td id="iw-address"></td>
+                                </tr>
+                                <tr id="iw-phone-row" class="iw_table_row">
+                                    <td class="iw_attribute_name">Telephone:</td>
+                                    <td id="iw-phone"></td>
+                                </tr>
+                                <tr id="iw-rating-row" class="iw_table_row">
+                                    <td class="iw_attribute_name">Rating:</td>
+                                    <td id="iw-rating"></td>
+                                </tr>
+                                <tr id="iw-website-row" class="iw_table_row">
+                                    <td class="iw_attribute_name">Website:</td>
+                                    <td id="iw-website"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     }
 }
 
+<style>
+    #map {
+      height: 100%;
+    }
 
+    /* Optional: Makes the sample page fill the window. */
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      padding: 0 !important;
+      width: 100%;
+    }
+
+    table {
+    }
+
+    .vet-search {
+      align-items: center;
+      background: #fff;
+      display: flex;
+      left: auto;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      z-index: 1;
+    }
+
+    #map {
+      margin-top: 40px;
+      width: 66%;
+      height: 500px;
+    }
+
+    #listing {
+      position: absolute;
+      width: 100%;
+      height: 500px;
+      overflow: auto;
+      left: 66%;
+      top: 40px;
+      cursor: pointer;
+      overflow-x: hidden;
+    }
+
+    #findvets {
+      font-size: 14px;
+    }
+
+    #locationField {
+      margin: 0 8px;
+    }
+
+    #controls {
+      flex: 1 1 150px;
+    }
+
+    #autocomplete {
+      width: 100%;
+    }
+
+    #country {
+      width: 50%;
+    }
+
+    .placeIcon {
+      width: 20px;
+      height: 34px;
+      margin: 4px;
+    }
+
+    .vetIcon {
+      width: 24px;
+      height: 24px;
+    }
+
+    #resultsTable {
+      border-collapse: collapse;
+      width: 300px;
+    }
+
+    #rating {
+      font-size: 16px;
+      font-family: Arial Unicode MS;
+    }
+
+    .iw_table_row {
+      height: 18px;
+    }
+
+    .iw_attribute_name {
+      font-weight: bold;
+      text-align: right;
+    }
+
+    .iw_table_icon {
+      text-align: right;
+    }
+</style>
