@@ -206,6 +206,28 @@ namespace GadeliniumGroupCapstone.Controllers
             return true;
         }
 
+        //get
+        public async Task<IActionResult> Block(int id)
+        {
+
+            var petAccount = _repo.PetAccount.GetPetAccount(id);
+            //var user = _context.PetAccounts.Where(p=>p.User == ) //create a model to hold this information, another table that we can reference a repository
+            //design pattern.
+
+            return View("Details");
+        }
+
+        //post
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public void Block()
+        {
+
+
+
+        }
+
+
 
 
     }

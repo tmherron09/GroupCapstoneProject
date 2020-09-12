@@ -6,74 +6,83 @@
 
 <style>
 
-    img.one{
-        float:right;
-        width:35%;
-        height:35%;
+    img.one {
+        float: right;
+        width: 35%;
+        height: 35%;
     }
 </style>
 
 
-    <h1>Details</h1>
+<h1>Details</h1>
 
-        <h4><center> @Html.DisplayFor(model => model.PetName)'s PawFile! </center></h4>
-        <hr />
+<h4><center> @Html.DisplayFor(model => model.PetName)'s PawFile! </center></h4>
+<hr />
 
-        <div class="container">
-            <div class="card-header">
-                
-                <img class="one" src="https://cdn3-www.dogtime.com/assets/uploads/gallery/akita-dogs-and-puppies/akita-dogs-puppies-1.jpg" alt="THIS IS A PLACEMENT FOR USER PAWFILE PICS" />
-                
-                <dl class="row">
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<input type="hidden" asp-for="PetAccountId" />
+<input type="hidden" asp-for="UserId" />
 
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.PetName)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.PetName)
-                    </dd>
-                    
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.Breed)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.Breed)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.Dob)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.Dob)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.AnimalType)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.AnimalType)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.PetPhone)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.PetPhone)
-                    </dd>
-                </dl>
-            </div>
-          
+
+
+<center><a asp-action="Block" asp-route-id="@Model.PetAccountId">Block This User</a></center>
+
+<div class="container">
+    <div class="card-header">
+
+        <img class="one" src="https://cdn3-www.dogtime.com/assets/uploads/gallery/akita-dogs-and-puppies/akita-dogs-puppies-1.jpg" alt="THIS IS A PLACEMENT FOR USER PAWFILE PICS" />
+
+        <dl class="row">
+
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.PetName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.PetName)
+            </dd>
+
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Breed)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Breed)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Dob)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Dob)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.AnimalType)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.AnimalType)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.PetPhone)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.PetPhone)
+            </dd>
+    </div>
+    </dl>
+</div>
+
 
         </div>
 
-    <div class="container" align="center">
-        <a asp-action="Edit" asp-route-id="@Model.PetAccountId">Edit</a> |
-        <a asp-action="Index">Back to List</a> | 
-        <a asp-controller="MedicalRecords" asp-action="Index" asp-route-petId="@Model.PetAccountId">Medical Record</a>
-        <a asp-action="Index">Back to List</a> |
-        <a asp-controller="PetBios"
-           asp-action="Details" asp-route-id="@Model.PetAccountId">View My Bio! (placeholder for testing purposes)</a>
+<div class="container" align="center">
+    <a asp-action="Edit" asp-route-id="@Model.PetAccountId">Edit</a> |
+    <a asp-action="Index">Back to List</a> |
+    <a asp-controller="MedicalRecords" asp-action="Index" asp-route-petId="@Model.PetAccountId">Medical Record</a>
+    <a asp-action="Index">Back to List</a> |
+    <a asp-controller="PetBios"
+       asp-action="Details" asp-route-id="@Model.PetAccountId">View My Bio!</a>
 
-    </div>
+</div>
 
-    @*<form asp-action="Index" asp-controller="MedicalRecords">
+@*<form asp-action="Index" asp-controller="MedicalRecords">
         <input type="hidden" asp-for="@Model" />
         <div class="form-group">
             <input type="submit" value="Details" class="btn btn-primary" />
