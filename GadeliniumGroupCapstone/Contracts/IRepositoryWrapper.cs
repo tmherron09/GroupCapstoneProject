@@ -13,19 +13,20 @@ namespace GadeliniumGroupCapstone.Contracts
         IBusinessRepository Business { get; }
         IBusinessHourRepository BusinessHour { get; }
         IGroomerRepository Groomer { get; }
+        IFavoriteBusinessRepository FavoriteBusiness { get; }
         IMedicalRecordRepository MedicalRecord { get; }
         IOtherRepository Other { get; }
         IPetAccountRepository PetAccount { get; }
         IPetBioRepository PetBio { get; }
         IPhotoBinRepository PhotoBin { get; }
+        IPostRepository Post { get; }
+        IPostUserRepository PostUser { get; }
         IUserRepository User { get; }
         IServiceRepository Service { get; }
         ISitterRepository Sitter { get; }
         ITrainerRepository Trainer { get; }
         IVetRepository Vet { get; }
-
-
-
+        
         void Save();
     }
 }

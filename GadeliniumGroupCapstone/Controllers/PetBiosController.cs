@@ -26,7 +26,7 @@ namespace GadeliniumGroupCapstone.Controllers
         }
 
         // GET: PetBios
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             
             return RedirectToAction("Details");

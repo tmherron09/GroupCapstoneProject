@@ -14,12 +14,15 @@ namespace GadeliniumGroupCapstone.Contracts
         private IBoardingRepository _boarding;
         private IBusinessRepository _business;
         private IBusinessHourRepository _businessHour;
+        private IFavoriteBusinessRepository _favoriteBusiness;
         private IGroomerRepository _groomer;
         private IMedicalRecordRepository _medicalRecord;
         private IOtherRepository _other;
         private IPetAccountRepository _petAccount;
         private IPetBioRepository _petBio;
         private IPhotoBinRepository _photo;
+        private IPostRepository _post;
+        private IPostUserRepository _postUser;
         private IUserRepository _user;
         private IServiceRepository _service;
         private ISitterRepository _sitter;
@@ -85,6 +88,18 @@ namespace GadeliniumGroupCapstone.Contracts
                     _businessHour = new BusinessHourRepository(_context);
                 }
                 return _businessHour;
+            }
+        }
+
+        public IFavoriteBusinessRepository FavoriteBusiness
+        {
+            get
+            {
+                if (_favoriteBusiness == null)
+                {
+                    _favoriteBusiness = new FavoriteBusinessRepository(_context);
+                }
+                return _favoriteBusiness;
             }
         }
 
@@ -158,6 +173,31 @@ namespace GadeliniumGroupCapstone.Contracts
             }
         }
 
+        public IPostRepository Post
+        {
+            get
+            {
+                if (_post == null)
+                {
+                    _post = new PostRepository(_context);
+                }
+                return _post;
+            }
+        }
+
+        public IPostUserRepository PostUser
+        {
+            get
+            {
+                if (_postUser == null)
+                {
+                    _postUser = new PostUserRepository(_context);
+                }
+                return _postUser;
+            }
+        }
+
+
         public IUserRepository User
         {
             get
@@ -220,6 +260,7 @@ namespace GadeliniumGroupCapstone.Contracts
         public void Save()
         {
             //_context.SaveChangesAsync();
+
             _context.SaveChanges();
         }
     }

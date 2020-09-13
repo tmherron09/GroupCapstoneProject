@@ -11,7 +11,9 @@ namespace GadeliniumGroupCapstone.Contracts
         Service GetService(int serviceId);
         void CreateService(Service service);
         List<Service> GetBusinessServices(int businessId);
+        List<Service> SearchByName(string searchValue);
         int LastServiceAddedId();
+        List<Service> SearchByTag(string searchValue);
         
     }
 }

@@ -28,5 +28,31 @@ namespace GadeliniumGroupCapstone.Data
 
         public int LastServiceAddedId() =>
             PetAppDbContext.Services.OrderByDescending(p => p.ServiceId).Select(p => p.ServiceId).FirstOrDefault();
+
+        public List<Service> SearchByName(string searchValue)
+        {
+            var results = FindAllByCondition(b => b.ServiceName.Contains(searchValue)).ToList();
+
+            for (int i = 0; i < results.Count; i++)
+            {
+                results[i].ServiceThumbnail = PetAppDbContext.PhotoBins.Where(p => p.PhotoId == results[i].PhotoBinId).FirstOrDefault();
+                results[i].Business = PetAppDbContext.Businesses.Where(b => b.BusinessId == results[i].BusinessId).FirstOrDefault();
+            }
+
+            return results;
+        }
+
+        public List<Service> SearchByTag(string searchValue)
+        {
+            var results = FindAllByCondition(b => b.ServiceTag.Contains(searchValue)).ToList();
+
+            for (int i = 0; i < results.Count; i++)
+            {
+                results[i].ServiceThumbnail = PetAppDbContext.PhotoBins.Where(p => p.PhotoId == results[i].PhotoBinId).FirstOrDefault();
+                results[i].Business = PetAppDbContext.Businesses.Where(b => b.BusinessId == results[i].BusinessId).FirstOrDefault();
+            }
+
+            return results;
+        }
     }
 }

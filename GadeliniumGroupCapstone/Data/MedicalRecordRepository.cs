@@ -15,14 +15,8 @@ namespace GadeliniumGroupCapstone.Data
 
         }
 
-        public void CreateMedicalRecord(MedicalRecord medicalRecord)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Test GetMedicalRecord(int medicalRecordId)
-        {
-            throw new NotImplementedException();
-        }
+        public MedicalRecord GetMedicalOfPetId(int medicalRecordId) =>
+            FindAllByCondition(m => m.MedicalRecordId == medicalRecordId).SingleOrDefault();
     }
 }
