@@ -10,6 +10,7 @@ using GadeliniumGroupCapstone.Models;
 using System.Dynamic;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using GadeliniumGroupCapstone.Contracts;
 
 namespace GadeliniumGroupCapstone.Controllers
 {
@@ -17,11 +18,13 @@ namespace GadeliniumGroupCapstone.Controllers
     {
         private readonly PetAppDbContext _context;
         public UserManager<User> _userManager;
+        private IRepositoryWrapper _repo;
 
-        public MedicalRecordsController(PetAppDbContext context, UserManager<User> userManager)
+        public MedicalRecordsController(PetAppDbContext context, UserManager<User> userManager, IRepositoryWrapper repo)
         {
             _context = context;
             _userManager = userManager;
+            _repo = repo;
         }
 
         // GET: MedicalRecords
@@ -29,7 +32,11 @@ namespace GadeliniumGroupCapstone.Controllers
         {
             dynamic myModel = new ExpandoObject();
             myModel.petId = petId; 
+
             MedicalRecord medicalRecord = _context.MedicalRecords.Where(m => m.PetId == petId).FirstOrDefault();
+            MedicalRecord medicalRecord1 = _repo.MedicalRecord.GetMedicalOfPetId(petId);
+
+
             if (medicalRecord != null)
             {
                 List<Immunization> immunizations = _context.Immunizations.Where(i => i.MedicalRecordId == medicalRecord.MedicalRecordId).ToList();
@@ -84,7 +91,7 @@ namespace GadeliniumGroupCapstone.Controllers
         public async Task<IActionResult> CreateImmunizationDb(Immunization immunization)
         {
             _context.Immunizations.Add(immunization);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             var medicalId = immunization.MedicalRecordId;
             MedicalRecord medicalRecord = _context.MedicalRecords.Where(r => r.MedicalRecordId == medicalId).FirstOrDefault();
             return RedirectToAction("Index", "MedicalRecords", new { petId = medicalRecord.PetId });

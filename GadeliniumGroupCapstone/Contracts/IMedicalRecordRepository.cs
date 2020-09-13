@@ -8,7 +8,6 @@ namespace GadeliniumGroupCapstone.Contracts
 {
     public interface IMedicalRecordRepository : IRepositoryBase<MedicalRecord>
     {
-        Test GetMedicalRecord(int medicalRecordId);
-        void CreateMedicalRecord(MedicalRecord medicalRecord);
+        MedicalRecord GetMedicalOfPetId(int petId);
     }
 }

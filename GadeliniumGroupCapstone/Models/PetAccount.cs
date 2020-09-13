@@ -27,6 +27,10 @@ namespace GadeliniumGroupCapstone.Models
 
         public User User { get; set; }
 
+        [ForeignKey("PhotoBin")]
+        public int PhotoBinId { get; set; }
+        public PhotoBin PetProfileImage { get; set; }
+
 
     }
 }

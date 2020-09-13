@@ -20,7 +20,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using GadeliniumGroupCapstone.Models;
 using GadeliniumGroupCapstone.AuthorizationPolicies;
 using Microsoft.AspNetCore.ResponseCompression;
-
+using GadeliniumGroupCapstone.NewsFeedService;
+using GadeliniumGroupCapstone.UploadImage;
 
 namespace GadeliniumGroupCapstone
 {
@@ -42,7 +43,6 @@ namespace GadeliniumGroupCapstone
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 
             
-
             services.AddIdentity<User, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<PetAppDbContext>()
                 .AddDefaultUI()
@@ -117,6 +117,10 @@ namespace GadeliniumGroupCapstone
                 opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
                     new[] { "application/octet-stream" });
             });
+
+
+            services.AddScoped<NewsfeedService>();
+            services.AddScoped<UploadImageService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

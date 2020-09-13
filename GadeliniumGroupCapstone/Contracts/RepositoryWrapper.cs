@@ -21,6 +21,8 @@ namespace GadeliniumGroupCapstone.Contracts
         private IPetAccountRepository _petAccount;
         private IPetBioRepository _petBio;
         private IPhotoBinRepository _photo;
+        private IPostRepository _post;
+        private IPostUserRepository _postUser;
         private IUserRepository _user;
         private IServiceRepository _service;
         private ISitterRepository _sitter;
@@ -171,6 +173,31 @@ namespace GadeliniumGroupCapstone.Contracts
             }
         }
 
+        public IPostRepository Post
+        {
+            get
+            {
+                if (_post == null)
+                {
+                    _post = new PostRepository(_context);
+                }
+                return _post;
+            }
+        }
+
+        public IPostUserRepository PostUser
+        {
+            get
+            {
+                if (_postUser == null)
+                {
+                    _postUser = new PostUserRepository(_context);
+                }
+                return _postUser;
+            }
+        }
+
+
         public IUserRepository User
         {
             get
@@ -233,6 +260,7 @@ namespace GadeliniumGroupCapstone.Contracts
         public void Save()
         {
             //_context.SaveChangesAsync();
+
             _context.SaveChanges();
         }
     }

@@ -5,39 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - GadeliniumGroupCapstone</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@600&family=Montserrat&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/_layout_default.css" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">GadeliniumGroupCapstone</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+    @* Responsive Navbar Header *@
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-pb">
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#myNavbar" aria-controls="myNavBar" aria-expanded="false" aria-label="Toggel navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="myNavbar">
+                        <a href="/" class="navbar-brand"><img src="~/images/logo.png" height="25" /></a>
+                        <a class="navbar-brand" href="#">
+                            <img src="~/svg/house.svg" alt="Home" width="32" height="32" title="HomeIcon">
+                        </a>
+                        <ul class="nav navbar-nav">
+                            @if (User.IsInRole("Pet Owner") && User.IsInRole("Business Owner"))
+                            {
+                                <li class="nav-item"><a asp-controller="PetAccount" asp-action="Home">Pet Home</a></li>
+                                <li class="nav-item"><a asp-controller="Business" asp-action="Home">Business Home</a></li>
+                            }
+                            else if (User.IsInRole("Pet Owner"))
+                            {
+                                <li class="nav-item"><a asp-controller="PetAccount" asp-action="Home">Home</a></li>
+                            }
+                            else if (User.IsInRole("Business Owner"))
+                            {
+                                <li class="nav-item"><a asp-controller="Business" asp-action="Home">Home</a></li>
+                            }
+                            <li class="nav-item"><a  class="nav-link text-dark" asp-controller="PetAccounts" asp-action="SearchPets">Pets</a></li>
+                            <li class="nav-item"><a  class="nav-link text-dark" asp-controller="Business" asp-action="SearchBusinesses">Businesses</a></li>
+                            <li class="nav-item"><a  class="nav-link text-dark" asp-controller="Home" asp-action="Privacy">Privacy</a></li>
+                        </ul>
+
+                        <partial name="_LoginPartial" />
+
+                    </div>
+        </nav>
+
+
+    @* Responsive Aside Left *@
+    <div class="container-fluid text-center">
+        <div class="row content min-vh-100">
+            <div class="col-sm-2 sidenav ">
+                <p><a href="#">Link</a></p>
+                <p><a href="#">Link</a></p>
+                <p><a href="#">Link</a></p>
+            </div>
+
+            @* MAIN CONTENT/ View Render Area *@
+
+            <div class="col-sm-8 text-left">
+                <main role="main" class="pb-3">
+                    <link rel="stylesheet" href="~/css/site.css" />
+                    @RenderBody()
+                </main>
+            </div>
+
+            @* Responsive Aside Right *@
+
+            <div class="col-sm-2 sidenav">
+                <div class="well">
+                    <p>ADS</p>
+                </div>
+                <div class="well">
+                    <p>ADS</p>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        </div>
     </div>
 
-    <footer class="border-top footer text-muted">
+
+    <footer class="border-top footer fixed-bottom text-muted">
+    @*<footer class="container-fluid text-center">*@
         <div class="container">
             &copy; 2020 - GadeliniumGroupCapstone - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>

@@ -4,14 +4,16 @@ using GadeliniumGroupCapstone.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GadeliniumGroupCapstone.Migrations
 {
     [DbContext(typeof(PetAppDbContext))]
-    partial class PetAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200912233100_NewsFeedTesting")]
+    partial class NewsFeedTesting
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -694,22 +696,22 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a51b686d-1220-4ddb-a38f-06ab4a9771a2",
-                            ConcurrencyStamp = "8d475566-ec84-473f-b4ad-9fe59eb91e62",
+                            Id = "99d2ab60-c42b-433a-ac88-1a0b5d82e882",
+                            ConcurrencyStamp = "fdb22f88-29d8-4276-9b21-be8d8b71a810",
                             Name = "Pet Owner",
                             NormalizedName = "PETOWNER"
                         },
                         new
                         {
-                            Id = "ca1370da-7c07-4553-a657-94f11ccf834a",
-                            ConcurrencyStamp = "bd52ff0c-4b7e-4196-88f5-1233af122a4a",
+                            Id = "ba022741-b3d2-4fb8-b8e4-0b86f78196db",
+                            ConcurrencyStamp = "c00e1ccf-8561-4720-8815-07911b62f4d9",
                             Name = "Business Owner",
                             NormalizedName = "BUSINESSOWNER"
                         },
                         new
                         {
-                            Id = "c81c5485-66fd-48b8-abe8-dee06c4870be",
-                            ConcurrencyStamp = "af1f1c22-1a21-4c66-986c-ec99d60e3b8b",
+                            Id = "d0be4c03-a71b-42a0-86e0-cfb068c53543",
+                            ConcurrencyStamp = "0ae5ce18-e51b-4dc9-9016-92fabc0fe3b2",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         });

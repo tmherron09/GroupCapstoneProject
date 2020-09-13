@@ -198,6 +198,8 @@ function displayServiceSearchCards(service) {
         } else {
             furtherDescription = "";
         }
+        let onclickLoopName = value.businessId;
+
         $("#searchResultContainer").append(
             `<div class="col-md-4">
                     <div class="profile-card-4 text-center">
@@ -209,7 +211,7 @@ function displayServiceSearchCards(service) {
                             <div class="container">${value.serviceTagLine}</div>
                             <div class="d-flex justify-content-around">
                                 <a href="info/${value.businessId}" alt="Business Page">Details</a>
-                                <button type="button" onclick="toggleFavorite(${value.businessId})" class="btn btn-outline-warning" id="${value.businessId}-fav-btn">Favorite ${favButton} </button>
+                                <button type="button" onclick="toggleFavorite(${onclickLoopName})" class="btn btn-outline-warning" id="${value.businessId}-fav-btn">Favorite ${favButton} </button>
                             </div>
                         </div>
                     </div>

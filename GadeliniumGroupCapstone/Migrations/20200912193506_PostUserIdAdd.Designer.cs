@@ -4,14 +4,16 @@ using GadeliniumGroupCapstone.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GadeliniumGroupCapstone.Migrations
 {
     [DbContext(typeof(PetAppDbContext))]
-    partial class PetAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200912193506_PostUserIdAdd")]
+    partial class PostUserIdAdd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -303,15 +305,10 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.Property<string>("PetPhone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PhotoBinId")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("PetAccountId");
-
-                    b.HasIndex("PhotoBinId");
 
                     b.HasIndex("UserId");
 
@@ -694,22 +691,22 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a51b686d-1220-4ddb-a38f-06ab4a9771a2",
-                            ConcurrencyStamp = "8d475566-ec84-473f-b4ad-9fe59eb91e62",
+                            Id = "ef15cfcb-ce7d-469c-946d-294668993abe",
+                            ConcurrencyStamp = "0e41a5f6-60ce-48dd-9b7b-bba70b7974fa",
                             Name = "Pet Owner",
                             NormalizedName = "PETOWNER"
                         },
                         new
                         {
-                            Id = "ca1370da-7c07-4553-a657-94f11ccf834a",
-                            ConcurrencyStamp = "bd52ff0c-4b7e-4196-88f5-1233af122a4a",
+                            Id = "2a5966ae-4315-4bd0-9661-f945ac60bad1",
+                            ConcurrencyStamp = "f0651580-e58a-4329-ab94-a6d18073c5c6",
                             Name = "Business Owner",
                             NormalizedName = "BUSINESSOWNER"
                         },
                         new
                         {
-                            Id = "c81c5485-66fd-48b8-abe8-dee06c4870be",
-                            ConcurrencyStamp = "af1f1c22-1a21-4c66-986c-ec99d60e3b8b",
+                            Id = "46c5c1df-8589-4d2a-9ed3-800e1fdbd3e1",
+                            ConcurrencyStamp = "8fbc83f2-b9c2-4bfe-8205-e2c96f84cecb",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         });
@@ -905,12 +902,6 @@ namespace GadeliniumGroupCapstone.Migrations
 
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.PetAccount", b =>
                 {
-                    b.HasOne("GadeliniumGroupCapstone.Models.PhotoBin", "PetProfileImage")
-                        .WithMany()
-                        .HasForeignKey("PhotoBinId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("GadeliniumGroupCapstone.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
