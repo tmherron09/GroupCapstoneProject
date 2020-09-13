@@ -10,5 +10,9 @@ namespace GadeliniumGroupCapstone.Contracts
     public interface IPostUserRepository : IRepositoryBase<PostUser>
     {
 
+        PostUser GetPostUserEntry(string userId, int postId);
+
+        bool HasUserLikedPost(int postId, string userId);
+
     }
 }

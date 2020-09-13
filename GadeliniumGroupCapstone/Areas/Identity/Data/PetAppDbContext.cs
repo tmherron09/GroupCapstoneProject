@@ -181,6 +181,11 @@ namespace GadeliniumGroupCapstone.Data
                 b.ToTable("PetAppUserRoles");
             });
 
+            builder.Entity<PostUser>(p =>
+            {
+
+            });
+
         }
 
         // Override but call base method. This will allow calling a parameterless constructor in the Startup Services.

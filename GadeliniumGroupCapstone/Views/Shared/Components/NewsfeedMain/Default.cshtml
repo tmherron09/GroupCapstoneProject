@@ -1,0 +1,169 @@
+﻿@model GadeliniumGroupCapstone.ViewModels.PostViewModel
+
+@using GadeliniumGroupCapstone.NewsFeedService.Models
+@using Microsoft.AspNetCore.Identity
+@inject GadeliniumGroupCapstone.Contracts.IRepositoryWrapper _repo
+@inject GadeliniumGroupCapstone.NewsFeedService.NewsfeedService NewsfeedService
+
+@{
+    string userId = userManager.GetUserId(User);
+    List<Post> posts = NewsfeedService.GetUserNewsfeed(userId);
+    Model.PetNames = new List<string>();
+    PosterType currentType = PosterType.PetPoster;
+    if (User.IsInRole("Pet Owner"))
+    {
+        Model.IsBusiness = false;
+        currentType = PosterType.PetPoster;
+        Model.PetNames = _repo.PetAccount.GetUserPetNames(userId);
+    }
+    else if (User.IsInRole("Business Owner"))
+    {
+        Model.IsBusiness = true;
+        currentType = PosterType.BusinessPoster;
+        Model.PetNames.Add(_repo.Business.GetBusinessNameByUserId(userId));
+    }
+
+
+}
+
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+      crossorigin="anonymous">
+
+<!-- Newsfeed View Component-->
+<!--- \\\\\\\ Make Post start-->
+<div class="card">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true">
+                    Post
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="images-tab" data-toggle="tab" role="tab" aria-controls="images" aria-selected="false" href="#images">Add Image</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <form asp-controller="Home" asp-action="AddNewsfeedPost" method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="IsBusiness" value="@Model.IsBusiness" />
+            <input type="hidden" asp-for="Post.PosterType" value="@currentType" />
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
+                    <div class="form-group">
+                        <label class="sr-only" asp-for="Post.PostTitle">post</label>
+                        <textarea class="form-control" asp-for="Post.PostTitle" rows="1" placeholder="Title..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="message">post</label>
+                        <textarea class="form-control" asp-for="Post.PostContent" rows="3" placeholder="Tell us what you're thinking"></textarea>
+                    </div>
+
+                </div>
+                <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
+                    <div class="form-group">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" asp-for="UploadFile">
+                            <label class="custom-file-label" for="uploadFile">Upload image</label>
+                        </div>
+                    </div>
+                    <div class="py-4"></div>
+                </div>
+            </div>
+            <div class="btn-toolbar justify-content-between">
+                <select asp-for="Post.PosterName">
+                    @for (int p = 0; p < @Model.PetNames.Count(); p++)
+                    {
+                        <option value="@Model.PetNames[p]">@Model.PetNames[p]</option>
+                    }
+                    @if (User.IsInRole("Business Owner"))
+                    {
+                        <option value=""></option>
+                    }
+
+                </select>
+                <div class="btn-toolbar justify-content-between">
+                    <div class="form-group">
+                        <input type="submit" value="Share" />
+                    </div>
+                    <div></div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Make Post End /////-->
+
+@if (posts.Count == 0)
+{
+    <h2>Currently No Posts to Display</h2>
+}
+
+
+<!-- Posts to View Start-->
+
+@for (int i = 0; i < posts.Count(); i++)
+{
+    int posterPhotBinId;
+    PhotoBin posterProfileImage;
+    if (posts[i].PosterType == PosterType.PetPoster)
+    {
+        posterPhotBinId = _repo.PetAccount.FindAllByCondition(p => p.PetName == posts[i].PosterName).Select(p => p.PhotoBinId).FirstOrDefault();
+        posterProfileImage = _repo.PhotoBin.FindAllByCondition(p => p.PhotoId == posterPhotBinId).FirstOrDefault();
+    }
+    else
+    {
+        posterProfileImage = _repo.Business.GetBusinessLogo(posts[i].PosterName);
+    }
+
+    string imageBase64 = Convert.ToBase64String(posterProfileImage.Content);
+    string imageSrc = string.Format("data:image/gif;base64,{0}", imageBase64);
+
+    <!--- \\\\\\\Post-->
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="mr-2">
+                        <img class="rounded-circle" width="45" src="@imageSrc" alt="profile image of @posts[i].PosterName">
+                    </div>
+                    <div class="ml-2">
+                        <div class="h5 m-0">@posts[i].PosterName</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="dropdown">
+                        <button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-ellipsis-h"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
+                            <div class="h6 dropdown-header">Options</div>
+                            <a class="dropdown-item" asp-controller="Home" asp-action="RemovePostFromFeed" asp-route-id="@posts[i].PostId">Remove from feed</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="card-body">
+            <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i> .. min ago</div>
+                <h5 class="card-title">@posts[i].PostTitle</h5>
+            <p class="card-text">
+                @posts[i].PostContent
+            </p>
+        </div>
+        <div class="card-footer">
+            @if (NewsfeedService.HasUserLikedPost(posts[i].PostId, userId))
+            {
+                <a asp-controller="Home" asp-action="UserPostLikeToggle" asp-route-id="@posts[i].PostId" class="card-link"><img src="~/svg/thumbs-up-solid.svg" height="25"/></a>
+            }
+            else
+            {
+                <a asp-controller="Home" asp-action="UserPostLikeToggle" asp-route-id="@posts[i].PostId" class="card-link"><img src="~/svg/thumbs-up-regular.svg" height="25"/></a>
+            }
+            @*<a href="#" class="card-link"><i class="fa fa-comment"></i> Comment</a>
+                <a href="#" class="card-link"><i class="fa fa-mail-forward"></i> Share</a>*@
+        </div>
+    </div> <!-- Post /////-->
+
+}

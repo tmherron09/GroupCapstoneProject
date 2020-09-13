@@ -16,5 +16,10 @@ namespace GadeliniumGroupCapstone.Data
 
         }
 
+        public PostUser GetPostUserEntry(string userId, int postId) =>
+            FindAllByCondition(pu => pu.UserId == userId && pu.PostId == postId).FirstOrDefault();
+
+        public bool HasUserLikedPost(int postId, string userId) =>
+            FindAllByCondition(p => p.PostId == postId && p.UserId == userId).Select(p => p.IsLiked).FirstOrDefault();
     }
 }

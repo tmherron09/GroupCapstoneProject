@@ -16,6 +16,15 @@ namespace GadeliniumGroupCapstone.Data
 
         }
 
+        public Post GetLastPostAdded() =>
+            PetAppDbContext.Posts.OrderByDescending(p => p.PostId).FirstOrDefault();
 
+        public List<Post> GetPostsForUser(string userId)
+        {
+            var postUsers = PetAppDbContext.PostUsers.Where(pu => pu.UserId == userId).Select(pu => pu.PostId);
+            return FindAllByCondition(p => postUsers.Contains(p.PostId)).ToList();
+        }
+
+        
     }
 }

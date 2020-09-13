@@ -26,9 +26,7 @@ namespace GadeliniumGroupCapstone.Contracts
         ISitterRepository Sitter { get; }
         ITrainerRepository Trainer { get; }
         IVetRepository Vet { get; }
-
-
-
+        
         void Save();
     }
 }

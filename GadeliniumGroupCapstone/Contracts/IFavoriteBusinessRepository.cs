@@ -12,5 +12,6 @@ namespace GadeliniumGroupCapstone.Contracts
         void CreateFavoriteBusinessEntry(string userId, int businessId);
         FavoriteBusiness GetFavoriteBusinessEntry(string userId, int businessId);
         bool IsFavorited(string userId, int businessId);
+        List<string> GetUserIdsThatLikeBusiness(int businessId);
     }
 }

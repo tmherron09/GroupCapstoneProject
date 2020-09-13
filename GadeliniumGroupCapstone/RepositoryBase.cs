@@ -11,6 +11,8 @@ namespace GadeliniumGroupCapstone.Contracts
     public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {
         protected PetAppDbContext PetAppDbContext { get; set; }
+        private readonly Object FindLock = new Object();
+        
 
         public RepositoryBase(PetAppDbContext petAppDbContext)
         {
@@ -20,11 +22,16 @@ namespace GadeliniumGroupCapstone.Contracts
         public IQueryable<T> FindAll()
         {
             return PetAppDbContext.Set<T>().AsNoTracking();
-
         }
         public IQueryable<T> FindAllByCondition(Expression<Func<T, bool>> expression)
         {
-            return PetAppDbContext.Set<T>().Where(expression).AsNoTracking();
+            IQueryable<T> result;
+
+            lock (FindLock)
+            {
+                result = PetAppDbContext.Set<T>().Where(expression).AsNoTracking();
+            }
+            return result;
         }
 
         public void Create(T entity)

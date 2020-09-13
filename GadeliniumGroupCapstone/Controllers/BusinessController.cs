@@ -126,27 +126,8 @@ namespace GadeliniumGroupCapstone.Controllers
 
             try
             {
-                //if (model.UploadFile != null)
-                //{
-                //    using (var memoryStream = new MemoryStream())
-                //    {
-                //        await model.UploadFile.CopyToAsync(memoryStream);
-                //        model.PhotoBin.Content = memoryStream.ToArray();
-
-                //        //string Base64 = Convert.ToBase64String(model.PhotoBin.Content);
-                //        //byte[] array = Convert.FromBase64String(Base64);
-
-                //        model.PhotoBin.PhotoId = (int)model.Business.PhotoBinId;
-
-                //        _repo.PhotoBin.Update(model.PhotoBin);
-                //        _repo.Save();
-                //    }
-                //}
-
                 await _uploadImageService.EditBusinessUploadImage(model);
-
                 _repo.BusinessHour.Update(model.Business.BusinessHour);
-
                 _repo.Business.Update(model.Business);
                 _repo.Save();
             }
@@ -204,29 +185,6 @@ namespace GadeliniumGroupCapstone.Controllers
 
             try
             {
-                //if (newService.UploadFile == null)
-                //{
-                //    byte[] imgdata = await System.IO.File.ReadAllBytesAsync(@"wwwroot\images\Default\default_servicethumbnail.png");
-                //    PhotoBin logo = new PhotoBin();
-                //    logo.Content = imgdata;
-                //    _repo.PhotoBin.Create(logo);
-                //    _repo.Save();
-                //}
-                //else
-                //{
-                //    using (var memoryStream = new MemoryStream())
-                //    {
-                //        await newService.UploadFile.CopyToAsync(memoryStream);
-                //        newService.Service.ServiceThumbnail = new PhotoBin();
-                //        newService.Service.ServiceThumbnail.Content = memoryStream.ToArray();
-
-                //        _repo.PhotoBin.Create(newService.Service.ServiceThumbnail);
-                //        _repo.Save();
-
-                //    }
-                //}
-                //// Retrieve photoid just saved to put into service model.
-                //newService.Service.PhotoBinId = _repo.PhotoBin.LastPhotoAddedId();
 
                 await _uploadImageService.CreateServiceUploadImage(newService);
 
@@ -280,23 +238,6 @@ namespace GadeliniumGroupCapstone.Controllers
 
             try
             {
-                //if (model.UploadFile != null)
-                //{
-                //    using (var memoryStream = new MemoryStream())
-                //    {
-                //        await model.UploadFile.CopyToAsync(memoryStream);
-                //        model.Service.ServiceThumbnail = new PhotoBin();
-                //        model.Service.ServiceThumbnail.Content = memoryStream.ToArray();
-
-                //        //string Base64 = Convert.ToBase64String(model.Service.ServiceThumbnail.Content);
-                //        //byte[] array = Convert.FromBase64String(Base64);
-
-                //        model.Service.ServiceThumbnail.PhotoId = (int)model.Service.PhotoBinId;
-
-                //        _repo.PhotoBin.Update(model.Service.ServiceThumbnail);
-                //        _repo.Save();
-                //    }
-                //}
 
                 await _uploadImageService.EditServiceUploadImage(model);
 
@@ -315,13 +256,6 @@ namespace GadeliniumGroupCapstone.Controllers
             TempData["success"] = "Service Updated";
             return RedirectToAction("Home");
         }
-
-
-        
-
-
-
-
 
 
 

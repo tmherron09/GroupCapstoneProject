@@ -9,6 +9,11 @@ namespace GadeliniumGroupCapstone.Contracts
 {
     public interface IPostRepository : IRepositoryBase<Post>
     {
-        
+
+
+        Post GetLastPostAdded();
+        List<Post> GetPostsForUser(string UserId);
+
     }
+
 }

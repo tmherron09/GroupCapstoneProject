@@ -27,6 +27,9 @@ namespace GadeliniumGroupCapstone.Data
         public Business GetBusiness(int businessId) =>
             FindAllByCondition(b => b.BusinessId == businessId).SingleOrDefault();
 
+
+
+
         // Returns all businesses whose name include the searchValue- not case sensitive.
         public List<Business> SearchByName(string searchValue)
         {
@@ -60,7 +63,16 @@ namespace GadeliniumGroupCapstone.Data
         public bool UserHasBusiness(string userId) =>
             PetAppDbContext.Businesses.Any(b => b.UserId == userId);
 
+        public Business GetBusinessByName(string businessName) =>
+            FindAllByCondition(b => b.BusinessName == businessName).FirstOrDefault();
 
-            
+        public PhotoBin GetBusinessLogo(string businessName)
+        {
+            Business business = GetBusinessByName(businessName);
+            return PetAppDbContext.PhotoBins.Where(p => p.PhotoId == business.PhotoBinId).FirstOrDefault();
+        }
+
+        public string GetBusinessNameByUserId(string userId) =>
+            FindAllByCondition(b => b.UserId == userId).Select(b => b.BusinessName).FirstOrDefault();
     }
 }

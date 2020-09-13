@@ -260,6 +260,7 @@ namespace GadeliniumGroupCapstone.Contracts
         public void Save()
         {
             //_context.SaveChangesAsync();
+
             _context.SaveChanges();
         }
     }

@@ -43,7 +43,6 @@ namespace GadeliniumGroupCapstone
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 
             
-
             services.AddIdentity<User, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<PetAppDbContext>()
                 .AddDefaultUI()

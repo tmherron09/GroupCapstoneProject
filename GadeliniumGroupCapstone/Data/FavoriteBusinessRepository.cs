@@ -25,7 +25,9 @@ namespace GadeliniumGroupCapstone.Data
         public FavoriteBusiness GetFavoriteBusinessEntry(string userId, int businessId) =>
             FindAllByCondition(fb => fb.UserId == userId && fb.BusinessId == businessId).FirstOrDefault();
 
-
+        public List<string> GetUserIdsThatLikeBusiness(int businessId) =>
+            FindAllByCondition(fb => fb.BusinessId == businessId).Select(fb => fb.UserId).ToList();
+        
 
         public List<Business> GetUserFavoriteBusinesses(string userId) =>
             FindAllByCondition(fb => fb.UserId == userId).Select(fb => fb.Business).ToList();
