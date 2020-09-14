@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GadeliniumGroupCapstone.Models;
+using GadeliniumGroupCapstone.NewsFeedService.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -180,6 +181,11 @@ namespace GadeliniumGroupCapstone.Data
                 b.ToTable("PetAppUserRoles");
             });
 
+            builder.Entity<PostUser>(p =>
+            {
+
+            });
+
         }
 
         // Override but call base method. This will allow calling a parameterless constructor in the Startup Services.
@@ -196,6 +202,7 @@ namespace GadeliniumGroupCapstone.Data
         public DbSet<Guest> Guests { get; set; }
         public DbSet<Trainer> Trainers { get; set; }
         public DbSet<Groomer> Groomers { get; set; }
+        public DbSet<FavoriteBusiness> FavoriteBusinesses { get; set; }
         public DbSet<Sitter> Sitters { get; set; }
         public DbSet<Other> Others { get; set; }
         public DbSet<Business> Businesses { get; set; }
@@ -211,6 +218,8 @@ namespace GadeliniumGroupCapstone.Data
         public DbSet<Immunization> Immunizations { get; set; }
 
         public DbSet<Medication> Medications { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<PostUser> PostUsers { get; set; }
 
         public DbSet<GadeliniumGroupCapstone.Models.BlockedUsers> BlockedUsers { get; set; }
 

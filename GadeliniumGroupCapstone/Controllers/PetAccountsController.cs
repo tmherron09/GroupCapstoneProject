@@ -167,12 +167,14 @@ namespace GadeliniumGroupCapstone.Controllers
         // GET: PetAccounts/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            var petAccount = _repo.PetAccount.GetPetAccount(id);
-
             if (id == null)
             {
                 return NotFound();
             }
+
+            var petAccount = _repo.PetAccount.GetPetAccount(id);
+
+            
 
             return View(petAccount);
         }

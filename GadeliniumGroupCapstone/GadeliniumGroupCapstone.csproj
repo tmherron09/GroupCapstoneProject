@@ -9,18 +9,29 @@
   <ItemGroup>
 
     <Compile Remove="Data\Migrations\**" />
+
+    <Compile Remove="Migrations\**" />
     <Compile Remove="Views\Home\images\**" />
     <Content Remove="Data\Migrations\**" />
+    <Content Remove="Migrations\**" />
     <Content Remove="Views\Home\images\**" />
     <EmbeddedResource Remove="Data\Migrations\**" />
+    <EmbeddedResource Remove="Migrations\**" />
     <EmbeddedResource Remove="Views\Home\images\**" />
     <None Remove="Data\Migrations\**" />
+    <None Remove="Migrations\**" />
     <None Remove="Views\Home\images\**" />
   </ItemGroup>
 
   <ItemGroup>
 
     <Content Remove="Views\Component.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Migrations\20200912004939_init.cs" />
+    <Compile Include="Migrations\20200912004939_init.Designer.cs" />
+    <Compile Include="Migrations\PetAppDbContextModelSnapshot.cs" />
   </ItemGroup>
 
   <ItemGroup>
