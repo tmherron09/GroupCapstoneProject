@@ -30,6 +30,7 @@ namespace GadeliniumGroupCapstone.Controllers
         }
 
 
+
         // GET: BlockedUsers
         public async Task<IActionResult> Index()
         {
@@ -41,9 +42,11 @@ namespace GadeliniumGroupCapstone.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
+
             {
                 return NotFound();
             }
+
 
             var blockedUsers = await _context.BlockedUsers
                 .Include(b => b.BlockedUserId)
@@ -53,9 +56,11 @@ namespace GadeliniumGroupCapstone.Controllers
                 return NotFound();
             }
 
+
             return View(blockedUsers);
 
         }
+
 
         // GET: BlockedUsers/Create
         public IActionResult Create(int id)

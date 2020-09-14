@@ -94,7 +94,8 @@ namespace GadeliniumGroupCapstone
             {
                 pets[i].IsFavorited = _repo.FavoriteBusiness.IsFavorited(userId, pets[i].PetAccountId);
             }
-
+           
+            
 
             await Clients.Caller.SendAsync("RecievePetList", pets);
 
