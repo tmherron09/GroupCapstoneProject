@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GadeliniumGroupCapstone.Migrations
 {
-    public partial class init : Migration
+    public partial class dataseedprep : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -642,9 +642,9 @@ namespace GadeliniumGroupCapstone.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "6a01394a-57a2-4436-895f-8da1bcb46cd1", "1d2e4ab7-fb1f-48c1-8eed-b9fe3938e975", "Pet Owner", "PETOWNER" },
-                    { "c360176f-5971-46fa-b8fa-68e6d42d54df", "98daf5d4-4376-48f0-bd66-d59852b80e31", "Business Owner", "BUSINESSOWNER" },
-                    { "427622a3-1a13-42d1-b517-b5d5d4f7ead8", "22d57559-9a71-4cd6-9b1d-2723994ccd08", "Admin", "Admin" }
+                    { "061bab99-7a9e-45c1-a9f4-7167a7780b75", "5e22790d-d0a7-42bc-a546-3b950039928a", "Pet Owner", "PETOWNER" },
+                    { "b6a44d7b-db9c-430b-b616-2e346e02ce4e", "e1f92531-9a30-484c-bde6-ef2c20a35664", "Business Owner", "BUSINESSOWNER" },
+                    { "31fff66b-f4f8-491c-af3b-69e064199a1f", "e183b92b-675b-4310-b594-3f36be25a661", "Admin", "Admin" }
                 });
 
             migrationBuilder.InsertData(

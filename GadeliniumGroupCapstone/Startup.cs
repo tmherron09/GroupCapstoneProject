@@ -80,7 +80,7 @@ namespace GadeliniumGroupCapstone
 
                 // Allows cookies to be used by client-side script
                 options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(100);
 
                 options.LoginPath = "/Identity/Account/Login";
                 // If we want to define a loutout request return Url
