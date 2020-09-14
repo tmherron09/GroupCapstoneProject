@@ -67,6 +67,7 @@ namespace GadeliniumGroupCapstone.Controllers
         {
             
             var petAccount = _repo.PetAccount.GetPetAccount(id);
+            var userId = _userManager.GetUserId(User);
 
             if (petAccount == null)
             {
@@ -207,6 +208,26 @@ namespace GadeliniumGroupCapstone.Controllers
             }
             return true;
         }
+
+        //get
+        public async Task<IActionResult> Block(int id)
+        {
+
+            var petAccount = _repo.PetAccount.GetPetAccount(id);
+
+            return View(petAccount);
+        }
+
+        //post
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public void Block()
+        {
+
+
+
+        }
+
 
 
 

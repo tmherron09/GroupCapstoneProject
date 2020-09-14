@@ -221,5 +221,7 @@ namespace GadeliniumGroupCapstone.Data
         public DbSet<Post> Posts { get; set; }
         public DbSet<PostUser> PostUsers { get; set; }
 
+        public DbSet<GadeliniumGroupCapstone.Models.BlockedUsers> BlockedUsers { get; set; }
+
     }
 }
