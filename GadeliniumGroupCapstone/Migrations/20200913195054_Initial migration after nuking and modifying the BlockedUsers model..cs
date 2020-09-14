@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GadeliniumGroupCapstone.Migrations
 {
-    public partial class INITafternuke : Migration
+    public partial class InitialmigrationafternukingandmodifyingtheBlockedUsersmodel : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -289,6 +289,25 @@ namespace GadeliniumGroupCapstone.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BlockedUsers",
+                columns: table => new
+                {
+                    BlockedUserID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PetAccountId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BlockedUsers", x => x.BlockedUserID);
+                    table.ForeignKey(
+                        name: "FK_BlockedUsers_PetAccounts_PetAccountId",
+                        column: x => x.PetAccountId,
+                        principalTable: "PetAccounts",
+                        principalColumn: "PetAccountId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MedicalRecords",
                 columns: table => new
                 {
@@ -523,9 +542,9 @@ namespace GadeliniumGroupCapstone.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "7f8dd424-d7cf-44c8-8bca-380cd04d10c5", "3e83f447-2fe5-4ba7-822d-1244a89834b1", "Pet Owner", "PETOWNER" },
-                    { "986d70ad-0a54-40ff-9dad-9f35059ff52e", "cd19fbec-ef8c-432b-b05d-300b967e02cc", "Business Owner", "BUSINESSOWNER" },
-                    { "e4f00a75-bf1b-47fe-88d9-5f6d290348dc", "b3ed8c4f-683a-4eb6-9fb2-ca8a36cadade", "Admin", "Admin" }
+                    { "3809d8b3-30ca-4443-a19d-f1f20a87391a", "25ddc8e3-929f-4e8e-9a1a-9185cf3eca3a", "Pet Owner", "PETOWNER" },
+                    { "2e27f118-8af0-407f-965e-a80b50586ccc", "80f9d740-f4c0-4c6e-a924-5974c2edc946", "Business Owner", "BUSINESSOWNER" },
+                    { "391366b5-84d7-42b7-9106-709354fc3921", "f79c23d8-2624-4af9-943c-39766948788f", "Admin", "Admin" }
                 });
 
             migrationBuilder.InsertData(
@@ -538,6 +557,11 @@ namespace GadeliniumGroupCapstone.Migrations
                     { "d453a413-17b1-4f27-89d8-8f26af48f90b", 0, "9bcc49dc-5974-4ae5-8350-cb95c257d550", "Sam@sam.com", false, null, null, true, null, "SAM@SAM.COM", null, null, "SAM@SAM.COM", "AQAAAAEAACcQAAAAEGsIaD6NQJAT3n+lzCO4sEaNFKfc4NVzi8A6MoNnlCJsoehkvqPkbRTDbOjLr2tKbQ==", "555-555-5555", false, "4ZIGJCZL4JJEWK7PDYDN467AR3AVFJU7", false, "Sam@sam.com" },
                     { "d8195859-5968-48a5-b400-2afa2e29f775", 0, "8e3ea5b9-3cc2-4d52-8f2b-1b993dd7732e", "Milan@Milan.com", false, null, null, true, null, "MILAN@MILAN.COM", null, null, "MILAN@MILAN.COM", "AQAAAAEAACcQAAAAEPvPMaCo9UmPJVbeV+Btd3Y83X5Eyekn/hwXRbcfZEKrwB2welahQAJkL6ZjGZkeQw==", "555-555-5555", false, "4PHNLV4WVA7LCIA3S2QNDCYQGRCY6WJS", false, "Milan@Milan.com" }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BlockedUsers_PetAccountId",
+                table: "BlockedUsers",
+                column: "PetAccountId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Boardings_BusinessId",
@@ -661,6 +685,9 @@ namespace GadeliniumGroupCapstone.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "BlockedUsers");
+
             migrationBuilder.DropTable(
                 name: "Boardings");
 

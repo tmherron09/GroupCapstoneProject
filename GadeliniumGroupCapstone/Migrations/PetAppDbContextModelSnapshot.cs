@@ -15,9 +15,26 @@ namespace GadeliniumGroupCapstone.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.7")
+                .HasAnnotation("ProductVersion", "3.1.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("GadeliniumGroupCapstone.Models.BlockedUsers", b =>
+                {
+                    b.Property<int>("BlockedUserID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("PetAccountId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BlockedUserID");
+
+                    b.HasIndex("PetAccountId");
+
+                    b.ToTable("BlockedUsers");
+                });
 
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.Boarding", b =>
                 {
@@ -617,22 +634,22 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7f8dd424-d7cf-44c8-8bca-380cd04d10c5",
-                            ConcurrencyStamp = "3e83f447-2fe5-4ba7-822d-1244a89834b1",
+                            Id = "3809d8b3-30ca-4443-a19d-f1f20a87391a",
+                            ConcurrencyStamp = "25ddc8e3-929f-4e8e-9a1a-9185cf3eca3a",
                             Name = "Pet Owner",
                             NormalizedName = "PETOWNER"
                         },
                         new
                         {
-                            Id = "986d70ad-0a54-40ff-9dad-9f35059ff52e",
-                            ConcurrencyStamp = "cd19fbec-ef8c-432b-b05d-300b967e02cc",
+                            Id = "2e27f118-8af0-407f-965e-a80b50586ccc",
+                            ConcurrencyStamp = "80f9d740-f4c0-4c6e-a924-5974c2edc946",
                             Name = "Business Owner",
                             NormalizedName = "BUSINESSOWNER"
                         },
                         new
                         {
-                            Id = "e4f00a75-bf1b-47fe-88d9-5f6d290348dc",
-                            ConcurrencyStamp = "b3ed8c4f-683a-4eb6-9fb2-ca8a36cadade",
+                            Id = "391366b5-84d7-42b7-9106-709354fc3921",
+                            ConcurrencyStamp = "f79c23d8-2624-4af9-943c-39766948788f",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         });
@@ -740,6 +757,15 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("PetAppUserTokens");
+                });
+
+            modelBuilder.Entity("GadeliniumGroupCapstone.Models.BlockedUsers", b =>
+                {
+                    b.HasOne("GadeliniumGroupCapstone.Models.PetAccount", "PetAccount")
+                        .WithMany()
+                        .HasForeignKey("PetAccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.Boarding", b =>

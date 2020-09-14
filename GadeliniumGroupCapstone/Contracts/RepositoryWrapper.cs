@@ -25,6 +25,7 @@ namespace GadeliniumGroupCapstone.Contracts
         private ISitterRepository _sitter;
         private ITrainerRepository _trainer;
         private IVetRepository _vet;
+        private IBlockedUserRepository _blockedUser;
         public ITestRepository Test
         {
             get
@@ -217,9 +218,21 @@ namespace GadeliniumGroupCapstone.Contracts
             }
         }
 
+        public IBlockedUserRepository BlockedUser
+        {
+            get
+            {
+                
+                if (_blockedUser == null)
+                {
+                    _blockedUser = new BlockedUserRepository(_context);
+                }
+                return _blockedUser;
+            }
+        }
+
         public void Save()
         {
-            //_context.SaveChangesAsync();
             _context.SaveChanges();
         }
     }

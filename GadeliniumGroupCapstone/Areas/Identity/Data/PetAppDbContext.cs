@@ -212,5 +212,7 @@ namespace GadeliniumGroupCapstone.Data
 
         public DbSet<Medication> Medications { get; set; }
 
+        public DbSet<GadeliniumGroupCapstone.Models.BlockedUsers> BlockedUsers { get; set; }
+
     }
 }

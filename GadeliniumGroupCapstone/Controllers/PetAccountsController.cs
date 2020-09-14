@@ -67,6 +67,7 @@ namespace GadeliniumGroupCapstone.Controllers
         {
             
             var petAccount = _repo.PetAccount.GetPetAccount(id);
+            var userId = _userManager.GetUserId(User);
 
             if (petAccount == null)
             {
@@ -211,10 +212,8 @@ namespace GadeliniumGroupCapstone.Controllers
         {
 
             var petAccount = _repo.PetAccount.GetPetAccount(id);
-            //var user = _context.PetAccounts.Where(p=>p.User == ) //create a model to hold this information, another table that we can reference a repository
-            //design pattern.
 
-            return View("Details");
+            return View(petAccount);
         }
 
         //post
