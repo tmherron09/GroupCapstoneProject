@@ -1,7 +1,6 @@
 ﻿"use strict";
 
 // Global
-
 let isPetSearch;
 ////
 
@@ -10,11 +9,13 @@ jQuery(document).ready(function () {
     if (sessionStorage.getItem("lastPetSearch")) {
         var pets = sessionStorage.getItem("lastBusinessSearch");
         var parsedPets = JSON.parse(pets);
-        //displayPetSearchCards(parsedPets);
+        displayPetSearchCards(parsedPets);
     }
     if (sessionStorage.getItem("lastSearchValue")) {
         document.getElementById("SearchValue").value = sessionStorage.getItem("lastSearchValue");
     }
+
+
 
 });
 
@@ -58,42 +59,18 @@ $('#searchValue').change(function () {
 
 
 //Disable send button until connection is established
-document.getElementById("sendButton").disabled = true;
+document.getElementById("sendPetButton").disabled = true;
 
 
 // Business Searches
-connection.on("RecievePetList", function (businesses) {
-    var lastSearch = document.getElementById("SearchValue").value;
+connection.on("RecievePetList", function (pets) {
+    var lastSearch = document.getElementById("SearchPetValue").value;
     console.log(pets);
     var petStored = JSON.stringify(pets);
 
     sessionStorage.setItem("lastPetSearch", petStored);
     sessionStorage.setItem("lastSearchValue", lastSearch);
-    currentResult = pets;
     displayPetSearchCards(pets);
-});
-
-
-connection.on("RecieveServiceList", function (services) {
-    var lastSearch = document.getElementById("SearchValue").value;
-    console.log(typeof services);
-    var servicesStored = JSON.stringify(services);
-
-    sessionStorage.setItem("lastBusinessSearch", servicesStored);
-    sessionStorage.setItem("lastSearchValue", lastSearch);
-    currentResult = services;
-    displayServiceSearchCards(services);
-});
-
-connection.on("RecieveServiceTagList", function (services) {
-    var lastSearch = $("#tagSelect").val();
-    console.log(services);
-    var servicesStored = JSON.stringify(services);
-
-    sessionStorage.setItem("lastBusinessSearch", servicesStored);
-    sessionStorage.setItem("lastSearchValue", lastSearch);
-    currentResult = services;
-    displayServiceSearchCards(services);
 });
 
 connection.on("FavoriteMessage", function (value) {
@@ -104,12 +81,12 @@ connection.on("FavoriteMessage", function (value) {
 
 
 connection.start().then(function () {
-    document.getElementById("sendButton").disabled = false;
+    document.getElementById("sendPetButton").disabled = false;
 }).catch(function (err) {
     return console.error(err.toString());
 });
 
-document.getElementById("sendButton").addEventListener("click", sendSignal);
+document.getElementById("sendPetButton").addEventListener("click", sendSignal);
 
 function sendSignal() {
     let searchValue;
@@ -117,21 +94,21 @@ function sendSignal() {
 
     if ($("#searchType option:selected").val() == 1) {
         isPetSearch = true;
-        searchValue = document.getElementById("SearchValue").value;
+        searchValue = document.getElementById("SearchPetValue").value;
         connection.invoke("SendPetList", searchValue).catch(function (err) {
             return console.error(err.toString());
         });
     }
 
-    if ($("#searchType option:selected").val() == 2 && $("#searchValue option:selected").val() == 1) {
+    if ($("#searchType option:selected").val() == 2 && $("#searchPetValue option:selected").val() == 1) {
         isPetSearch = false;
-        searchValue = document.getElementById("SearchValue").value;
+        searchValue = document.getElementById("SearchPetValue").value;
         connection.invoke("SendServiceList", searchValue).catch(function (err) {
             return console.error(err.toString());
         });
     }
 
-    if ($("#searchType option:selected").val() == 2 && $("#searchValue option:selected").val() == 2) {
+    if ($("#searchType option:selected").val() == 2 && $("#searchPetValue option:selected").val() == 2) {
         isPetSearch = false;
         let tagSelection = $("#tagSelect").val();
         connection.invoke("SendServiceTagList", tagSelection).catch(function (err) {
@@ -144,7 +121,6 @@ function sendSignal() {
 };
 
 
-
 function displayPetSearchCards(pets) {
     $('#searchResultContainer').html('');
     $.each(pets, function (index, value) {
@@ -154,15 +130,15 @@ function displayPetSearchCards(pets) {
         $("#searchResultContainer").append(
             `<div class="col-md-4">
                     <div class="profile-card-4 text-center">
-                        <img id="${value.petId}-img" src="data:image/png;base64,${value.PetProfileImage.content}" class="img" width="200">
+                        <img id="${value.petAccountId}-img" src="data:image/png;base64,${value.petProfileImage.content}" class="img" width="200">
                         <div class="profile-content">
                             <div class="profile-name">
                                 <p></p>
                             </div>
-                            <div class="profile-description py-4">${value.PetName}</div>
+                            <div class="profile-description py-4">${value.petName}</div>
                             <div class="d-flex justify-content-around">
-                                 <a href="info/${value.petId}" alt="Business Page">Details</a>
-                                <button type="button" class="btn btn-outline-warning" id="${value.petId}-fav-btn">Favorite ${favButton} </button>
+                                 <a href="Details/${value.petAccountId}" alt="Business Page">Details</a>
+                                <button type="button" class="btn btn-outline-warning" id="${value.petAccountId}-fav-btn">Favorite ${favButton} </button>
                             </div>
                         </div>
                     </div>
@@ -170,39 +146,6 @@ function displayPetSearchCards(pets) {
         );
     }
     )
-};
-
-function displayServiceSearchCards(service) {
-    $('#searchResultContainer').html('');
-    $.each(service, function (index, value) {
-        let favButton = DisplayIsFavorited(value.business.isFavorited);
-        let furtherDescription;
-        if (value.serviceFurtherDescription) {
-            furtherDescription = value.serviceFurtherDescription;
-        } else {
-            furtherDescription = "";
-        }
-        let onclickLoopName = value.businessId;
-
-        $("#searchResultContainer").append(
-            `<div class="col-md-4">
-                    <div class="profile-card-4 text-center">
-                        <img id="${value.serviceId}-img" src="data:image/png;base64,${value.serviceThumbnail.content}" class="img-fluid" width="200">
-                        <div class="profile-content">
-                            <div class="container">
-                                <h3>${value.serviceName} <span class="badge badge-info">${value.serviceTag}</span></h3>
-                            </div>
-                            <div class="container">${value.serviceTagLine}</div>
-                            <div class="d-flex justify-content-around">
-                                <a href="info/${value.businessId}" alt="Business Page">Details</a>
-                                <button type="button" onclick="toggleFavorite(${onclickLoopName})" class="btn btn-outline-warning" id="${value.businessId}-fav-btn">Favorite ${favButton} </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>`
-        );
-
-    })
 };
 
 function DisplayIsFavorited(isFavorite) {

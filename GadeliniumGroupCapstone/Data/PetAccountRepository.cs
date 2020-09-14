@@ -14,7 +14,6 @@ namespace GadeliniumGroupCapstone.Data
         public PetAccountRepository(PetAppDbContext petAppDbContext):base(petAppDbContext)
         {
 
-
             }
 
             public void CreatePetAccount(PetAccount petAccount) => Create(petAccount);
@@ -38,11 +37,8 @@ namespace GadeliniumGroupCapstone.Data
 
             public void DeletePetAccount(int petAccountId)
             {
-
                 var petAccount = GetPetAccount(petAccountId);
-            
                 Delete(petAccount);
-
             }
 
             public void Save()

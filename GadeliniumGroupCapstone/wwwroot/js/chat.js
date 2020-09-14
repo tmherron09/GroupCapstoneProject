@@ -20,8 +20,6 @@ jQuery(document).ready(function () {
         document.getElementById("SearchValue").value = sessionStorage.getItem("lastSearchValue");
     }
 
-
-
 });
 
 var connection = new signalR.HubConnectionBuilder().withUrl("/PetAppHub").build();
