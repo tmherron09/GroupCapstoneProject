@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GadeliniumGroupCapstone.Migrations
 {
     [DbContext(typeof(PetAppDbContext))]
-    [Migration("20200914032953_init")]
-    partial class init
+    [Migration("20200914063330_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -67,7 +67,7 @@ namespace GadeliniumGroupCapstone.Migrations
 
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.BlockedUsers", b =>
                 {
-                    b.Property<int>("BlockedUserID")
+                    b.Property<int>("BlockedUserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -78,7 +78,7 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.Property<string>("BlockerId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("BlockedUserID");
+                    b.HasKey("BlockedUserId");
 
                     b.ToTable("BlockedUsers");
                 });
@@ -752,22 +752,22 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6a01394a-57a2-4436-895f-8da1bcb46cd1",
-                            ConcurrencyStamp = "1d2e4ab7-fb1f-48c1-8eed-b9fe3938e975",
+                            Id = "66615062-dec1-4bb4-bb68-b0e9e8c35cd1",
+                            ConcurrencyStamp = "552e7ee2-cfea-4990-9452-d2f326e60334",
                             Name = "Pet Owner",
                             NormalizedName = "PETOWNER"
                         },
                         new
                         {
-                            Id = "c360176f-5971-46fa-b8fa-68e6d42d54df",
-                            ConcurrencyStamp = "98daf5d4-4376-48f0-bd66-d59852b80e31",
+                            Id = "57ae70c3-f43e-4ad8-816b-c0ced0b0696f",
+                            ConcurrencyStamp = "1de07142-cc68-4688-a4b3-18f54e238a30",
                             Name = "Business Owner",
                             NormalizedName = "BUSINESSOWNER"
                         },
                         new
                         {
-                            Id = "427622a3-1a13-42d1-b517-b5d5d4f7ead8",
-                            ConcurrencyStamp = "22d57559-9a71-4cd6-9b1d-2723994ccd08",
+                            Id = "dd544cb9-d8f2-4de3-b16e-3518832e9cdc",
+                            ConcurrencyStamp = "55fcbbd3-c7a3-4a0e-94d0-9b3a1e097ffb",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         });
