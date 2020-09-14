@@ -1,0 +1,49 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = $"Business Search";
+    List<PetAccount> searchResult = new List<PetAccount>();
+}
+
+<link rel="stylesheet" href="~/css/business-search.css" />
+
+<div class="container my-5">
+
+    <div class="card mx-auto w-75">
+        <div class="m-3">
+            <label class="control-label">Search By</label>
+            <div class="d-flex justify-content-between">
+
+                    <select class="custom-select m-2" id="searchType">
+                        <option value="1">Dog</option>
+                        <option value="2">Cat</option>
+                    </select>
+                    <select class="custom-select m-2" id="searchValue">
+                        <option value="name">Breed</option>
+                    </select>
+            </div>
+        </div>
+        <hr />
+        <div class="row align-items-center">
+            <div id="searchArea" class="col-sm-8">
+                <input type="text" id="SearchValue" class="form-control m-3" placeholder="Search by Pet Name" />
+            </div>
+            <hr />
+            <div class="col-sm-4">
+                <input type="button" id="sendButton" class="m-3" value="Search By Pet Name" />
+            </div>
+        </div>
+    </div>
+</div>
+<div id="alertBox"></div>
+
+<div class="container">
+    <div id="searchResultContainer" class="row">
+
+    </div>
+</div>
+
+
+@* SignalR JS Files *@
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/petSearch.js"></script>

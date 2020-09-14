@@ -47,10 +47,12 @@ namespace GadeliniumGroupCapstone.Controllers
             try
             {
                 petAccount.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
                 petAccount.PhotoBinId = 1;
                 //petAccount.User = _context.Users.Where(u => u.Id == petAccount.UserId).FirstOrDefault();
                 _context.PetAccounts.Add(petAccount);
                 _context.SaveChanges();
+
             }
             catch (Exception e)
             {

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GadeliniumGroupCapstone.Migrations
 {
     [DbContext(typeof(PetAppDbContext))]
-    [Migration("20200912140939_businessHoursFix")]
-    partial class businessHoursFix
+    [Migration("20200913043912_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -305,10 +305,15 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.Property<string>("PetPhone")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("PhotoBinId")
+                        .HasColumnType("int");
+
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("PetAccountId");
+
+                    b.HasIndex("PhotoBinId");
 
                     b.HasIndex("UserId");
 
@@ -612,6 +617,56 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.ToTable("Vets");
                 });
 
+            modelBuilder.Entity("GadeliniumGroupCapstone.NewsFeedService.Models.Post", b =>
+                {
+                    b.Property<int>("PostId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("PhotoBinId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PostContent")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PosterId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PosterName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PostId");
+
+                    b.HasIndex("PhotoBinId");
+
+                    b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("GadeliniumGroupCapstone.NewsFeedService.Models.PostUser", b =>
+                {
+                    b.Property<int>("PostUserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsLiked")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PostUserId");
+
+                    b.ToTable("PostUsers");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -641,22 +696,22 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "27da9b71-62b6-485d-886b-3dc8e490f82b",
-                            ConcurrencyStamp = "239c2de8-c454-43ef-9ff7-fea3aa54f90b",
+                            Id = "1f85b3d0-a3d6-45bc-849d-a2feb449c30f",
+                            ConcurrencyStamp = "ec6f1eb2-eb4b-466d-bed2-f29d7622cf26",
                             Name = "Pet Owner",
                             NormalizedName = "PETOWNER"
                         },
                         new
                         {
-                            Id = "543c73a3-5a7e-41b0-a114-efc317a12866",
-                            ConcurrencyStamp = "26966cdf-3036-4143-92ce-8af5c339da40",
+                            Id = "7d54f000-52a4-4ee3-b4db-abb24dec7064",
+                            ConcurrencyStamp = "7a3c55fb-cbbf-4844-8e41-1630b5a1ab17",
                             Name = "Business Owner",
                             NormalizedName = "BUSINESSOWNER"
                         },
                         new
                         {
-                            Id = "86f131ff-33d7-4670-8969-61f7714a4545",
-                            ConcurrencyStamp = "b99719c2-5f38-4fd4-b196-72e791f7deb5",
+                            Id = "dcdb8483-fe1a-4bf6-a91e-74bd6cd28306",
+                            ConcurrencyStamp = "f0094139-3ecc-441d-9391-a7b097f73a26",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         });
@@ -852,6 +907,12 @@ namespace GadeliniumGroupCapstone.Migrations
 
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.PetAccount", b =>
                 {
+                    b.HasOne("GadeliniumGroupCapstone.Models.PhotoBin", "PetProfileImage")
+                        .WithMany()
+                        .HasForeignKey("PhotoBinId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("GadeliniumGroupCapstone.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
@@ -906,6 +967,13 @@ namespace GadeliniumGroupCapstone.Migrations
                         .HasForeignKey("BusinessId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("GadeliniumGroupCapstone.NewsFeedService.Models.Post", b =>
+                {
+                    b.HasOne("GadeliniumGroupCapstone.Models.PhotoBin", "PostImage")
+                        .WithMany()
+                        .HasForeignKey("PhotoBinId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
