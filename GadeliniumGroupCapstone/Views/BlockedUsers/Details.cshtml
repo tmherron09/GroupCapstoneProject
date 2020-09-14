@@ -1,7 +1,11 @@
-﻿@*@model GadeliniumGroupCapstone.Models.BlockedUsers
+﻿@model GadeliniumGroupCapstone.Models.BlockedUsers
+@inject GadeliniumGroupCapstone.Contracts.IRepositoryWrapper _repo
 
 @{
     ViewData["Title"] = "Details";
+    var blocker = _repo.PetAccount.GetPetAccountOfUserId(Model.BlockerId)[0].PetName;
+    var blockee = _repo.PetAccount.GetPetAccountOfUserId(Model.Blockee)[0].PetName;
+
 }
 
 <h1>Details</h1>
@@ -10,15 +14,21 @@
     <h4>BlockedUsers</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PetAccount)
+        <dt class="col-sm-2">
+            @blocker;
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PetAccount.PetAccountId)
+        <dd class="col-sm-10">
         </dd>
+
+        <dt class="col-sm-2">
+            @blockee;
+        </dt>
+        <dd class="col-sm-10">
+        </dd>
+
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.BlockedUserID">Edit</a> |
+    <a asp-action="Details" asp-route-id="@Model.BlockerId">Details</a> |
     <a asp-action="Index">Back to List</a>
-</div>*@
+</div>

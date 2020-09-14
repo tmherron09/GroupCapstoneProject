@@ -11,12 +11,10 @@ namespace GadeliniumGroupCapstone.Models
     {
 
         [Key]
-        public int BlockedUserID { get; set; }
+        public int BlockedUserId { get; set; }
         
-        
-        public string BlockerId{ get; set; }
-        
-        
+        public string BlockerId { get; set; }
+
         public string Blockee { get; set; }
 
 
