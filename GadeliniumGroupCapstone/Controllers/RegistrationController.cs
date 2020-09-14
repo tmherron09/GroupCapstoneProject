@@ -47,9 +47,9 @@ namespace GadeliniumGroupCapstone.Controllers
             try
             {
                 petAccount.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                //petAccount.User = _context.Users.Where(u => u.Id == petAccount.UserId).FirstOrDefault();
-                _context.PetAccounts.Add(petAccount);
-                _context.SaveChanges();
+                petAccount.User = _context.Users.Where(u => u.Id == petAccount.UserId).FirstOrDefault();
+                await _context.PetAccounts.AddAsync(petAccount);
+                await _context.SaveChangesAsync();
             }
             catch
             {

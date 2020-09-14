@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GadeliniumGroupCapstone.Migrations
 {
-    public partial class businessHoursFix : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -109,6 +109,21 @@ namespace GadeliniumGroupCapstone.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PostUsers",
+                columns: table => new
+                {
+                    PostUserId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(nullable: true),
+                    PostId = table.Column<int>(nullable: false),
+                    IsLiked = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PostUsers", x => x.PostUserId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Tests",
                 columns: table => new
                 {
@@ -140,30 +155,6 @@ namespace GadeliniumGroupCapstone.Migrations
                         principalTable: "PetAppRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PetAccounts",
-                columns: table => new
-                {
-                    PetAccountId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Breed = table.Column<string>(nullable: true),
-                    PetName = table.Column<string>(nullable: true),
-                    Dob = table.Column<DateTime>(nullable: false),
-                    AnimalType = table.Column<string>(nullable: true),
-                    PetPhone = table.Column<string>(nullable: true),
-                    UserId = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PetAccounts", x => x.PetAccountId);
-                    table.ForeignKey(
-                        name: "FK_PetAccounts_PetAppUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "PetAppUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -289,45 +280,57 @@ namespace GadeliniumGroupCapstone.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MedicalRecords",
+                name: "PetAccounts",
                 columns: table => new
                 {
-                    MedicalRecordId = table.Column<int>(nullable: false)
+                    PetAccountId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PetId = table.Column<int>(nullable: false)
+                    Breed = table.Column<string>(nullable: true),
+                    PetName = table.Column<string>(nullable: true),
+                    Dob = table.Column<DateTime>(nullable: false),
+                    AnimalType = table.Column<string>(nullable: true),
+                    PetPhone = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: true),
+                    PhotoBinId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MedicalRecords", x => x.MedicalRecordId);
+                    table.PrimaryKey("PK_PetAccounts", x => x.PetAccountId);
                     table.ForeignKey(
-                        name: "FK_MedicalRecords_PetAccounts_PetId",
-                        column: x => x.PetId,
-                        principalTable: "PetAccounts",
-                        principalColumn: "PetAccountId",
+                        name: "FK_PetAccounts_PhotoBins_PhotoBinId",
+                        column: x => x.PhotoBinId,
+                        principalTable: "PhotoBins",
+                        principalColumn: "PhotoId",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PetAccounts_PetAppUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "PetAppUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PetBios",
+                name: "Posts",
                 columns: table => new
                 {
-                    PetBioId = table.Column<int>(nullable: false)
+                    PostId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PetInfo = table.Column<string>(nullable: true),
-                    Likes = table.Column<int>(nullable: false),
-                    Dislikes = table.Column<int>(nullable: false),
-                    Hobbies = table.Column<string>(nullable: true),
-                    PetId = table.Column<int>(nullable: false)
+                    PosterId = table.Column<int>(nullable: false),
+                    PosterName = table.Column<string>(nullable: true),
+                    PostTitle = table.Column<string>(nullable: true),
+                    PostContent = table.Column<string>(nullable: true),
+                    PhotoBinId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PetBios", x => x.PetBioId);
+                    table.PrimaryKey("PK_Posts", x => x.PostId);
                     table.ForeignKey(
-                        name: "FK_PetBios_PetAccounts_PetId",
-                        column: x => x.PetId,
-                        principalTable: "PetAccounts",
-                        principalColumn: "PetAccountId",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Posts_PhotoBins_PhotoBinId",
+                        column: x => x.PhotoBinId,
+                        principalTable: "PhotoBins",
+                        principalColumn: "PhotoId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -503,6 +506,48 @@ namespace GadeliniumGroupCapstone.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MedicalRecords",
+                columns: table => new
+                {
+                    MedicalRecordId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PetId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MedicalRecords", x => x.MedicalRecordId);
+                    table.ForeignKey(
+                        name: "FK_MedicalRecords_PetAccounts_PetId",
+                        column: x => x.PetId,
+                        principalTable: "PetAccounts",
+                        principalColumn: "PetAccountId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PetBios",
+                columns: table => new
+                {
+                    PetBioId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PetInfo = table.Column<string>(nullable: true),
+                    Likes = table.Column<int>(nullable: false),
+                    Dislikes = table.Column<int>(nullable: false),
+                    Hobbies = table.Column<string>(nullable: true),
+                    PetId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PetBios", x => x.PetBioId);
+                    table.ForeignKey(
+                        name: "FK_PetBios_PetAccounts_PetId",
+                        column: x => x.PetId,
+                        principalTable: "PetAccounts",
+                        principalColumn: "PetAccountId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Immunizations",
                 columns: table => new
                 {
@@ -549,9 +594,9 @@ namespace GadeliniumGroupCapstone.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "27da9b71-62b6-485d-886b-3dc8e490f82b", "239c2de8-c454-43ef-9ff7-fea3aa54f90b", "Pet Owner", "PETOWNER" },
-                    { "543c73a3-5a7e-41b0-a114-efc317a12866", "26966cdf-3036-4143-92ce-8af5c339da40", "Business Owner", "BUSINESSOWNER" },
-                    { "86f131ff-33d7-4670-8969-61f7714a4545", "b99719c2-5f38-4fd4-b196-72e791f7deb5", "Admin", "Admin" }
+                    { "1f85b3d0-a3d6-45bc-849d-a2feb449c30f", "ec6f1eb2-eb4b-466d-bed2-f29d7622cf26", "Pet Owner", "PETOWNER" },
+                    { "7d54f000-52a4-4ee3-b4db-abb24dec7064", "7a3c55fb-cbbf-4844-8e41-1630b5a1ab17", "Business Owner", "BUSINESSOWNER" },
+                    { "dcdb8483-fe1a-4bf6-a91e-74bd6cd28306", "f0094139-3ecc-441d-9391-a7b097f73a26", "Admin", "Admin" }
                 });
 
             migrationBuilder.InsertData(
@@ -621,6 +666,11 @@ namespace GadeliniumGroupCapstone.Migrations
                 column: "BusinessId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PetAccounts_PhotoBinId",
+                table: "PetAccounts",
+                column: "PhotoBinId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PetAccounts_UserId",
                 table: "PetAccounts",
                 column: "UserId");
@@ -668,6 +718,11 @@ namespace GadeliniumGroupCapstone.Migrations
                 name: "IX_PetBios_PetId",
                 table: "PetBios",
                 column: "PetId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_PhotoBinId",
+                table: "Posts",
+                column: "PhotoBinId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Services_BusinessId",
@@ -735,6 +790,12 @@ namespace GadeliniumGroupCapstone.Migrations
 
             migrationBuilder.DropTable(
                 name: "PetBios");
+
+            migrationBuilder.DropTable(
+                name: "Posts");
+
+            migrationBuilder.DropTable(
+                name: "PostUsers");
 
             migrationBuilder.DropTable(
                 name: "Services");

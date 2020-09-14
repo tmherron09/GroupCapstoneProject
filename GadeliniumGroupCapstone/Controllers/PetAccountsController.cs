@@ -96,6 +96,11 @@ namespace GadeliniumGroupCapstone.Controllers
 
         }
 
+        public IActionResult SearchPets()
+        {
+            return View();
+
+        }
         // GET: PetAccounts/Create
         public IActionResult Create()
         {

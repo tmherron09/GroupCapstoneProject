@@ -105,7 +105,7 @@ function onPlaceChanged() {
     }
 }
 
-// Search for hotels in the selected city, within the viewport of the map.
+// Search for vets in the selected city, within the viewport of the map.
 function search() {
     const search = {
         bounds: map.getBounds(),
@@ -116,7 +116,7 @@ function search() {
             clearResults();
             clearMarkers();
 
-            // Create a marker for each hotel found, and
+            // Create a marker for each vet found, and
             // assign a letter of the alphabetic to each marker icon.
             for (let i = 0; i < results.length; i++) {
                 const markerLetter = String.fromCharCode("A".charCodeAt(0) + (i % 26));
@@ -127,7 +127,7 @@ function search() {
                     animation: google.maps.Animation.DROP,
                     icon: markerIcon
                 });
-                // If the user clicks a hotel marker, show the details of that hotel
+                // If the user clicks a vet marker, show the details of that vet
                 // in an info window.
 
                 markers[i].placeResult = results[i];
@@ -204,7 +204,7 @@ function clearResults() {
     }
 }
 
-// Get the place details for a hotel. Show the information in an info window,
+// Get the place details for a vet. Show the information in an info window,
 // anchored on the marker for the hotel that the user selected.
 function showInfoWindow() {
     const marker = this;
@@ -236,8 +236,8 @@ function buildIWContent(place) {
         document.getElementById("iw-phone-row").style.display = "none";
     }
 
-    // Assign a five-star rating to the hotel, using a black star ('&#10029;')
-    // to indicate the rating the hotel has earned, and a white star ('&#10025;')
+    // Assign a five-star rating to the vet, using a black star ('&#10029;')
+    // to indicate the rating the vet has earned, and a white star ('&#10025;')
     // for the rating points not achieved.
     if (place.rating) {
         let ratingHtml = "";
