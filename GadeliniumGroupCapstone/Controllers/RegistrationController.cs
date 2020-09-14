@@ -47,12 +47,14 @@ namespace GadeliniumGroupCapstone.Controllers
             try
             {
                 petAccount.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                petAccount.PhotoBinId = 1;
                 //petAccount.User = _context.Users.Where(u => u.Id == petAccount.UserId).FirstOrDefault();
                 _context.PetAccounts.Add(petAccount);
                 _context.SaveChanges();
             }
-            catch
+            catch (Exception e)
             {
+                Console.WriteLine(e);
                 return RedirectToAction("Index", "Home");
             }
             await _userManager.AddClaimAsync(await _userManager.FindByNameAsync(User.Identity.Name), new Claim(ClaimTypes.Role, "Pet Owner"));

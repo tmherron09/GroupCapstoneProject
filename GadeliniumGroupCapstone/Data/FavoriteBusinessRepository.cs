@@ -31,6 +31,10 @@ namespace GadeliniumGroupCapstone.Data
 
         public List<Business> GetUserFavoriteBusinesses(string userId) =>
             FindAllByCondition(fb => fb.UserId == userId).Select(fb => fb.Business).ToList();
+        public List<string> GetUserFavoriteBusinessesNames(string userId) {
+            var favBus = FindAllByCondition(fb => fb.UserId == userId).Select(fb=>fb.BusinessId).ToList();
+            return PetAppDbContext.Businesses.Where(b => favBus.Contains(b.BusinessId)).Select(b => b.BusinessName).ToList();
+        }
 
         public bool IsFavorited(string userId, int businessId)
         {
