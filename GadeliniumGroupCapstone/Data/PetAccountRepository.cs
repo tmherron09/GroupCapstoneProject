@@ -53,7 +53,16 @@ namespace GadeliniumGroupCapstone.Data
         public List<PetAccount> GetPetAccountOfUserId(string userId) =>
             FindAllByCondition(p => p.UserId == userId).ToList();
 
-        
+        public List<PetAccount> SearchByName(string searchValue)
+        {
+            var results = FindAllByCondition(b => b.PetName.Contains(searchValue)).ToList();
+
+            for (int i = 0; i < results.Count; i++)
+            {
+                results[i].PetProfileImage = PetAppDbContext.PhotoBins.Where(p => p.PhotoId == results[i].PhotoBinId).FirstOrDefault();
+            }
+                return results;
+        }
         public int GetPetBioId(int petAccountId)
         {
             return PetAppDbContext.PetBios.Where(pb => pb.PetId == petAccountId).Select(pb=> pb.PetBioId).SingleOrDefault();

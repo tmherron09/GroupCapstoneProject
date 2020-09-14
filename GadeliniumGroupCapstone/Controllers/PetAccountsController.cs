@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Identity.UI.V3.Pages.Internal.Account;
 using GadeliniumGroupCapstone.AuthorizationPolicies;
 using SQLitePCL;
 using Microsoft.AspNetCore.Identity;
+using GadeliniumGroupCapstone.ViewModels;
+using GadeliniumGroupCapstone.UploadImage;
 
 namespace GadeliniumGroupCapstone.Controllers
 {
@@ -22,8 +24,9 @@ namespace GadeliniumGroupCapstone.Controllers
         private readonly PetAppDbContext _context;
         private UserManager<User> _userManager;
         private SignInManager<User> _signInManager;
+        private UploadImageService _uploadImageService;
 
-        public PetAccountsController(PetAppDbContext context, IRepositoryWrapper repo, UserManager<User> userManager, SignInManager<User> signInManager)
+        public PetAccountsController(PetAppDbContext context, IRepositoryWrapper repo, UserManager<User> userManager, SignInManager<User> signInManager, UploadImageService uploadImageService)
         {
             _context = context;
             _repo = repo;
@@ -43,14 +46,18 @@ namespace GadeliniumGroupCapstone.Controllers
             var userdId = _userManager.GetUserId(User);
 
             var petAccount = _repo.PetAccount.GetPetAccountOfUserId(userdId);
+            
+            foreach(var pet in petAccount)
+            {
+                pet.PetProfileImage = _repo.PhotoBin.GetPhoto(pet.PhotoBinId);
+            }
 
             if (petAccount == null)
             {
                 return RedirectToAction("Index", "Home");
             }
 
-
-            return Details();
+            return View("Index", petAccount);
         }
 
         // GET: PetAccounts
@@ -74,6 +81,8 @@ namespace GadeliniumGroupCapstone.Controllers
                 return RedirectToAction("Create");
             }
 
+            petAccount.PetProfileImage = _repo.PhotoBin.GetPhoto(petAccount.PhotoBinId);
+
             return View(petAccount);
         }
 
@@ -88,11 +97,12 @@ namespace GadeliniumGroupCapstone.Controllers
             var userId = _userManager.GetUserId(User);
             var firstPet = _repo.PetAccount.GetPetAccountOfUserId(userId);
 
-            if(firstPet.Count == 0)
+            if(firstPet.Count() == 0)
             {
                 return View("Index", "PetAccount");
             }
             var pet = firstPet[0];
+            pet.PetProfileImage = _repo.PhotoBin.GetPhoto(pet.PhotoBinId);
             return View("Details", pet);
 
         }
@@ -105,7 +115,9 @@ namespace GadeliniumGroupCapstone.Controllers
         // GET: PetAccounts/Create
         public IActionResult Create()
         {
-            return View();
+            PetWithImage account = new PetWithImage();
+
+            return View(account);
         }
 
         // POST: PetAccounts/Create
@@ -113,19 +125,31 @@ namespace GadeliniumGroupCapstone.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(PetAccount petAccount)
+        public async Task<IActionResult> Create(PetWithImage model)
         {
 
-            if (ModelState.IsValid)
+            try
             {
-                _repo.PetAccount.Create(petAccount);
-                petAccount.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                model.PetAccount.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                await _uploadImageService.CreatePetAccountUploadImage(model);
+
+
+                _repo.PetAccount.Create(model.PetAccount);
                 _repo.Save();
 
-                return View("Details", petAccount);
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                ViewBag.error = "Failed to create Account";
+                return RedirectToAction("Index", "Home");
+            }
+            await _userManager.AddClaimAsync(await _userManager.FindByNameAsync(User.Identity.Name), new Claim(ClaimTypes.Role, "Pet Owner"));
+            await _signInManager.RefreshSignInAsync(await _userManager.FindByNameAsync(User.Identity.Name));
+            _context.SaveChanges();
 
-            return await Details(petAccount.PetAccountId);
+            return RedirectToAction("Index", "PetAccounts");
         }
 
         // GET: PetAccounts/Edit/5
@@ -133,6 +157,7 @@ namespace GadeliniumGroupCapstone.Controllers
         {
 
             var petAccount = _repo.PetAccount.GetPetAccount(id);
+            PetWithImage account = new PetWithImage(petAccount);
 
 
             if (petAccount == null)
@@ -148,25 +173,25 @@ namespace GadeliniumGroupCapstone.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, PetAccount petAccount)
+        public async Task<IActionResult> Edit(PetWithImage model)
         {
-            if (id != petAccount.PetAccountId)
-
-            {
-                return NotFound();
-            }
+            
 
             if (ModelState.IsValid)
             {
-                                
-                _repo.PetAccount.Update(petAccount);
+
+                _uploadImageService.EditPetAccountUploadImage(model);
+
+
+
+                _repo.PetAccount.Update(model.PetAccount);
                 _repo.Save();
-                return View("Details", petAccount);
+                return View("Details", model.PetAccount);
                     
             }
 
 
-            return View("Details", petAccount);
+            return View("Details", model.PetAccount);
         }
 
         // GET: PetAccounts/Delete/5

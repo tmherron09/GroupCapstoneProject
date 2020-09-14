@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Index</h1>
@@ -16,16 +17,10 @@
                 @Html.DisplayNameFor(model => model.PetName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Breed)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Dob)
+                @Html.DisplayNameFor(model => model.Age)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.AnimalType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PetPhone)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.User)
@@ -34,23 +29,16 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.PetName)
             </td>
-            
             <td>
-                @Html.DisplayFor(modelItem => item.Breed)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Dob)
+                @Html.DisplayFor(modelItem => item.Age)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AnimalType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PetPhone)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.User.UserName)
@@ -61,6 +49,6 @@
                 <a asp-action="Delete" asp-route-id="@item.PetAccountId">Delete</a>
             </td>
         </tr>
-}
+        }
     </tbody>
 </table>

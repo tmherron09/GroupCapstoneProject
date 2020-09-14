@@ -80,14 +80,25 @@ namespace GadeliniumGroupCapstone
 
         public override Task OnDisconnectedAsync(Exception ex)
         {
-            
             ChatService.ConnectedUsers.Remove(Context.ConnectionId);
-
             return Task.CompletedTask;
         }
 
 
 
+        public async Task SendPetList(string searchValue)
+        {
+            var userId = Context.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            List<PetAccount> pets = _repo.PetAccount.SearchByName(searchValue);
+            for(int i = 0; i < pets.Count; i++)
+            {
+                pets[i].IsFavorited = _repo.FavoriteBusiness.IsFavorited(userId, pets[i].PetAccountId);
+            }
+
+
+            await Clients.Caller.SendAsync("RecievePetList", pets);
+
+        }
 
         // Business Search Methods
 

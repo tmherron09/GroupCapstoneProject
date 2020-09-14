@@ -12,80 +12,87 @@
 @if ((!User.IsInRole("Pet Owner") && !User.IsInRole("Business Owner")) && SignInManager.IsSignedIn(User))
 {
 
-    <div class="container" width="auto">
-        <form asp-controller="Registration">
-            <h1 class="display-4 text-center">Register an Account Type!</h1>
-            <div class="row">
-                <div class="col-sm-6 d-flex align-items-stretch">
-                    <div class="card">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Pet Account</h5>
-                            <p class="card-text">Create a profile for your pet to store information, upload photos, and connect with other pet-owners and businesses in your area.</p>
-                            <button type="submit" asp-controller="Registration" asp-action="PetOwnerRegistration" class="btn btn-primary mt-auto">Create Pet Account</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 d-flex align-items-stretch">
-                    <div class="card">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Business Account</h5>
-                            <p class="card-text">Create a profile for your business to market and expand your local customer network.</p>
-                            <button asp-controller="Registration" asp-action="CreateBusinessAccountWithProfileImage" class="btn btn-primary mt-auto" formmethod="get">Create Business Account</button>
-                        </div>
+<div class="container" width="auto">
+    <form asp-controller="Registration">
+        <h1 class="display-4 text-center">Register an Account Type!</h1>
+        <div class="row">
+            <div class="d-flex align-items-stretch">
+                <div class="card">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Pet Account</h5>
+                        <p class="card-text">Create a profile for your pet to store information, upload photos, and connect with other pet-owners and businesses in your area.</p>
+                        <button type="submit" asp-controller="Registration" asp-action="PetOwnerRegistration" class="btn btn-primary mt-auto">Create Pet Account</button>
                     </div>
                 </div>
             </div>
-        </form>
-    </div>
+            <div class="d-flex align-items-stretch">
+                <div class="card">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Business Account</h5>
+                        <p class="card-text">Create a profile for your business to market and expand your local customer network.</p>
+                        <button asp-controller="Registration" asp-action="CreateBusinessAccountWithProfileImage" class="btn btn-primary mt-auto" formmethod="get">Create Business Account</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
 
 }
 else if (User.IsInRole("Pet Owner"))
 {
-    var pet = _repo.PetAccount.GetPetAccountOfUserId(SignInManager.UserManager.GetUserId(User));
+var pets = _repo.PetAccount.GetPetAccountOfUserId(SignInManager.UserManager.GetUserId(User));
+foreach (var pet in pets)
+{
+pet.PetProfileImage = _repo.PhotoBin.GetPhoto(pet.PhotoBinId);
+}
 
+@for (int i = 0; i < pets.Count(); i++)
+{
+string imageBase64 = Convert.ToBase64String(pets[i].PetProfileImage.Content);
+string imageSrc = string.Format("data:image/gif;base64,{0}", imageBase64);
 
-
-    <div class="col-md-4">
-        <div class="profile-card-4 text-center">
-            @*<img src="@imageSrc" alt="@.PhotoBinId" />*@
-            <div class="profile-content">
-                <div class="profile-name">
-                    <p></p>
-                </div>
-                <div class="profile-description py-4">@pet[0].PetName</div>
-                <div class="d-flex justify-content-around">
-                    <a asp-controller="PetAccount" asp-action="Details" alt="Pet Details Page">Details</a>
-                </div>
+<div class="">
+    <div class="profile-card-4 text-center">
+        <img src="@imageSrc" width="200" alt="@pets[i].PhotoBinId" />
+        <div class="profile-content">
+            <div class="profile-name">
+                <p></p>
+            </div>
+            <div class="profile-description py-4">@pets[0].PetName</div>
+            <div class="d-flex justify-content-around">
+                <a asp-controller="Home" asp-action="Index" alt="Pet Details Page">Details</a>
             </div>
         </div>
     </div>
+</div> }
 }
 else if (User.IsInRole("Business Owner"))
 {
 
-    var business = _repo.Business.GetBusinessOfUserId(SignInManager.UserManager.GetUserId(User));
-    var businessLogo = _repo.PhotoBin.GetPhoto(business.PhotoBinId);
+var business = _repo.Business.GetBusinessOfUserId(SignInManager.UserManager.GetUserId(User));
+var businessLogo = _repo.PhotoBin.GetPhoto(business.PhotoBinId);
 
-    string imageBase64 = Convert.ToBase64String(businessLogo.Content);
-    string imageSrc = string.Format("data:image/gif;base64,{0}", imageBase64);
-
-
+string imageBase64 = Convert.ToBase64String(businessLogo.Content);
+string imageSrc = string.Format("data:image/gif;base64,{0}", imageBase64);
 
 
 
-    <div class="col-md-4">
-        <div class="profile-card-4 text-center">
-            <img src="@imageSrc" alt="@business.PhotoBinId" />
-            <div class="profile-content">
-                <div class="profile-name">
-                    <p></p>
-                </div>
-                <div class="profile-description py-4">@business.BusinessName</div>
-                <div class="d-flex justify-content-around">
-                    <a asp-controller="Business" asp-action="Home" alt="Business Page">Details</a>
-                </div>
+
+
+<div class="">
+    <div class="profile-card-4 text-center">
+        <img src="@imageSrc" alt="@business.PhotoBinId" />
+        <div class="profile-content">
+            <div class="profile-name">
+                <p></p>
+            </div>
+            <div class="profile-description py-4">@business.BusinessName</div>
+            <div class="d-flex justify-content-around">
+                <a asp-controller="Business" asp-action="Home" alt="Business Page">Details</a>
             </div>
         </div>
     </div>
+</div>
 
 }

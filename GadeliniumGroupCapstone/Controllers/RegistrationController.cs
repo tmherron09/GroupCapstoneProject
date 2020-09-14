@@ -35,28 +35,30 @@ namespace GadeliniumGroupCapstone.Controllers
         // GET: RegistrationController
         public IActionResult PetOwnerRegistration()
         {
-            PetAccount account = new PetAccount();
+            PetWithImage account = new PetWithImage();
 
             return View(account);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreatePetAccount(PetAccount petAccount)
+        public async Task<IActionResult> CreatePetAccount(PetWithImage model)
         {
             try
             {
-                petAccount.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                model.PetAccount.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                petAccount.PhotoBinId = 1;
-                //petAccount.User = _context.Users.Where(u => u.Id == petAccount.UserId).FirstOrDefault();
-                _context.PetAccounts.Add(petAccount);
-                _context.SaveChanges();
+                await _uploadImageService.CreatePetAccountUploadImage(model);
+
+
+                _repo.PetAccount.Create(model.PetAccount);
+                _repo.Save();
 
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
+                ViewBag.error = "Failed to create Account";
                 return RedirectToAction("Index", "Home");
             }
             await _userManager.AddClaimAsync(await _userManager.FindByNameAsync(User.Identity.Name), new Claim(ClaimTypes.Role, "Pet Owner"));
@@ -75,41 +77,41 @@ namespace GadeliniumGroupCapstone.Controllers
 
 
 
-        // POST: RegistrationController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateBusinessAccount(Business businessAccount)
-        {
-            try
-            {
-                businessAccount.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                businessAccount.User = _context.Users.Where(u => u.Id == businessAccount.UserId).FirstOrDefault();
+        //// POST: RegistrationController/Edit/5
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> CreateBusinessAccount(Business businessAccount)
+        //{
+        //    try
+        //    {
+        //        businessAccount.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //        businessAccount.User = _context.Users.Where(u => u.Id == businessAccount.UserId).FirstOrDefault();
 
 
-                byte[] imgdata = await System.IO.File.ReadAllBytesAsync(@"wwwroot\images\Default\default_logo.png");
-                PhotoBin logo = new PhotoBin();
-                logo.Content = imgdata;
-                await _context.PhotoBins.AddAsync(logo);
-                await _context.SaveChangesAsync();
-                businessAccount.PhotoBinId = _context.PhotoBins.OrderByDescending(p => p.PhotoId).Select(p => p.PhotoId).FirstOrDefault();
+        //        byte[] imgdata = await System.IO.File.ReadAllBytesAsync(@"wwwroot\images\Default\default_logo.png");
+        //        PhotoBin logo = new PhotoBin();
+        //        logo.Content = imgdata;
+        //        await _context.PhotoBins.AddAsync(logo);
+        //        await _context.SaveChangesAsync();
+        //        businessAccount.PhotoBinId = _context.PhotoBins.OrderByDescending(p => p.PhotoId).Select(p => p.PhotoId).FirstOrDefault();
 
 
-                await _context.Businesses.AddAsync(businessAccount);
-                await _context.SaveChangesAsync();
+        //        await _context.Businesses.AddAsync(businessAccount);
+        //        await _context.SaveChangesAsync();
 
-            }
-            catch
-            {
-                return RedirectToAction("Index", "Home");
-            }
+        //    }
+        //    catch
+        //    {
+        //        return RedirectToAction("Index", "Home");
+        //    }
 
-            await _userManager.AddClaimAsync(await _userManager.FindByNameAsync(User.Identity.Name), new Claim(ClaimTypes.Role, "Business Owner"));
-            await _signInManager.RefreshSignInAsync(await _userManager.FindByNameAsync(User.Identity.Name));
-            _context.SaveChanges();
+        //    await _userManager.AddClaimAsync(await _userManager.FindByNameAsync(User.Identity.Name), new Claim(ClaimTypes.Role, "Business Owner"));
+        //    await _signInManager.RefreshSignInAsync(await _userManager.FindByNameAsync(User.Identity.Name));
+        //    _context.SaveChanges();
 
 
-            return RedirectToAction("Index", "Home");
-        }
+        //    return RedirectToAction("Index", "Home");
+        //}
 
 
         //[Route("{controller}/Business")]
@@ -137,7 +139,6 @@ namespace GadeliniumGroupCapstone.Controllers
             {
                 // Get User Id for Business
                 regEditModel.Business.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                //regEditModel.Business.User = _context.Users.Where(u => u.Id == regEditModel.Business.UserId).FirstOrDefault();
 
                 await _uploadImageService.RegisterBusinessUploadImage(regEditModel);
 

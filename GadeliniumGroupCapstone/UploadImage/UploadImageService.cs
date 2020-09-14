@@ -77,6 +77,11 @@ namespace GadeliniumGroupCapstone.UploadImage
 
         }
 
+        /*
+         *  Start of Service UploadImage
+         */
+
+
         public async Task CreateServiceUploadImage(ServiceWithPhotoUpload model)
         {
             if (model.UploadFile == null)
@@ -132,5 +137,63 @@ namespace GadeliniumGroupCapstone.UploadImage
         }
 
 
+        /* 
+         * Start of PetAccount UploadImage
+         */
+
+
+        public async Task CreatePetAccountUploadImage(PetWithImage model)
+        {
+            if (model.UploadFile == null)
+            {
+                await CreatePetAccountNullUploadImage(model);
+                return;
+            }
+
+            using (var memoryStream = new MemoryStream())
+            {
+                await model.UploadFile.CopyToAsync(memoryStream);
+                model.PetAccount.PetProfileImage = new PhotoBin();
+                model.PetAccount.PetProfileImage.Content = memoryStream.ToArray();
+
+                _repo.PhotoBin.Create(model.PetAccount.PetProfileImage);
+                _repo.Save();
+
+            }
+            // Retrieve photoid just saved to put into service model.
+            model.PetAccount.PhotoBinId = _repo.PhotoBin.LastPhotoAddedId();
+        }
+
+        public async Task CreatePetAccountNullUploadImage(PetWithImage model)
+        {
+            byte[] imgdata = await System.IO.File.ReadAllBytesAsync(@"wwwroot\images\Default\default_petprofile.png");
+            PhotoBin petprofile = new PhotoBin();
+            petprofile.Content = imgdata;
+            _repo.PhotoBin.Create(petprofile);
+            _repo.Save();
+
+            // Retrieve photoid just saved to put into service model.
+            model.PetAccount.PhotoBinId = _repo.PhotoBin.LastPhotoAddedId();
+        }
+
+        public async Task EditPetAccountUploadImage(PetWithImage model)
+        {
+            if (model.UploadFile == null)
+            {
+                return;
+            }
+
+            using (var memoryStream = new MemoryStream())
+            {
+                await model.UploadFile.CopyToAsync(memoryStream);
+                model.PetAccount.PetProfileImage = new PhotoBin();
+                model.PetAccount.PetProfileImage.Content = memoryStream.ToArray();
+
+                model.PetAccount.PetProfileImage.PhotoId = (int)model.PetAccount.PhotoBinId;
+
+                _repo.PhotoBin.Update(model.PetAccount.PetProfileImage);
+                _repo.Save();
+            }
+        }
     }
 }

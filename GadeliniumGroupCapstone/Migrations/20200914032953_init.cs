@@ -3,10 +3,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GadeliniumGroupCapstone.Migrations
 {
-    public partial class chatWindow : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "BlockedUsers",
+                columns: table => new
+                {
+                    BlockedUserID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BlockerId = table.Column<string>(nullable: true),
+                    Blockee = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BlockedUsers", x => x.BlockedUserID);
+                });
+
             migrationBuilder.CreateTable(
                 name: "BusinessHours",
                 columns: table => new
@@ -321,11 +335,9 @@ namespace GadeliniumGroupCapstone.Migrations
                 {
                     PetAccountId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Breed = table.Column<string>(nullable: true),
                     PetName = table.Column<string>(nullable: true),
-                    Dob = table.Column<DateTime>(nullable: false),
+                    Age = table.Column<string>(nullable: true),
                     AnimalType = table.Column<string>(nullable: true),
-                    PetPhone = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: true),
                     PhotoBinId = table.Column<int>(nullable: false)
                 },
@@ -630,9 +642,9 @@ namespace GadeliniumGroupCapstone.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1a12c980-be9c-4a50-a86e-3cc097e9c62b", "f252bcb0-7c47-4bad-a90a-57312d6cac84", "Pet Owner", "PETOWNER" },
-                    { "ebae0991-04bb-4ca7-a6f1-98386ea94b29", "5da359c9-1097-4b89-9ecc-c3e136b3d1fd", "Business Owner", "BUSINESSOWNER" },
-                    { "7ca4bb53-8b18-40ef-a0f1-f7eb42ceb731", "4bc03726-0f1b-4d53-a814-bb4a36914506", "Admin", "Admin" }
+                    { "6a01394a-57a2-4436-895f-8da1bcb46cd1", "1d2e4ab7-fb1f-48c1-8eed-b9fe3938e975", "Pet Owner", "PETOWNER" },
+                    { "c360176f-5971-46fa-b8fa-68e6d42d54df", "98daf5d4-4376-48f0-bd66-d59852b80e31", "Business Owner", "BUSINESSOWNER" },
+                    { "427622a3-1a13-42d1-b517-b5d5d4f7ead8", "22d57559-9a71-4cd6-9b1d-2723994ccd08", "Admin", "Admin" }
                 });
 
             migrationBuilder.InsertData(
@@ -793,6 +805,9 @@ namespace GadeliniumGroupCapstone.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "BlockedUsers");
+
             migrationBuilder.DropTable(
                 name: "Boardings");
 

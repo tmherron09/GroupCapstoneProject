@@ -19,8 +19,11 @@ namespace GadeliniumGroupCapstone.Contracts
 
         int GetPetBioId(int petAccountId);
 
+        List<PetAccount> SearchByName(string searchValue);
+        
         List<string> GetUserPetNames(string userId);
         int GetPetAccountIdFromPetName(string petName);
+
 
         void Save();
     }

@@ -2,23 +2,19 @@
 
 // Global
 
-let currentResult;
-let isBusinessSearch;
-
+let isPetSearch;
 ////
 
 jQuery(document).ready(function () {
 
-    if (sessionStorage.getItem("lastBusinessSearch")) {
-        var businesses = sessionStorage.getItem("lastBusinessSearch");
-        var parsedBusinesses = JSON.parse(businesses);
-        //displayBusinessSearchCards(parsedBusinesses);
+    if (sessionStorage.getItem("lastPetSearch")) {
+        var pets = sessionStorage.getItem("lastBusinessSearch");
+        var parsedPets = JSON.parse(pets);
+        //displayPetSearchCards(parsedPets);
     }
     if (sessionStorage.getItem("lastSearchValue")) {
         document.getElementById("SearchValue").value = sessionStorage.getItem("lastSearchValue");
     }
-
-
 
 });
 
@@ -32,7 +28,7 @@ $("#searchType").change(function () {
     else {
         $("#searchValue").html('');
         $("#searchValue").append('<option value="1">Name</option>');
-        $("#searchValue").append('<option value="2">Service Tag</option>');
+        //$("#searchValue").append('<option value="2">Option Tag</option>');
     }
 });
 
@@ -66,15 +62,15 @@ document.getElementById("sendButton").disabled = true;
 
 
 // Business Searches
-connection.on("RecieveBusinessList", function (businesses) {
+connection.on("RecievePetList", function (businesses) {
     var lastSearch = document.getElementById("SearchValue").value;
-    console.log(businesses);
-    var businessStored = JSON.stringify(businesses);
+    console.log(pets);
+    var petStored = JSON.stringify(pets);
 
-    sessionStorage.setItem("lastBusinessSearch", businessStored);
+    sessionStorage.setItem("lastPetSearch", petStored);
     sessionStorage.setItem("lastSearchValue", lastSearch);
-    currentResult = businesses;
-    displayBusinessSearchCards(businesses);
+    currentResult = pets;
+    displayPetSearchCards(pets);
 });
 
 
@@ -107,18 +103,6 @@ connection.on("FavoriteMessage", function (value) {
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 connection.start().then(function () {
     document.getElementById("sendButton").disabled = false;
 }).catch(function (err) {
@@ -132,15 +116,15 @@ function sendSignal() {
 
 
     if ($("#searchType option:selected").val() == 1) {
-        isBusinessSearch = true;
+        isPetSearch = true;
         searchValue = document.getElementById("SearchValue").value;
-        connection.invoke("SendBusinessList", searchValue).catch(function (err) {
+        connection.invoke("SendPetList", searchValue).catch(function (err) {
             return console.error(err.toString());
         });
     }
 
     if ($("#searchType option:selected").val() == 2 && $("#searchValue option:selected").val() == 1) {
-        isBusinessSearch = false;
+        isPetSearch = false;
         searchValue = document.getElementById("SearchValue").value;
         connection.invoke("SendServiceList", searchValue).catch(function (err) {
             return console.error(err.toString());
@@ -148,7 +132,7 @@ function sendSignal() {
     }
 
     if ($("#searchType option:selected").val() == 2 && $("#searchValue option:selected").val() == 2) {
-        isBusinessSearch = false;
+        isPetSearch = false;
         let tagSelection = $("#tagSelect").val();
         connection.invoke("SendServiceTagList", tagSelection).catch(function (err) {
             return console.error(err.toString());
@@ -161,24 +145,24 @@ function sendSignal() {
 
 
 
-function displayBusinessSearchCards(businesses) {
+function displayPetSearchCards(pets) {
     $('#searchResultContainer').html('');
-    $.each(businesses, function (index, value) {
+    $.each(pets, function (index, value) {
         let favButton = DisplayIsFavorited(value.isFavorited);
 
 
         $("#searchResultContainer").append(
             `<div class="col-md-4">
                     <div class="profile-card-4 text-center">
-                        <img id="${value.businessId}-img" src="data:image/png;base64,${value.businessLogo.content}" class="img" width="200">
+                        <img id="${value.petId}-img" src="data:image/png;base64,${value.PetProfileImage.content}" class="img" width="200">
                         <div class="profile-content">
                             <div class="profile-name">
                                 <p></p>
                             </div>
-                            <div class="profile-description py-4">${value.businessName}</div>
+                            <div class="profile-description py-4">${value.PetName}</div>
                             <div class="d-flex justify-content-around">
-                                 <a href="info/${value.businessId}" alt="Business Page">Details</a>
-                                <button type="button" class="btn btn-outline-warning" id="${value.businessId}-fav-btn">Favorite ${favButton} </button>
+                                 <a href="info/${value.petId}" alt="Business Page">Details</a>
+                                <button type="button" class="btn btn-outline-warning" id="${value.petId}-fav-btn">Favorite ${favButton} </button>
                             </div>
                         </div>
                     </div>

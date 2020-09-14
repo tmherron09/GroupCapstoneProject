@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -26,9 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="Migrations\20200913204118_chatWindow.cs" />
-    <Compile Include="Migrations\20200913204118_chatWindow.Designer.cs" />
-    <Compile Include="Migrations\PetAppDbContextModelSnapshot.cs" />
+    <None Remove="ViewModels\NewFile.txt" />
   </ItemGroup>
 
   <ItemGroup>

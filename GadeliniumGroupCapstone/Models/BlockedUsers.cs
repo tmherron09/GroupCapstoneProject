@@ -13,9 +13,11 @@ namespace GadeliniumGroupCapstone.Models
         [Key]
         public int BlockedUserID { get; set; }
         
-        [ForeignKey("PetAccount")]
-        public int PetAccountId { get; set; }
-        public PetAccount PetAccount { get; set; }
+        [ForeignKey("User")]
+        public string BlockerId{ get; set; }
+        
+        [ForeignKey("User")]
+        public string Blockee { get; set; }
 
 
     }

@@ -2,6 +2,11 @@
 
 @{
     ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    
+    string imageBase64 = Convert.ToBase64String(Model.PetProfileImage.Content);
+    string imageSrc = string.Format("data:image/gif;base64,{0}", imageBase64);
 }
 
 <style>
@@ -23,7 +28,7 @@
 <input type="hidden" asp-for="PetAccountId" />
 <input type="hidden" asp-for="UserId" />
 <input type="hidden" asp-for="User" />
- 
+
 
 <center>
     <a asp-controller="BlockedUsers"
@@ -34,7 +39,7 @@
 <div class="container">
     <div class="card-header">
 
-        <img class="one" src="https://cdn3-www.dogtime.com/assets/uploads/gallery/akita-dogs-and-puppies/akita-dogs-puppies-1.jpg" alt="THIS IS A PLACEMENT FOR USER PAWFILE PICS" />
+        <img class="float-right" height="150"  src="@imageSrc" alt="@Model.PetName" />
 
         <dl class="row">
 
@@ -44,30 +49,17 @@
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.PetName)
             </dd>
-
             <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Breed)
+                @Html.DisplayNameFor(model => model.Age)
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Breed)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Dob)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Dob)
+                @Html.DisplayFor(model => model.Age)
             </dd>
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.AnimalType)
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.AnimalType)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.PetPhone)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.PetPhone)
             </dd>
     </div>
     </dl>
