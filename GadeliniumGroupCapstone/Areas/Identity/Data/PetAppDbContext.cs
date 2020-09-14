@@ -225,5 +225,7 @@ namespace GadeliniumGroupCapstone.Data
         public DbSet<ChatMessage> ChatMessages { get; set; }
 
 
+        public DbSet<GadeliniumGroupCapstone.Models.BlockedUsers> BlockedUsers { get; set; }
+
     }
 }
