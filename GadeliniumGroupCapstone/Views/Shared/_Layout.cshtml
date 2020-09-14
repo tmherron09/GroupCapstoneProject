@@ -4,55 +4,61 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - GadeliniumGroupCapstone</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap4-executive-suite.css" />
     
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@600&family=Montserrat&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="~/css/_layout_default.css" />
+    <style>
+        body {
+            min-height: 2000px;
+            /*padding-top: 50px;*/
+        }
+    </style>
 </head>
 <body>
     @* Responsive Navbar Header *@
-        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-pb">
-                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#myNavbar" aria-controls="myNavBar" aria-expanded="false" aria-label="Toggel navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
+    <nav class="navbar navbar-fixed-top navbar-expand-lg navbar-dark">
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#myNavbar" aria-controls="myNavBar" aria-expanded="false" aria-label="Toggel navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-                    <div class="collapse navbar-collapse" id="myNavbar">
-                        <a href="/" class="navbar-brand"><img src="~/images/logo.png" height="25" /></a>
-                        <a class="navbar-brand" href="#">
-                            <img src="~/svg/house.svg" alt="Home" width="32" height="32" title="HomeIcon">
-                        </a>
-                        <ul class="nav navbar-nav">
-                            @if (User.IsInRole("Pet Owner") && User.IsInRole("Business Owner"))
-                            {
-                                <li class="nav-item"><a asp-controller="PetAccount" asp-action="Home">Pet Home</a></li>
-                                <li class="nav-item"><a asp-controller="Business" asp-action="Home">Business Home</a></li>
-                            }
-                            else if (User.IsInRole("Pet Owner"))
-                            {
-                                <li class="nav-item"><a asp-controller="PetAccount" asp-action="Home">Home</a></li>
-                            }
-                            else if (User.IsInRole("Business Owner"))
-                            {
-                                <li class="nav-item"><a asp-controller="Business" asp-action="Home">Home</a></li>
-                            }
-                            <li class="nav-item"><a  class="nav-link text-dark" asp-controller="PetAccounts" asp-action="SearchPets">Pets</a></li>
-                            <li class="nav-item"><a  class="nav-link text-dark" asp-controller="Business" asp-action="SearchBusinesses">Businesses</a></li>
-                            <li class="nav-item"><a  class="nav-link text-dark" asp-controller="Home" asp-action="Privacy">Privacy</a></li>
-                        </ul>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <a href="/" class="navbar-brand"><img src="~/images/logo.png" height="25" /></a>
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                <img src="~/svg/house.svg" alt="Home" width="32" height="32" title="HomeIcon">
+            </a>
+            <ul class="nav navbar-nav">
+                @if (User.IsInRole("Pet Owner") && User.IsInRole("Business Owner"))
+                {
+                    <li class="nav-item"><a asp-controller="PetAccount" asp-action="Home">Pet Home</a></li>
+                    <li class="nav-item"><a asp-controller="Business" asp-action="Home">Business Home</a></li>
+                }
+                else if (User.IsInRole("Pet Owner"))
+                {
+                    <li class="nav-item"><a class="nav-link text-dark" asp-controller="PetAccounts" asp-action="Home">Home</a></li>
+                }
+                else if (User.IsInRole("Business Owner"))
+                {
+                    <li class="nav-item"><a class="nav-link text-dark" asp-controller="Business" asp-action="Home">Home</a></li>
+                }
+                <li class="nav-item"><a class="nav-link text-dark" asp-controller="PetAccounts" asp-action="SearchPets">Pets</a></li>
+                <li class="nav-item"><a class="nav-link text-dark" asp-controller="Business" asp-action="SearchBusinesses">Businesses</a></li>
+                <li class="nav-item"><a class="nav-link text-dark" asp-controller="Home" asp-action="Privacy">Privacy</a></li>
+            </ul>
 
-                        <partial name="_LoginPartial" />
+            <partial name="_LoginPartial" />
 
-                    </div>
-        </nav>
+        </div>
+    </nav>
 
 
     @* Responsive Aside Left *@
     <div class="container-fluid text-center">
         <div class="row content min-vh-100">
             <div class="col-sm-2 sidenav ">
-                <p><a href="#">Link</a></p>
-                <p><a href="#">Link</a></p>
-                <p><a href="#">Link</a></p>
+                <partial name="_CurrentlySignedInPartial" />
+
             </div>
 
             @* MAIN CONTENT/ View Render Area *@
@@ -70,8 +76,9 @@
                 <div class="well">
                     <p>ADS</p>
                 </div>
-                <div class="well">
-                    <p>ADS</p>
+                <div class="well h-75 text-left">
+                    <partial name="_ChatTestPartial" />
+
                 </div>
             </div>
         </div>
@@ -79,13 +86,15 @@
 
 
     <footer class="border-top footer fixed-bottom text-muted">
-    @*<footer class="container-fluid text-center">*@
+        @*<footer class="container-fluid text-center">*@
         <div class="container">
             &copy; 2020 - GadeliniumGroupCapstone - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/chat.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>

@@ -1,5 +1,8 @@
-﻿using GadeliniumGroupCapstone.Contracts;
+﻿using GadeliniumGroupCapstone.Chat;
+using GadeliniumGroupCapstone.Contracts;
+using GadeliniumGroupCapstone.Data;
 using GadeliniumGroupCapstone.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
@@ -12,10 +15,81 @@ namespace GadeliniumGroupCapstone
     public class PetAppHub : Hub
     {
         private IRepositoryWrapper _repo;
-        public PetAppHub(IRepositoryWrapper repo)
+        private UserManager<User> _userManager;
+        private PetAppDbContext _context;
+        public PetAppHub(IRepositoryWrapper repo, UserManager<User> userManager, PetAppDbContext petAppDbContext)
         {
             _repo = repo;
+            _userManager = userManager;
+            _context = petAppDbContext;
         }
+
+        // User/Group Management
+
+        public async Task SetupUserInChatOnConnect(string chatName)
+        {
+            if(!ChatService.ConnectedUsers.ContainsValue("chatName"))
+            {
+                ChatService.ConnectedUsers.Add(Context.ConnectionId, chatName);
+            }
+
+            var userId = Context.UserIdentifier;
+
+            List<string> onlinePets = ChatService.ConnectedUsers.Values.ToList();
+
+            var friendsList = _repo.PetFriendList.GetFriendsOnLine(onlinePets, userId);
+            var businessFav = _repo.FavoriteBusiness.GetUserFavoriteBusinessesNames(userId);
+            if(businessFav.Count() > 0)
+            {
+                foreach(var bus in businessFav)
+                {
+                    friendsList.Add(bus);
+                }
+            }
+
+
+            if(friendsList.Count() > 0)
+            {
+                foreach(var friend in friendsList)
+                {
+                    var friendConnectionId = ChatService.ConnectedUsers.Where(d => d.Value == friend).Select(d => d.Key).First();
+                    Clients.Client(friendConnectionId).SendAsync("AddFriend", chatName);
+                }
+            }
+
+            await Clients.Caller.SendAsync("RecieveFriendList", friendsList);
+        }
+
+
+        public async Task SendMessage(string selectedFriend, string message, string chatName)
+        {
+            List<string> messageHistory = new List<string>();
+            var friendConnectionId = ChatService.ConnectedUsers.Where(d => d.Value == selectedFriend).Select(d => d.Key).First();
+            string outgoingMessage = $"{chatName}: {message}";
+            messageHistory.Add(outgoingMessage);
+            var friendName = chatName;
+            await Clients.Caller.SendAsync("RecieveFriendMessageHistory", messageHistory, friendName);
+            friendName = selectedFriend;
+            await Clients.Client(friendConnectionId).SendAsync("RecieveFriendMessageHistory", messageHistory, chatName);
+
+        }
+
+
+
+
+
+        public override Task OnDisconnectedAsync(Exception ex)
+        {
+            
+            ChatService.ConnectedUsers.Remove(Context.ConnectionId);
+
+            return Task.CompletedTask;
+        }
+
+
+
+
+        // Business Search Methods
 
         public async Task SendBusinessList(string searchValue)
         {

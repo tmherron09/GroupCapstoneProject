@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GadeliniumGroupCapstone.Chat;
 using GadeliniumGroupCapstone.Models;
 using GadeliniumGroupCapstone.NewsFeedService.Models;
 using Microsoft.AspNetCore.Identity;
@@ -220,6 +221,9 @@ namespace GadeliniumGroupCapstone.Data
         public DbSet<Medication> Medications { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<PostUser> PostUsers { get; set; }
+        public DbSet<PetFriendList> PetFriendLists { get; set; }
+        public DbSet<ChatMessage> ChatMessages { get; set; }
+
 
     }
 }

@@ -1,0 +1,80 @@
+﻿
+@using Microsoft.AspNetCore.Identity
+@using GadeliniumGroupCapstone.Contracts
+@inject IRepositoryWrapper _repo
+@inject UserManager<User> userManager
+
+@{
+    List<string> accountNames = new List<string>();
+    string userId = userManager.GetUserId(User);
+    if (User.IsInRole("Business Owner"))
+    {
+        accountNames.Add(_repo.Business.GetBusinessNameByUserId(userId));
+    }
+    else if (User.IsInRole("Pet Owner"))
+    {
+        accountNames = _repo.PetAccount.GetUserPetNames(userId);
+    }
+
+}
+
+
+@if (User.IsInRole("Business Owner") || User.IsInRole("Pet Owner"))
+{
+
+<div class=" container border-success" id="chatNameSelectBox">
+    @if (accountNames.Count() >= 1)
+    {
+
+
+        <label>Choose Chat Name</label>
+        <select class="custom-select m-2" id="accountNameSelect">
+            @for (int i = 0; i < accountNames.Count(); i++)
+            {
+                string name = @accountNames[i];
+
+                <option value="@name">@name</option>
+            }
+        </select>
+
+
+
+    }
+    else
+    {
+        <input id="chatAccountName" type="hidden" value="@accountNames[0]" />
+    }
+    <button id="signInButton" onclick="selectChatName()">Sign In</button>
+    <hr />
+    <p id="showSignInStatus">Not Signed In</p>
+
+</div>
+    <div class="container" id="friendsListView">
+        <label>Friends List</label>
+        <select class="custom-select m-2" id="friendsList">
+        </select>
+    </div>
+    <div class="container border w-100 overflow-auto h-50 p-0" style="background-color: #f1f1f1" id="chatWindow">
+        <ul class="list-group list-group-flush p-0" id="messagesList">
+            @* Recieved Messages go here. *@
+        </ul>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col">Message</div>
+            <div class="col"><input type="text" id="messageInput" /></div>
+        </div>
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-6">
+                <input type="button" id="sendMessageButton" value="Send Message" />
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+}

@@ -19,6 +19,50 @@ namespace GadeliniumGroupCapstone.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("GadeliniumGroupCapstone.Chat.ChatMessage", b =>
+                {
+                    b.Property<int>("ChatMessageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FriendName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ChatMessageId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ChatMessages");
+                });
+
+            modelBuilder.Entity("GadeliniumGroupCapstone.Chat.PetFriendList", b =>
+                {
+                    b.Property<int>("PetFriendListId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FriendPetName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PetName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PetFriendListId");
+
+                    b.ToTable("PetFriendLists");
+                });
+
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.Boarding", b =>
                 {
                     b.Property<int>("BoardingId")
@@ -305,7 +349,6 @@ namespace GadeliniumGroupCapstone.Migrations
 
                     b.Property<int>("PhotoBinId")
                         .HasColumnType("int");
-
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -666,7 +709,6 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.ToTable("PostUsers");
                 });
 
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -696,27 +738,22 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.HasData(
                         new
                         {
-
-                            Id = "a51b686d-1220-4ddb-a38f-06ab4a9771a2",
-                            ConcurrencyStamp = "8d475566-ec84-473f-b4ad-9fe59eb91e62",
-                            
+                            Id = "1a12c980-be9c-4a50-a86e-3cc097e9c62b",
+                            ConcurrencyStamp = "f252bcb0-7c47-4bad-a90a-57312d6cac84",
                             Name = "Pet Owner",
                             NormalizedName = "PETOWNER"
                         },
                         new
                         {
-
-                            Id = "ca1370da-7c07-4553-a657-94f11ccf834a",
-                            ConcurrencyStamp = "bd52ff0c-4b7e-4196-88f5-1233af122a4a",
+                            Id = "ebae0991-04bb-4ca7-a6f1-98386ea94b29",
+                            ConcurrencyStamp = "5da359c9-1097-4b89-9ecc-c3e136b3d1fd",
                             Name = "Business Owner",
                             NormalizedName = "BUSINESSOWNER"
                         },
                         new
                         {
-
-                            Id = "c81c5485-66fd-48b8-abe8-dee06c4870be",
-                            ConcurrencyStamp = "af1f1c22-1a21-4c66-986c-ec99d60e3b8b",
-                            
+                            Id = "7ca4bb53-8b18-40ef-a0f1-f7eb42ceb731",
+                            ConcurrencyStamp = "4bc03726-0f1b-4d53-a814-bb4a36914506",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         });
@@ -826,6 +863,13 @@ namespace GadeliniumGroupCapstone.Migrations
                     b.ToTable("PetAppUserTokens");
                 });
 
+            modelBuilder.Entity("GadeliniumGroupCapstone.Chat.ChatMessage", b =>
+                {
+                    b.HasOne("GadeliniumGroupCapstone.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.Boarding", b =>
                 {
                     b.HasOne("GadeliniumGroupCapstone.Models.Business", "Business")
@@ -912,7 +956,6 @@ namespace GadeliniumGroupCapstone.Migrations
 
             modelBuilder.Entity("GadeliniumGroupCapstone.Models.PetAccount", b =>
                 {
-
                     b.HasOne("GadeliniumGroupCapstone.Models.PhotoBin", "PetProfileImage")
                         .WithMany()
                         .HasForeignKey("PhotoBinId")
@@ -974,7 +1017,6 @@ namespace GadeliniumGroupCapstone.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
-
 
             modelBuilder.Entity("GadeliniumGroupCapstone.NewsFeedService.Models.Post", b =>
                 {

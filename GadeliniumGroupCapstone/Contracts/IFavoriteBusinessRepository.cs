@@ -9,6 +9,7 @@ namespace GadeliniumGroupCapstone.Contracts
     public interface IFavoriteBusinessRepository : IRepositoryBase<FavoriteBusiness>
     {
         List<Business> GetUserFavoriteBusinesses(string userId);
+        List<string> GetUserFavoriteBusinessesNames(string userId);
         void CreateFavoriteBusinessEntry(string userId, int businessId);
         FavoriteBusiness GetFavoriteBusinessEntry(string userId, int businessId);
         bool IsFavorited(string userId, int businessId);
