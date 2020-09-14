@@ -20,6 +20,7 @@ namespace GadeliniumGroupCapstone.Contracts
         private IOtherRepository _other;
         private IPetAccountRepository _petAccount;
         private IPetBioRepository _petBio;
+        private IPetFriendListRepository _petFriendList;
         private IPhotoBinRepository _photo;
         private IPostRepository _post;
         private IPostUserRepository _postUser;
@@ -28,6 +29,7 @@ namespace GadeliniumGroupCapstone.Contracts
         private ISitterRepository _sitter;
         private ITrainerRepository _trainer;
         private IVetRepository _vet;
+        private IBlockedUserRepository _blockedUser;
         public ITestRepository Test
         {
             get
@@ -150,6 +152,17 @@ namespace GadeliniumGroupCapstone.Contracts
                 return _petAccount;
             }
         }
+        public IPetFriendListRepository PetFriendList
+        {
+            get
+            {
+                if (_petFriendList == null)
+                {
+                    _petFriendList = new PetFriendListRepository(_context);
+                }
+                return _petFriendList;
+            }
+        }
         public IPetBioRepository PetBio
         {
             get
@@ -257,9 +270,21 @@ namespace GadeliniumGroupCapstone.Contracts
             }
         }
 
+        public IBlockedUserRepository BlockedUser
+        {
+            get
+            {
+                
+                if (_blockedUser == null)
+                {
+                    _blockedUser = new BlockedUserRepository(_context);
+                }
+                return _blockedUser;
+            }
+        }
+
         public void Save()
         {
-            //_context.SaveChangesAsync();
 
             _context.SaveChanges();
         }

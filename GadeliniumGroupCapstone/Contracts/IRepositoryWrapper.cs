@@ -17,6 +17,7 @@ namespace GadeliniumGroupCapstone.Contracts
         IMedicalRecordRepository MedicalRecord { get; }
         IOtherRepository Other { get; }
         IPetAccountRepository PetAccount { get; }
+        IPetFriendListRepository PetFriendList { get; }
         IPetBioRepository PetBio { get; }
         IPhotoBinRepository PhotoBin { get; }
         IPostRepository Post { get; }
@@ -26,7 +27,8 @@ namespace GadeliniumGroupCapstone.Contracts
         ISitterRepository Sitter { get; }
         ITrainerRepository Trainer { get; }
         IVetRepository Vet { get; }
-        
+        IBlockedUserRepository BlockedUser { get; }
+
         void Save();
     }
 }

@@ -78,7 +78,7 @@
                     }
                     @if (User.IsInRole("Business Owner"))
                     {
-                        <option value=""></option>
+                        <option value="@Model.PetNames.Last()"></option>
                     }
 
                 </select>
@@ -106,6 +106,10 @@
 {
     int posterPhotBinId;
     PhotoBin posterProfileImage;
+    PhotoBin postImage = null;
+    string postImageBase64;
+    string postImageSrc = "";
+    bool postHasPhoto = false;
     if (posts[i].PosterType == PosterType.PetPoster)
     {
         posterPhotBinId = _repo.PetAccount.FindAllByCondition(p => p.PetName == posts[i].PosterName).Select(p => p.PhotoBinId).FirstOrDefault();
@@ -114,6 +118,13 @@
     else
     {
         posterProfileImage = _repo.Business.GetBusinessLogo(posts[i].PosterName);
+    }
+    if(posts[i].PhotoBinId != null || posts[i].PhotoBinId != 0)
+    {
+        postImage = _repo.PhotoBin.GetPhoto(posts[i].PhotoBinId);
+        postImageBase64 = Convert.ToBase64String(postImage.Content);
+        postImageSrc = string.Format("data:image/gif;base64,{0}", postImageBase64);
+        postHasPhoto = true;
     }
 
     string imageBase64 = Convert.ToBase64String(posterProfileImage.Content);
@@ -147,10 +158,14 @@
         </div>
         <div class="card-body">
             <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i> .. min ago</div>
-                <h5 class="card-title">@posts[i].PostTitle</h5>
+            <h5 class="card-title">@posts[i].PostTitle</h5>
             <p class="card-text">
                 @posts[i].PostContent
-            </p>
+            </p> <br />
+            @if (postHasPhoto)
+            {
+            <img class="rounded" style="max-width:65px; max-height: 65px;"   src="@postImageSrc" alt="Embedded image of post with title @posts[i].PostTitle">
+            }
         </div>
         <div class="card-footer">
             @if (NewsfeedService.HasUserLikedPost(posts[i].PostId, userId))

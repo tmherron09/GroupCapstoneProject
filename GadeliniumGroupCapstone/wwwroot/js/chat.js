@@ -1,9 +1,11 @@
-﻿"use strict";
+﻿
 
 // Global
 
 let currentResult;
 let isBusinessSearch;
+let chatName;
+let selectedFriend;
 
 ////
 
@@ -62,7 +64,7 @@ $('#searchValue').change(function () {
 
 
 //Disable send button until connection is established
-document.getElementById("sendButton").disabled = true;
+//document.getElementById("sendButton").disabled = true;
 
 
 // Business Searches
@@ -106,58 +108,98 @@ connection.on("FavoriteMessage", function (value) {
 
 });
 
+connection.on("RecieveFriendList", function (friendsList) {
+
+    $("#friendsList").html('');
+    $.each(friendsList, function (index, value) {
+
+        $("#friendsList").append(
+            `<option value="${value}">` + value + '</option>')
+    });
+
+
+});
+
+connection.on("RecieveFriendMessageHistory", function (messageHistory, friendName) {
+    //$("#messagesList").html('');
+
+    selectElement('friendsList', friendName);
+    selectedFriend = $("#friendsList").children("option:selected").val();
+
+    var isEven = (selectedFriend === friendName);
+    console.log(friendName);
+    console.log(isEven);
+    console.log(selectedFriend);
+
+    $.each(messageHistory, function (index, value) {
+        if (friendName === selectedFriend) {
+            $("#messagesList").append(
+                `<li class="list-group-item w-100 text-left p-0">${value}</li>`
+            )
+        }
+        else {
+            $("#messagesList").append(
+                `<li class="list-group-item w-100 text-right p-0">${value}</li>`
+            )
+        }
+    });
+});
+
+function selectElement(id, valueToSelect) {
+    let element = document.getElementById(id);
+    element.value = valueToSelect;
+}
+
+
+// Friend Comes Online
+connection.on("AddFriend", function (loggedInFriend) {
+    $("#friendsList").append(
+        `<option value="${loggedInFriend}">` + loggedInFriend + '</option>')
+});
 
 
 
 
 
+$("#friendsList").change(function () {
+    $("#messagesList").html('');
+    var friendName = $("#friendsList options:selected").val();
+    selectedFriend = friendName;
+    connection.invoke("ChooseFriend", friendName).catch(function (err) {
+        return console.error(err.toString());
+    })});
+
+//function sendMessage() {
+    
+//    let message = $("#messageInput").
+//    connection.invoke("RecieveMessage", )
+//};
 
 
+document.getElementById("sendMessageButton").addEventListener("click", function (event) {
+    var message = document.getElementById("messageInput").value;
+    document.getElementById("messageInput").value = "";
+    selectedFriend = $("#friendsList").children("option:selected").val();
+    connection.invoke("SendMessage", selectedFriend, message, chatName).catch(function (err) {
+        return console.error(err.toString());
+    });
+    event.preventDefault();
+});
 
-
-
-
+$("#messageInput").keypress(function (event) {
+    if (event.keyCode === 13) {
+        $("#sendMessageButton").click();
+    }
+}); 
 
 
 connection.start().then(function () {
-    document.getElementById("sendButton").disabled = false;
+    //document.getElementById("sendButton").disabled = false;
 }).catch(function (err) {
     return console.error(err.toString());
 });
 
-document.getElementById("sendButton").addEventListener("click", sendSignal);
 
-function sendSignal() {
-    let searchValue;
-
-
-    if ($("#searchType option:selected").val() == 1) {
-        isBusinessSearch = true;
-        searchValue = document.getElementById("SearchValue").value;
-        connection.invoke("SendBusinessList", searchValue).catch(function (err) {
-            return console.error(err.toString());
-        });
-    }
-
-    if ($("#searchType option:selected").val() == 2 && $("#searchValue option:selected").val() == 1) {
-        isBusinessSearch = false;
-        searchValue = document.getElementById("SearchValue").value;
-        connection.invoke("SendServiceList", searchValue).catch(function (err) {
-            return console.error(err.toString());
-        });
-    }
-
-    if ($("#searchType option:selected").val() == 2 && $("#searchValue option:selected").val() == 2) {
-        isBusinessSearch = false;
-        let tagSelection = $("#tagSelect").val();
-        connection.invoke("SendServiceTagList", tagSelection).catch(function (err) {
-            return console.error(err.toString());
-        });
-    }
-
-    event.preventDefault();
-
-};
 
 
 
@@ -165,7 +207,7 @@ function displayBusinessSearchCards(businesses) {
     $('#searchResultContainer').html('');
     $.each(businesses, function (index, value) {
         let favButton = DisplayIsFavorited(value.isFavorited);
-
+        let onclickLoopName = value.businessId;
 
         $("#searchResultContainer").append(
             `<div class="col-md-4">
@@ -178,7 +220,7 @@ function displayBusinessSearchCards(businesses) {
                             <div class="profile-description py-4">${value.businessName}</div>
                             <div class="d-flex justify-content-around">
                                  <a href="info/${value.businessId}" alt="Business Page">Details</a>
-                                <button type="button" class="btn btn-outline-warning" id="${value.businessId}-fav-btn">Favorite ${favButton} </button>
+                                <button type="button" onclick="toggleFavorite(${onclickLoopName})" class="btn btn-outline-warning" id="${value.businessId}-fav-btn">Favorite ${favButton} </button>
                             </div>
                         </div>
                     </div>
@@ -240,3 +282,19 @@ function toggleFavorite(businessId) {
 
     event.preventDefault();
 }
+
+
+function selectChatName() {
+
+    chatName = $("#accountNameSelect").children("option:selected").val()
+
+    connection.invoke("SetupUserInChatOnConnect", chatName).catch(function (err) {
+        return console.error(err.toString());
+    });
+
+    $("#showSignInStatus").html("Signed In");
+    //$("#chatNameSelectBox").hide(slow);
+
+    event.preventDefault();
+
+    };
