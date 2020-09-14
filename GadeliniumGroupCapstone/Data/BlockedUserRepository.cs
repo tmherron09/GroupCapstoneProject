@@ -25,13 +25,13 @@ namespace GadeliniumGroupCapstone.Data
 
         public BlockedUsers GetBlockedUserAccount(int blockedUserId)
         {
-            var blockUser = FindAllByCondition(b => b.BlockedUserID.Equals(blockedUserId)).SingleOrDefault();
+            var blockUser = FindAllByCondition(b => b.BlockedUserId.Equals(blockedUserId)).SingleOrDefault();
             return blockUser;
         }
 
         public BlockedUsers GetBlockedUserId(int blockUserId)
         {
-            var blockUser = FindAllByCondition(b => b.BlockedUserID == blockUserId).SingleOrDefault();
+            var blockUser = FindAllByCondition(b => b.BlockedUserId == blockUserId).SingleOrDefault();
             return blockUser;
         }
 
@@ -42,7 +42,7 @@ namespace GadeliniumGroupCapstone.Data
 
         public void UpdateBlockUser(BlockedUsers blockedUsers)
         {
-            var blockUser = FindAllByCondition(b => b.BlockedUserID.Equals(blockedUsers)).SingleOrDefault();
+            var blockUser = FindAllByCondition(b => b.BlockedUserId.Equals(blockedUsers)).SingleOrDefault();
             Update(blockUser);
         }
     }

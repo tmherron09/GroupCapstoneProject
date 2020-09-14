@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GadeliniumGroupCapstone.Migrations
 {
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,14 +11,14 @@ namespace GadeliniumGroupCapstone.Migrations
                 name: "BlockedUsers",
                 columns: table => new
                 {
-                    BlockedUserID = table.Column<int>(nullable: false)
+                    BlockedUserId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     BlockerId = table.Column<string>(nullable: true),
                     Blockee = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BlockedUsers", x => x.BlockedUserID);
+                    table.PrimaryKey("PK_BlockedUsers", x => x.BlockedUserId);
                 });
 
             migrationBuilder.CreateTable(
@@ -642,9 +642,9 @@ namespace GadeliniumGroupCapstone.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "6a01394a-57a2-4436-895f-8da1bcb46cd1", "1d2e4ab7-fb1f-48c1-8eed-b9fe3938e975", "Pet Owner", "PETOWNER" },
-                    { "c360176f-5971-46fa-b8fa-68e6d42d54df", "98daf5d4-4376-48f0-bd66-d59852b80e31", "Business Owner", "BUSINESSOWNER" },
-                    { "427622a3-1a13-42d1-b517-b5d5d4f7ead8", "22d57559-9a71-4cd6-9b1d-2723994ccd08", "Admin", "Admin" }
+                    { "66615062-dec1-4bb4-bb68-b0e9e8c35cd1", "552e7ee2-cfea-4990-9452-d2f326e60334", "Pet Owner", "PETOWNER" },
+                    { "57ae70c3-f43e-4ad8-816b-c0ced0b0696f", "1de07142-cc68-4688-a4b3-18f54e238a30", "Business Owner", "BUSINESSOWNER" },
+                    { "dd544cb9-d8f2-4de3-b16e-3518832e9cdc", "55fcbbd3-c7a3-4a0e-94d0-9b3a1e097ffb", "Admin", "Admin" }
                 });
 
             migrationBuilder.InsertData(

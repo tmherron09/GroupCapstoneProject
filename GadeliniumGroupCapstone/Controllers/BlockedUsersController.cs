@@ -31,176 +31,162 @@ namespace GadeliniumGroupCapstone.Controllers
 
 
         // GET: BlockedUsers
-        //public async Task<IActionResult> Index()
-        //{
-        //    //var petAppDbContext = _context.BlockedUsers.Include(b => b.PetAccount);
-        //    //return View(await petAppDbContext.ToListAsync());
-        //}
+        public async Task<IActionResult> Index()
+        {
+            var petAppDbContext = _context.BlockedUsers.Include(b => b.BlockedUserId);
+            return View(await petAppDbContext.ToListAsync());
+        }
 
         // GET: BlockedUsers/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    //var blockedUsers = await _context.BlockedUsers
-        //    //    .Include(b => b.PetAccount)
-        //    //    .FirstOrDefaultAsync(m => m.BlockedUserID == id);
-        //    //if (blockedUsers == null)
-        //    //{
-        //    //    return NotFound();
-        //    //}
+            var blockedUsers = await _context.BlockedUsers
+                .Include(b => b.BlockedUserId)
+                .FirstOrDefaultAsync(m => m.BlockedUserId == id);
+            if (blockedUsers == null)
+            {
+                return NotFound();
+            }
 
-        //    //return View(blockedUsers);
+            return View(blockedUsers);
 
-        //}
+        }
 
         // GET: BlockedUsers/Create
-        //public IActionResult Create(int id)
-        //{
+        public IActionResult Create(int id)
+        {
 
-        //    BlockedUsers blockedUsers = new BlockedUsers();
-            //blockedUsers.BlockedUserID = id;
-            //blockedUsers.PetAccountId = _repo.PetAccount.GetPetAccount(id);
+            BlockedUsers blockedUser = new BlockedUsers();
+            blockedUser.BlockedUserId = id;
+
+            var petAccountId = _repo.PetAccount.GetPetAccount(id);
+
+            blockedUser.Blockee = petAccountId.UserId;
+
+            blockedUser.BlockerId = _userManager.GetUserId(User);
+
+            _repo.BlockedUser.Create(blockedUser);
             
-            //passed through from the DETAILS view of PetAccounts -> will capture the petId as an "int" through here.
+            _repo.Save();
 
-            //ViewData["PetAccountId"] = new SelectList(_context.PetAccounts, "PetName", "PetName");
 
-        //    return View();
-            
-        //}
+            return View("Details", blockedUser);
+  
+
+        }
 
         // POST: BlockedUsers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create(BlockedUsers blockedUsers)
-        //{
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(BlockedUsers blockedUsers)
+        {
+                      
+            if (ModelState.IsValid)
+            {
 
-            //BlockedUsers blockedUsers = new BlockedUsers();
-            //blockedUsers.BlockedUserID = id;
+                _repo.BlockedUser.Create(blockedUsers);
+                _repo.Save();
 
-            //ViewData["PetAccountId"] = new SelectList(_context.PetAccounts, "PetName", "PetName");
+                return View("Details");
 
-            //SelectList listOfNames = new SelectList(_context.PetAccounts, "PetName", "PetName");
+            }
 
-            //var selected = listOfNames.Where(s => s.Value == "selectedValue").First();
-
-            //selected.Selected = true;
-
-            //blockedUser.PetAccountId = _context.PetAccounts.Where(p => p.PetAccountId == id);
-
-
-
-            //string chosenUser1 = _repo.PetAccount.GetPetAccount(id);
-
-            //ViewData["PetAccountId"] 
-            
-            //var chosenUser = _repo.BlockedUser.GetBlockedUserId();
-
-
-            //if (ModelState.IsValid)
-            //{
-            //    _repo.BlockedUser.CreateBlockUser(chosenUser);
-            //    _repo.Save();
-
-            //    return View("Details");
-
-            //}
-
-        //    return View("Details");
-        //}
+            return View("Details", blockedUsers);
+        }
 
         // GET: BlockedUsers/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var blockedUsers = await _context.BlockedUsers.FindAsync(id);
-        //    if (blockedUsers == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    //ViewData["PetAccountId"] = new SelectList(_context.PetAccounts, "PetAccountId", "PetAccountId", blockedUsers.PetAccountId);
-        //    return View(blockedUsers);
-        //}
+            var blockedUsers = await _context.BlockedUsers.FindAsync(id);
+            if (blockedUsers == null)
+            {
+                return NotFound();
+            }
+            ViewData["PetAccountId"] = new SelectList(_context.PetAccounts, "PetAccountId", "PetAccountId", blockedUsers.BlockedUserId);
+            return View(blockedUsers);
+        }
 
         // POST: BlockedUsers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("BlockedUserID,PetAccountId")] BlockedUsers blockedUsers)
-        //{
-        //    if (id != blockedUsers.BlockedUserID)
-        //    {
-        //        return NotFound();
-        //    }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, BlockedUsers blockedUsers)
+        {
+            if (id != blockedUsers.BlockedUserId)
+            {
+                return NotFound();
+            }
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(blockedUsers);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!BlockedUsersExists(blockedUsers.BlockedUserID))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["PetAccountId"] = new SelectList(_context.PetAccounts, "PetAccountId", "PetAccountId", blockedUsers.PetAccountId);
-        //    return View(blockedUsers);
-        //}
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(blockedUsers);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!BlockedUsersExists(blockedUsers.BlockedUserId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["PetAccountId"] = new SelectList(_context.PetAccounts, "PetAccountId", "PetAccountId", blockedUsers.BlockedUserId);
+            return View(blockedUsers);
+        }
 
-        // GET: BlockedUsers/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        //GET: BlockedUsers/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    //var blockedUsers = await _context.BlockedUsers
-        //    //    .Include(b => b.PetAccount)
-        //    //    .FirstOrDefaultAsync(m => m.BlockedUserID == id);
-        //    //if (blockedUsers == null)
-        //    //{
-        //    //    return NotFound();
-        //    //}
+            var blockedUsers = await _context.BlockedUsers
+                .Include(b => b.BlockedUserId)
+                .FirstOrDefaultAsync(m => m.BlockedUserId == id);
+            if (blockedUsers == null)
+            {
+                return NotFound();
+            }
 
-        //    //return View(blockedUsers);
-        //}
+            return View(blockedUsers);
+        }
 
         //// POST: BlockedUsers/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var blockedUsers = await _context.BlockedUsers.FindAsync(id);
-        //    _context.BlockedUsers.Remove(blockedUsers);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var blockedUsers = await _context.BlockedUsers.FindAsync(id);
+            _context.BlockedUsers.Remove(blockedUsers);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
 
-        //private bool BlockedUsersExists(int id)
-        //{
-        //    return _context.BlockedUsers.Any(e => e.BlockedUserID == id);
-        //}
+        private bool BlockedUsersExists(int id)
+        {
+            return _context.BlockedUsers.Any(e => e.BlockedUserId == id);
+        }
     }
 }
