@@ -4,7 +4,7 @@
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    
+
     string imageBase64 = Convert.ToBase64String(Model.PetProfileImage.Content);
     string imageSrc = string.Format("data:image/gif;base64,{0}", imageBase64);
 }
@@ -39,7 +39,7 @@
 <div class="container">
     <div class="card-header">
 
-        <img class="float-right" height="150"  src="@imageSrc" alt="@Model.PetName" />
+        <img class="float-right" height="150" src="@imageSrc" alt="@Model.PetName" />
 
         <dl class="row">
 
@@ -61,20 +61,20 @@
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.AnimalType)
             </dd>
+
+        </dl>
     </div>
-    </dl>
+
+
 </div>
 
 
-        </div>
+<a asp-action="Edit" asp-route-id="@Model.PetAccountId">Edit</a> |
+<a asp-action="Index">Back to List</a> |
+<a asp-controller="MedicalRecords" asp-action="Index" asp-route-petId="@Model.PetAccountId">Medical Record</a>
+<a asp-action="Index">Back to List</a> |
+<a asp-controller="PetBios"
+   asp-action="Details" asp-route-id="@Model.PetAccountId">View My Bio!</a>
 
-<div class="container" align="center">
-    <a asp-action="Edit" asp-route-id="@Model.PetAccountId">Edit</a> |
-    <a asp-action="Index">Back to List</a> |
-    <a asp-controller="MedicalRecords" asp-action="Index" asp-route-petId="@Model.PetAccountId">Medical Record</a>
-    <a asp-action="Index">Back to List</a> |
-    <a asp-controller="PetBios"
-       asp-action="Details" asp-route-id="@Model.PetAccountId">View My Bio!</a>
 
-</div>
 

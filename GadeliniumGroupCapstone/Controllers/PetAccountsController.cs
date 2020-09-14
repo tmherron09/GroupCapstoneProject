@@ -32,6 +32,7 @@ namespace GadeliniumGroupCapstone.Controllers
             _repo = repo;
             _userManager = userManager;
             _signInManager = signInManager;
+            _uploadImageService = uploadImageService;
         }
 
         [Route("{controller}/")]

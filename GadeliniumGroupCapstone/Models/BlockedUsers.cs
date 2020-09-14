@@ -13,10 +13,10 @@ namespace GadeliniumGroupCapstone.Models
         [Key]
         public int BlockedUserID { get; set; }
         
-        [ForeignKey("User")]
+        
         public string BlockerId{ get; set; }
         
-        [ForeignKey("User")]
+        
         public string Blockee { get; set; }
 
 
